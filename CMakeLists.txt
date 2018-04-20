@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(rpnews)
 
-add_subdirectory(libgit2)
 add_subdirectory(src)
 add_subdirectory(tests)
