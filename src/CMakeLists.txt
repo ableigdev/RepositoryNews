@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(rpnews)
 
-find_package(libgit2 REQUIRED)
-include_directories(${LIBGIT2_INCLUDE_DIR})
-
 add_executable(rpnews main.cpp)
+
+message(STATUS "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(rpnews PUBLIC ../libgit2/include)
+target_link_libraries(rpnews ../../libgit2/build/Debug/git2)
