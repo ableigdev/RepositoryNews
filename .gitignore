@@ -6,6 +6,8 @@
 
 # Any user files
 *.user
+*.VC.db
+*.VC.VC.opendb
 
 # Output files
 bin/
