@@ -1,0 +1,16 @@
+# Visual Studio files
+.vs/
+*.suo
+*.sdf
+*.opensdf
+
+# Any user files
+*.user
+*.VC.db
+*.VC.VC.opendb
+
+# Output files
+bin/
+obj/
+build/
+
