@@ -8,9 +8,11 @@
 *.user
 *.VC.db
 *.VC.VC.opendb
+.idea/
 
 # Output files
 bin/
 obj/
 build/
+cmake-build-debug/
 
