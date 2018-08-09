@@ -9,10 +9,12 @@
 *.VC.db
 *.VC.VC.opendb
 .idea/
+.directory
 
 # Output files
 bin/
 obj/
 build/
 cmake-build-debug/
+installed/
 
