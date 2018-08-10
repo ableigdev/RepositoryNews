@@ -2,5 +2,5 @@
 cd libgit2
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=../../installed ..
+cmake -DBUILD_CLAR=OFF -DCMAKE_INSTALL_PREFIX=../../installed ..
 cmake --build . --target install
