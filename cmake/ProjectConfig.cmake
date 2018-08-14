@@ -11,9 +11,21 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
         "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+include(${CMAKE_SOURCE_DIR}/cmake/FindGit2.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/FindQt.cmake)
+
 # Target
-# TODO: make target
-# for example: add_library(${LIBRARY_NAME} ${LIBRARY_TYPE} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${UIS})
+
+# Use the Widgets module from Qt 5
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+
+# Target libgit2 library
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${LIBGIT2_INCLUDE}>)
+target_link_libraries(${PROJECT_NAME} $<BUILD_INTERFACE:${LIBGIT2_LIBRARY}>)
 
 # Install project
-# TODO: make install project
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_EXPORT}
+    RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
+    COMPONENT dev)
