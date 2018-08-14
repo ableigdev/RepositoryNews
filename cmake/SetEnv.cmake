@@ -21,12 +21,24 @@ endif()
 set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} 
     CACHE PATH "Relative instalation path for CMake files")
 
-# TODO: Convert relative path to absolute path (needed later on)
+# Convert relative path to absolute path (needed later on)
+foreach(substring BIN)
+    set(var INSTALL_${substring}_DIR)
+    if(NOT IS_ABSOLUTE ${${var}})
+        set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+    endif()
+    message(STATUS "${var}: "  "${${var}}")
+endforeach()
 
 # Set up include-directories
 include_directories(
     "${PROJECT_SOURCE_DIR}"
     "${PROJECT_BINARY_DIR}")
+    
+# Project folder name (by default is the project name in lowercase)
+if(NOT PROJECT_FOLDER)
+    set(PROJECT_FOLDER ${PROJECT_NAME_LOWERCASE})
+endif()
   
 # The export set for all the targets
 set(PROJECT_EXPORT ${PROJECT_NAME}EXPORT)
@@ -35,4 +47,4 @@ set(PROJECT_EXPORT ${PROJECT_NAME}EXPORT)
 set(PROJECT_CMAKE_FILES ${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY})
 
 # The RPATH to be used when installing
-set(CMAKE_INSTALL_RPATH ${INSTALL_LIB_DIR})
+set(CMAKE_INSTALL_RPATH ${INSTALL_BIN_DIR})
