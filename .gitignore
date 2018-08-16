@@ -18,3 +18,5 @@ build/
 cmake-build-debug/
 installed/
 
+# *.exe files
+*.exe
