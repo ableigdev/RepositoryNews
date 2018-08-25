@@ -1,11 +1,13 @@
 #ifndef RPNEWS_LIBRARYWRAPPER_H
 #define RPNEWS_LIBRARYWRAPPER_H
 
-class LibraryWrapper
+namespace git_wrapper
 {
-public:
-    LibraryWrapper();
-    ~LibraryWrapper();
-};
-
+    class LibraryWrapper
+    {
+    public:
+        LibraryWrapper();
+        ~LibraryWrapper();
+    };
+}
 #endif //RPNEWS_LIBRARYWRAPPER_H
