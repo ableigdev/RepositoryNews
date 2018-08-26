@@ -7,7 +7,7 @@ class IRepositoryFactory
 {
 public:
     IRepositoryFactory() = default;
-    ~IRepositoryFactory() = default;
+    virtual ~IRepositoryFactory() = default;
     virtual IRepository* createRepository() = 0;
 };
 #endif //RPNEWS_IREPOSITORYFACTORY_H
