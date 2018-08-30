@@ -1,7 +1,6 @@
 #ifndef RPNEWS_SECUREALLOCATOR_H
 #define RPNEWS_SECUREALLOCATOR_H
 
-#include "SecureZeroMemoryFunction.h"
 #include <memory>
 
 namespace secure
@@ -19,6 +18,19 @@ namespace secure
         {
             secureZeroMemoryFunction((void*)p, counter);
             std::allocator<DataType>::deallocate(p, counter);
+        }
+
+    private:
+        void* secureZeroMemoryFunction(void* ptr, unsigned long counter)
+        {
+            volatile char* vptr = static_cast<volatile char*>(ptr);
+            while (counter)
+            {
+                *vptr = 0;
+                ++vptr;
+                --counter;
+            }
+            return ptr;
         }
     };
 }
