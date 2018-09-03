@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Test)
+project(CreateNewGitRepository)
+aux_source_directory(${CMAKE_SOURCE_DIR}/rpnews SRC_LIST)
+message(${SRC_LIST})
 
-add_executable(Test test.cpp)
+add_executable(CreateNewGitRepository ${SRC_LIST} CreateNewGitRepository.cpp)
 
-target_link_libraries(Test googletest)
-
+# Target libgit2, qt and gtest libraries
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${LIBGIT2_INCLUDE}>)
+target_link_libraries(${PROJECT_NAME} $<BUILD_INTERFACE:${LIBGIT2_LIBRARY}> googletest Qt5::Widgets)
