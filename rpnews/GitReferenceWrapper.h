@@ -9,8 +9,10 @@ namespace git_wrapper
     {
     public:
         GitReferenceWrapper() = default;
+        explicit GitReferenceWrapper(git_reference* ptr);
         ~GitReferenceWrapper();
         git_reference* getPointer() const;
+        git_reference* getPointer();
 
     private:
         git_reference* m_Reference = nullptr;
