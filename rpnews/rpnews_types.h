@@ -10,6 +10,7 @@ struct commit
 {
     std::string author;
     std::string message;
+    std::string date_time;
 };
 
 #endif //RPNEWS_RPNEWS_TYPES_H
