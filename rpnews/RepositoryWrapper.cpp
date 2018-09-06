@@ -1,4 +1,5 @@
 #include "RepositoryWrapper.h"
+#include "ErrorMessageMaker.h"
 #include <stdexcept>
 
 git_wrapper::RepositoryWrapper::RepositoryWrapper(const std::string& path)
@@ -18,11 +19,7 @@ void git_wrapper::RepositoryWrapper::check(const std::string& path)
 {
     if (git_repository_init(&m_Repo, path.data(), false) != 0)
     {
-        const git_error *lastError = giterr_last();
-        std::string error("problem with git_repository_init, error message : '");
-        error += +lastError->message;
-        error += "'";
-        throw std::logic_error(error);
+        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_repository_init"));
     }
 }
 

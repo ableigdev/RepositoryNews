@@ -1,4 +1,5 @@
 #include "GitRevwalkWrapper.h"
+#include "ErrorMessageMaker.h"
 #include <string>
 #include <stdexcept>
 
@@ -6,11 +7,7 @@ git_wrapper::GitRevwalkWrapper::GitRevwalkWrapper(git_wrapper::RepositoryWrapper
 {
     if (git_revwalk_new(&m_Revwalk, repo.getPointer()) != 0)
     {
-        const git_error* lastError = giterr_last();
-        std::string error("problem with git_revwalk_new, error message : '");
-        error += lastError->message;
-        error += "'";
-        throw std::logic_error(error);
+        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_revwalk_new"));
     }
 }
 

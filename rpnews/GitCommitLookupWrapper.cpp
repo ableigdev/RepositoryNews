@@ -16,7 +16,7 @@ git_wrapper::GitCommitLookupWrapper::GitCommitLookupWrapper(git_wrapper::Reposit
 
 git_wrapper::GitCommitLookupWrapper::~GitCommitLookupWrapper()
 {
-    if (m_Commit != 0)
+    if (m_Commit != nullptr)
     {
         git_commit_free(m_Commit);
     }

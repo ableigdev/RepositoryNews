@@ -1,4 +1,5 @@
 #include "GitRemoteWrapper.h"
+#include "ErrorMessageMaker.h"
 #include <stdexcept>
 
 git_wrapper::GitRemoteWrapper::GitRemoteWrapper(git_wrapper::RepositoryWrapper &repo, const std::string& url)
@@ -28,11 +29,7 @@ void git_wrapper::GitRemoteWrapper::check(git_wrapper::RepositoryWrapper& repo, 
 {
     if (git_remote_create(&m_Remote, repo.getPointer(), "origin", url.data()) != 0)
     {
-        const git_error* lastError = giterr_last();
-        std::string error("problem with git_remote_create, error message : '");
-        error += lastError->message;
-        error += "'";
-        throw std::logic_error(error);
+        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_remote_create"));
     }
 }
 
