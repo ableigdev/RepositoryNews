@@ -18,6 +18,21 @@ size_t GitRepositoryImpl::getNumberOfBranches() const
 
 void GitRepositoryImpl::setCurrentBranch(size_t index)
 {
-    // TODO: Finish this method
+    m_GitRepositoryTypeImpl.setCurrentBranch(index);
+}
+
+std::vector<commit> GitRepositoryImpl::getLastCommit()
+{
+    return m_GitRepositoryTypeImpl.getLastCommit();
+}
+
+void GitRepositoryImpl::prepareBranches()
+{
+    m_GitRepositoryTypeImpl.prepareBranches();
+}
+
+void GitRepositoryImpl::prepareRepository()
+{
+    m_GitRepositoryTypeImpl.prepareDataOfRepository();
 }
 
