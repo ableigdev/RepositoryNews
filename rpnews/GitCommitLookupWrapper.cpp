@@ -1,4 +1,5 @@
 #include "GitCommitLookupWrapper.h"
+#include "ErrorMessageMaker.h"
 #include <string>
 #include <stdexcept>
 
@@ -6,11 +7,7 @@ git_wrapper::GitCommitLookupWrapper::GitCommitLookupWrapper(git_wrapper::Reposit
 {
     if (git_commit_lookup(&m_Commit, repo.getPointer(), &oid) != 0)
     {
-        const git_error* lastError = giterr_last();
-        std::string error("problem with git_commit_lookup, error message: '");
-        error += lastError->message;
-        error += "'";
-        throw std::logic_error(error);
+        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_commit_lookup"));
     }
 }
 
