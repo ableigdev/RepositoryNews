@@ -1,8 +1,7 @@
 #ifndef RPNEWS_GITREPOSITORYIMPL_H
 #define RPNEWS_GITREPOSITORYIMPL_H
 
-#include "IRepository.h"
-#include "SecureAllocator.h"
+#include "rpnews/interfaces/IRepository.h"
 #include "GitRepositoryTypeImpl.h"
 
 class GitRepositoryImpl : public IRepository

@@ -1,7 +1,7 @@
 #ifndef RPNEWS_GITREPOSITORYFACTORY_H
 #define RPNEWS_GITREPOSITORYFACTORY_H
 
-#include "IRepositoryFactory.h"
+#include "rpnews/interfaces/IRepositoryFactory.h"
 
 class GitRepositoryFactory : public IRepositoryFactory
 {

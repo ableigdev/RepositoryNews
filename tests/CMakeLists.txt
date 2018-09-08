@@ -5,7 +5,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/FindGit2.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/FindQt.cmake)
 
 function(getSources input output)
-    file(GLOB SRC_LIST ${input}/*.cpp)
+    file(GLOB SRC_LIST ${input}/*.cpp ${input}/*/*.cpp)
     SET(listVar "")
     foreach(currentFile ${SRC_LIST})
         if (${currentFile} MATCHES "/main.cpp")

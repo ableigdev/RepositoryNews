@@ -1,5 +1,5 @@
 #include "RepositoryWrapper.h"
-#include "ErrorMessageMaker.h"
+#include "rpnews/helpers/ErrorMessageMaker.h"
 #include <stdexcept>
 
 git_wrapper::RepositoryWrapper::RepositoryWrapper(const std::string& path)

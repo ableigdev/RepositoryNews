@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "rpnews_types.h"
+#include "rpnews/helpers/rpnews_types.h"
 
 class IRepository
 {

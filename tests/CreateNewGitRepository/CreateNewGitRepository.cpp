@@ -3,13 +3,13 @@
 #include <string>
 #include <memory>
 
-#include "rpnews/rpnews_types.h"
-#include "rpnews/IRepository.h"
-#include "rpnews/IRepositoryType.h"
-#include "rpnews/IRepositoryFactory.h"
-#include "rpnews/GitRepositoryTypeImpl.h"
-#include "rpnews/GitRepositoryImpl.h"
-#include "rpnews/GitRepositoryFactory.h"
+#include "rpnews/helpers/rpnews_types.h"
+#include "rpnews/interfaces/IRepository.h"
+#include "rpnews/interfaces/IRepositoryType.h"
+#include "rpnews/interfaces/IRepositoryFactory.h"
+#include "rpnews/git_implementation/GitRepositoryTypeImpl.h"
+#include "rpnews/git_implementation/GitRepositoryImpl.h"
+#include "rpnews/git_implementation/GitRepositoryFactory.h"
 
 namespace
 {

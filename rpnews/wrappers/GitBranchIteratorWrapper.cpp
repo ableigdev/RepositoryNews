@@ -1,5 +1,5 @@
 #include "GitBranchIteratorWrapper.h"
-#include "ErrorMessageMaker.h"
+#include "rpnews/helpers/ErrorMessageMaker.h"
 #include <string>
 #include <stdexcept>
 

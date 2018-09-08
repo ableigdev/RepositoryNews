@@ -1,6 +1,6 @@
 #include <iostream>
 #include "git2.h"
-#include "mainwindow.h"
+#include "gui/mainwindow.h"
 #include <QApplication>
 #include <QStyle>
 #include <QDesktopWidget>

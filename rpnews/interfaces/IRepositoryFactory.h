@@ -3,7 +3,7 @@
 
 #include <string>
 #include "IRepository.h"
-#include "rpnews_types.h"
+#include "rpnews/helpers/rpnews_types.h"
 
 class IRepositoryFactory
 {

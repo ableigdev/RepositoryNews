@@ -6,12 +6,12 @@
 #include <QDir>
 #include <QDebug>
 #include "GitRepositoryTypeImpl.h"
-#include "GitBranchIteratorWrapper.h"
-#include "GitReferenceWrapper.h"
-#include "GitRevwalkWrapper.h"
-#include "GitCommitLookupWrapper.h"
-#include "PathChecker.h"
-#include "ErrorMessageMaker.h"
+#include "rpnews/wrappers/GitBranchIteratorWrapper.h"
+#include "rpnews/wrappers/GitReferenceWrapper.h"
+#include "rpnews/wrappers/GitRevwalkWrapper.h"
+#include "rpnews/wrappers/GitCommitLookupWrapper.h"
+#include "rpnews/helpers/PathChecker.h"
+#include "rpnews/helpers/ErrorMessageMaker.h"
 
 GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const secure_string& user, const secure_string& pass)
 : m_Counter(0),
