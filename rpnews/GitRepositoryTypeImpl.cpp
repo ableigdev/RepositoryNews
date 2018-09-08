@@ -196,6 +196,10 @@ void GitRepositoryTypeImpl::setCurrentBranch(size_t index)
         m_CurrentBranch = index;
         m_WasData = true;
     }
+    else
+    {
+        throw std::logic_error("Out of range in 'setCurrentBranch' method");
+    }
 }
 
 void GitRepositoryTypeImpl::prepareDataOfRepository()
