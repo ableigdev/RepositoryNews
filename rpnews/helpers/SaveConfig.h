@@ -9,7 +9,7 @@ class SaveConfig
 public:
     SaveConfig() = default;
     ~SaveConfig() = default;
-    void save(const std::string& nameOfTypeRepository, const secure_string& user, const secure_string& pass);
+    static void save(const std::string& path, const TypeRepository& type, const secure_string& user, const secure_string& pass);
 };
 
 #endif //RPNEWS_SAVECONFIG_H
