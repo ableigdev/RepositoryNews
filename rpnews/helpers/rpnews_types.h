@@ -13,4 +13,6 @@ struct commit
     std::string date_time;
 };
 
+enum TypeRepository { Git };
+
 #endif //RPNEWS_RPNEWS_TYPES_H
