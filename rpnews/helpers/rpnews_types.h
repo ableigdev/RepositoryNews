@@ -15,4 +15,12 @@ struct commit
 
 enum TypeRepository { Git };
 
+struct GetRepositoryInfo
+{
+    std::string path;
+    int type = -1;
+    secure_string user;
+    secure_string pass;
+};
+
 #endif //RPNEWS_RPNEWS_TYPES_H
