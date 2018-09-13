@@ -3,13 +3,12 @@
 #include <QDebug>
 #include <QStringList>
 #include <regex>
-#include <algorithm>
-#include <iostream>
+#include <fstream>
 #include "CheckExistConfig.h"
 
-std::vector<std::string> CheckExistConfig::check()
+std::vector<GetRepositoryInfo> CheckExistConfig::check()
 {
-    std::vector<std::string> result {};
+    std::vector<GetRepositoryInfo> result {};
     QDir dir;
     dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
 
@@ -18,19 +17,37 @@ std::vector<std::string> CheckExistConfig::check()
         dir.cd(".configs");
         std::string currentPath = dir.currentPath().toStdString();
         QDirIterator dirIterator(dir, QDirIterator::Subdirectories);
-        std::cmatch cm;
-        std::regex reg(R"((.*(\.git))\/config)");
+
+        std::cmatch resultOfFindingRepositoryFolder;
+        std::cmatch resultOfFindingConfigFile;
+        std::regex findRepositoryFolder(R"((.*(\.git))\/config)");
+        std::regex findConfigRepository(R"(.*(config_rep))");
         std::string stringData;
+        GetRepositoryInfo repositoryInfo {};
+
         while (dirIterator.hasNext())
         {
             stringData = dirIterator.filePath().toStdString();
-            if (std::regex_search(stringData.data(), cm, reg))
+            if (std::regex_search(stringData.data(), resultOfFindingRepositoryFolder, findRepositoryFolder))
             {
-                auto str = cm[1].str();
-                if (std::find(result.begin(), result.end(), str) == result.end())
-                {
-                    result.emplace_back(currentPath.append("/").append(str));
-                }
+                repositoryInfo.path = currentPath.append("/").append(resultOfFindingRepositoryFolder[1].str());
+            }
+
+            if (std::regex_search(stringData.data(), resultOfFindingConfigFile, findConfigRepository))
+            {
+                std::string str(resultOfFindingConfigFile.str());
+                std::ifstream inFile(str, std::ios::in);
+
+                inFile >> repositoryInfo.type >> repositoryInfo.user >> repositoryInfo.pass;
+            }
+
+            if (!repositoryInfo.path.empty() && repositoryInfo.type != -1 && !repositoryInfo.user.empty() && !repositoryInfo.pass.empty())
+            {
+                result.emplace_back(repositoryInfo);
+                repositoryInfo.path.clear();
+                repositoryInfo.type = -1;
+                repositoryInfo.user.clear();
+                repositoryInfo.pass.clear();
             }
             dirIterator.next();
         }

@@ -3,13 +3,14 @@
 
 #include <string>
 #include <vector>
+#include "rpnews_types.h"
 
 class CheckExistConfig
 {
 public:
     CheckExistConfig() = default;
     ~CheckExistConfig() = default;
-    std::vector<std::string> check();
+    static std::vector<GetRepositoryInfo> check();
 };
 
 #endif //RPNEWS_CHECKEXISTCONFIG_H
