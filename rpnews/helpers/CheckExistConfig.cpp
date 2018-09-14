@@ -30,7 +30,7 @@ std::vector<GetRepositoryInfo> CheckExistConfig::check()
             stringData = dirIterator.filePath().toStdString();
             if (std::regex_search(stringData.data(), resultOfFindingRepositoryFolder, findRepositoryFolder))
             {
-                repositoryInfo.path = currentPath.append("/").append(resultOfFindingRepositoryFolder[1].str());
+                repositoryInfo.path = currentPath + "/" + resultOfFindingRepositoryFolder[1].str();
             }
 
             if (std::regex_search(stringData.data(), resultOfFindingConfigFile, findConfigRepository))
