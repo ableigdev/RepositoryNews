@@ -12,7 +12,7 @@
 class GitRepositoryTypeImpl : public IRepositoryType
 {
 public:
-    GitRepositoryTypeImpl(const std::string& url, const secure_string& user, const secure_string& pass);
+    GitRepositoryTypeImpl(const std::string& url, const secure_string& user, const secure_string& pass, bool flag);
     virtual ~GitRepositoryTypeImpl() = default;
     virtual std::vector<std::string> getNameOfBranches() const;
     virtual size_t getNumberOfBranches() const;

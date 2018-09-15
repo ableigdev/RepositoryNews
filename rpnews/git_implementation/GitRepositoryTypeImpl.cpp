@@ -13,20 +13,30 @@
 #include "rpnews/helpers/PathChecker.h"
 #include "rpnews/helpers/ErrorMessageMaker.h"
 
-GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const secure_string& user, const secure_string& pass)
+GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const secure_string& user, const secure_string& pass, bool flag)
 : m_Counter(0),
 m_CurrentBranch(0),
 m_WasData(false)
 {
-    auto name = getRepositoryFolderName(url);
-    if (name.empty())
+
+
+    if (flag)
     {
-        throw std::logic_error("Invalid url");
+        m_Repository.open(url);
+        m_Remote.open(m_Repository);
+    }
+    else
+    {
+        auto name = getRepositoryFolderName(url);
+        if (name.empty())
+        {
+            throw std::logic_error("Invalid url");
+        }
+        auto path = PathChecker::checkAndGetFinalPath(name);
+        m_Repository.create(path);
+        m_Remote.create(m_Repository, url);
     }
 
-    auto path = PathChecker::checkAndGetFinalPath(name);
-    m_Repository.create(path);
-    m_Remote.create(m_Repository, url);
     m_Username = user;
     m_Password = pass;
     m_FetchOptions = GIT_FETCH_OPTIONS_INIT;
