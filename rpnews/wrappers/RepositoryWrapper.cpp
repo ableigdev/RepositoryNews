@@ -33,6 +33,19 @@ bool git_wrapper::RepositoryWrapper::create(const std::string& path)
     return false;
 }
 
+bool git_wrapper::RepositoryWrapper::open(const std::string& path)
+{
+    if (m_Repo == nullptr)
+    {
+        if (git_repository_open(&m_Repo, path.data()) != 0)
+        {
+            throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_repository_open"));
+        }
+        return true;
+    }
+    return false;
+}
+
 git_repository* git_wrapper::RepositoryWrapper::getPointer() const
 {
     return m_Repo;

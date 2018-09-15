@@ -13,6 +13,7 @@ namespace git_wrapper
         explicit RepositoryWrapper(const std::string& path);
         ~RepositoryWrapper();
         bool create(const std::string& path);
+        bool open(const std::string& path);
         git_repository* getPointer() const;
 
     private:
