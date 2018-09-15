@@ -14,6 +14,7 @@ namespace git_wrapper
         GitRemoteWrapper() = default;
         ~GitRemoteWrapper();
         bool create(git_wrapper::RepositoryWrapper& repo, const std::string& url);
+        bool open(git_wrapper::RepositoryWrapper& repo);
         git_remote* getPointer() const;
 
     private:
