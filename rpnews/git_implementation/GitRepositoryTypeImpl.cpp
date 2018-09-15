@@ -18,8 +18,6 @@ GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const secur
 m_CurrentBranch(0),
 m_WasData(false)
 {
-
-
     if (flag)
     {
         m_Repository.open(url);
