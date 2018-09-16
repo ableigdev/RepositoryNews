@@ -12,6 +12,7 @@
 #include "rpnews/wrappers/GitCommitLookupWrapper.h"
 #include "rpnews/helpers/PathChecker.h"
 #include "rpnews/helpers/ErrorMessageMaker.h"
+#include "rpnews/helpers/SaveConfig.h"
 
 GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const secure_string& user, const secure_string& pass, bool flag)
 : m_Counter(0),
@@ -213,4 +214,12 @@ void GitRepositoryTypeImpl::setCurrentBranch(size_t index)
 void GitRepositoryTypeImpl::prepareDataOfRepository()
 {
     fetchData();
+}
+
+void GitRepositoryTypeImpl::saveConfig()
+{
+    if (m_Repository.getPointer() != nullptr)
+    {
+        SaveConfig::save(git_repository_workdir(m_Repository.getPointer()), TypeRepository::Git, m_Username, m_Password);
+    }
 }

@@ -20,6 +20,7 @@ public:
     virtual void setCurrentBranch(size_t index);
     virtual void prepareDataOfRepository();
     virtual void prepareBranches();
+    virtual void saveConfig();
 
 private:
     std::string getRepositoryFolderName(const std::string& url);

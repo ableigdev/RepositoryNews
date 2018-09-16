@@ -15,6 +15,7 @@ public:
     virtual std::vector<commit> getLastCommit();
     virtual void prepareRepository();
     virtual void prepareBranches();
+    virtual void saveConfig();
 
 private:
     GitRepositoryTypeImpl m_GitRepositoryTypeImpl;

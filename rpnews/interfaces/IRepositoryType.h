@@ -16,6 +16,7 @@ public:
     virtual void setCurrentBranch(size_t) = 0;
     virtual void prepareDataOfRepository() = 0;
     virtual void prepareBranches() = 0;
+    virtual void saveConfig() = 0;
 };
 
 #endif //RPNEWS_IREPOSITORYTYPE_H

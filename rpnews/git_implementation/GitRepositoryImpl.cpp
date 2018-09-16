@@ -36,3 +36,8 @@ void GitRepositoryImpl::prepareRepository()
     m_GitRepositoryTypeImpl.prepareDataOfRepository();
 }
 
+void GitRepositoryImpl::saveConfig()
+{
+    m_GitRepositoryTypeImpl.saveConfig();
+}
+
