@@ -34,7 +34,7 @@ TEST(CreateObject, Valid)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     EXPECT_TRUE(rep.get() != nullptr);
 }
 
@@ -42,28 +42,28 @@ TEST(CreateObject, BadUrl)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository("https://name@bitbucket.org/.git", username, pass)), std::logic_error);
+    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository("https://name@bitbucket.org/.git", username, pass, false)), std::logic_error);
 }
 
 TEST(CreateObject, WrongPassword)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, "wrong_pass")), std::logic_error);
+    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, "wrong_pass", false)), std::logic_error);
 }
 
 TEST(CreateObject, WrongUserName)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(url, "wrong_username", pass)), std::logic_error);
+    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(url, "wrong_username", pass, false)), std::logic_error);
 }
 
 TEST(MethodsTest, PrepareRepository)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     EXPECT_NO_THROW(rep->prepareRepository());
 }
 
@@ -71,7 +71,7 @@ TEST(MethodsTest, PrepareBranches)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->prepareRepository();
     EXPECT_NO_THROW((rep->prepareBranches()));
 }
@@ -80,7 +80,7 @@ TEST(MethodsTest, GetBranchName)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->prepareRepository();
     rep->prepareBranches();
 
@@ -91,7 +91,7 @@ TEST(MethodsTest, GetNumberOfBranch)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->prepareRepository();
     rep->prepareBranches();
     EXPECT_TRUE(rep->getNumberOfBranches() != 0);
@@ -101,7 +101,7 @@ TEST(MethodsTest, SetCurrentBranchNoThrow)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->prepareRepository();
     rep->prepareBranches();
     size_t index = rep->getNumberOfBranches();
@@ -113,7 +113,7 @@ TEST(MethodsTest, SetCurrentBranchThrow)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->prepareRepository();
     rep->prepareBranches();
     size_t index = rep->getNumberOfBranches();
@@ -124,7 +124,7 @@ TEST(MethodsTest, GetLastCommit)
 {
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass));
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->prepareRepository();
     rep->prepareBranches();
     EXPECT_TRUE(!rep->getLastCommit().empty());
