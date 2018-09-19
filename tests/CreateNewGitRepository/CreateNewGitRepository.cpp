@@ -146,6 +146,13 @@ TEST(OpenRepositoryTest, Valid)
     EXPECT_TRUE(rep != nullptr);
 }
 
+TEST(OpenRepositoryTest, WrongPath)
+{
+    deleteFolder();
+    std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
+    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository("", username, pass, true)), std::logic_error);
+}
+
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);
