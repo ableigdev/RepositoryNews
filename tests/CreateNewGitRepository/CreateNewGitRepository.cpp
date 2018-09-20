@@ -134,16 +134,13 @@ TEST(MethodsTest, GetLastCommit)
 TEST(OpenRepositoryTest, Valid)
 {
     deleteFolder();
+
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
     std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
-
     EXPECT_TRUE(rep != nullptr);
     rep->saveConfig();
-    rep.reset();
     auto result = CheckExistConfig::check();
     EXPECT_NO_THROW(rep.reset(ptr->createRepository(result[0].path, result[0].user, result[0].pass, true)));
-
-    EXPECT_TRUE(rep != nullptr);
 }
 
 TEST(OpenRepositoryTest, WrongPath)
