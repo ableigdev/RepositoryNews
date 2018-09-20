@@ -20,7 +20,7 @@ std::vector<GetRepositoryInfo> CheckExistConfig::check()
 
         std::cmatch resultOfFindingRepositoryFolder;
         std::cmatch resultOfFindingConfigFile;
-        std::regex findRepositoryFolder(R"((.*(\.git))\/config)");
+        std::regex findRepositoryFolder(R"((.*(\.git)))");
         std::regex findConfigRepository(R"(.*(config_rep))");
         std::string stringData;
         GetRepositoryInfo repositoryInfo {};
