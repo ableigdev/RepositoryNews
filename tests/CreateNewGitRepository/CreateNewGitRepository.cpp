@@ -160,6 +160,16 @@ TEST(OpenRepositoryTest, WrongUserName)
     EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(result[0].path, "wrong_username", result[0].pass, true)), std::logic_error);
 }
 
+TEST(OpenRepositoryTest, WrongPassword)
+{
+    deleteFolder();
+    std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
+    rep->saveConfig();
+    auto result = CheckExistConfig::check();
+    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(result[0].path, username, "wrong_pass", true)), std::logic_error);
+}
+
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);
