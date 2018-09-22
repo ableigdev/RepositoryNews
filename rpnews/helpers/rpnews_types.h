@@ -17,10 +17,10 @@ enum TypeRepository { Git };
 
 struct GetRepositoryInfo
 {
-    std::string path;
+    std::string path {};
     int type = -1;
-    secure_string user;
-    secure_string pass;
+    secure_string user {};
+    secure_string pass {};
 };
 
 #endif //RPNEWS_RPNEWS_TYPES_H
