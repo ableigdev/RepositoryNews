@@ -170,6 +170,13 @@ TEST(OpenRepositoryTest, WrongPassword)
     EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(result[0].path, username, "wrong_pass", true)), std::logic_error);
 }
 
+TEST(CheckExistConfig, ConfigNotExist)
+{
+    deleteFolder();
+    auto result = CheckExistConfig::check();
+    EXPECT_EQ(result.size(), 0);
+}
+
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);
