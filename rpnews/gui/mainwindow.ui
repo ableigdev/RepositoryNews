@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>500</height>
+    <width>500</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -38,8 +38,8 @@
    <widget class="QLineEdit" name="Edit_URL">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>80</y>
+      <x>200</x>
+      <y>60</y>
       <width>113</width>
       <height>23</height>
      </rect>
@@ -48,8 +48,8 @@
    <widget class="QLabel" name="Label_URL">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>87</y>
+      <x>130</x>
+      <y>67</y>
       <width>59</width>
       <height>15</height>
      </rect>
@@ -61,8 +61,8 @@
    <widget class="QLineEdit" name="Edit_Login">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>110</y>
+      <x>200</x>
+      <y>90</y>
       <width>113</width>
       <height>23</height>
      </rect>
@@ -71,8 +71,8 @@
    <widget class="QLabel" name="Label_Login">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>117</y>
+      <x>130</x>
+      <y>97</y>
       <width>59</width>
       <height>15</height>
      </rect>
@@ -84,8 +84,8 @@
    <widget class="QLabel" name="Label_Password">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>148</y>
+      <x>130</x>
+      <y>128</y>
       <width>59</width>
       <height>15</height>
      </rect>
@@ -97,8 +97,8 @@
    <widget class="QLineEdit" name="Edit_Password">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>140</y>
+      <x>200</x>
+      <y>120</y>
       <width>113</width>
       <height>23</height>
      </rect>
@@ -107,8 +107,8 @@
    <widget class="QLabel" name="Label_MainString">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>40</y>
+      <x>80</x>
+      <y>20</y>
       <width>321</width>
       <height>16</height>
      </rect>
@@ -120,8 +120,8 @@
    <widget class="QPushButton" name="Button_Connect">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>180</y>
+      <x>220</x>
+      <y>160</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -131,10 +131,13 @@
     </property>
    </widget>
    <widget class="QComboBox" name="ComboBox_BranchName">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>250</y>
+      <x>180</x>
+      <y>230</y>
       <width>151</width>
       <height>23</height>
      </rect>
@@ -143,8 +146,8 @@
    <widget class="QLabel" name="Label_Select">
     <property name="geometry">
      <rect>
-      <x>174</x>
-      <y>220</y>
+      <x>124</x>
+      <y>200</y>
       <width>271</width>
       <height>16</height>
      </rect>
@@ -156,8 +159,8 @@
    <widget class="QLabel" name="Label_CheckNewCommits">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>280</y>
+      <x>120</x>
+      <y>260</y>
       <width>281</width>
       <height>16</height>
      </rect>
@@ -167,20 +170,26 @@
     </property>
    </widget>
    <widget class="QComboBox" name="ComboBox_TimeInterval">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>229</x>
-      <y>301</y>
+      <x>179</x>
+      <y>281</y>
       <width>151</width>
       <height>23</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="Button_Add_Save">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>380</y>
+      <x>50</x>
+      <y>320</y>
       <width>91</width>
       <height>23</height>
      </rect>
@@ -192,8 +201,8 @@
    <widget class="QPushButton" name="Button_Cancel">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>380</y>
+      <x>360</x>
+      <y>320</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -208,7 +217,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>500</width>
      <height>20</height>
     </rect>
    </property>
