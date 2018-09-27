@@ -21,8 +21,10 @@ private slots:
 
 private:
     QMenu* m_TrayIconMenu;
-    QAction* m_MinimizeAction;
-    QAction* m_RestoreAction;
+    QAction* m_AddRepositoryAction;
+    QAction* m_ShowAllRepositoriesAction;
+    QAction* m_AutoStartAction;
+    QAction* m_AboutInformationAction;
     QAction* m_QuitAction;
     QSystemTrayIcon* m_TrayIcon;
 };
