@@ -2,6 +2,7 @@
 #include <QStyle>
 #include <QMessageBox>
 #include <QApplication>
+#include <QDebug>
 
 TrayIconApp::TrayIconApp(QWidget *parent)
     : QMainWindow(parent)
@@ -34,6 +35,11 @@ void TrayIconApp::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
+void TrayIconApp::checkedAction(bool value)
+{
+    qDebug() << "checked: " << value;
+}
+
 void TrayIconApp::setTrayIconActions()
 {
     // Setting actions...
@@ -48,6 +54,7 @@ void TrayIconApp::setTrayIconActions()
     // Connecting actions to slots...
     //connect(m_MinimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
     //connect(m_RestoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
+    connect(m_AutoStartAction, SIGNAL(toggled(bool)), this, SLOT(checkedAction(bool)));
     connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     // Setting system tray's icon menu...

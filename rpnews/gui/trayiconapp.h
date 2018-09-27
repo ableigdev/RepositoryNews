@@ -13,11 +13,11 @@ public:
     explicit TrayIconApp(QWidget *parent = nullptr);
 
 private slots:
-    //void changeEvent(QEvent*);
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void trayActionExecute();
     void setTrayIconActions();
     void showTrayIcon();
+    void checkedAction(bool value);
 
 private:
     QMenu* m_TrayIconMenu;
