@@ -40,6 +40,11 @@ void TrayIconApp::checkedAction(bool value)
     qDebug() << "checked: " << value;
 }
 
+void TrayIconApp::aboutInformationAction()
+{
+    qDebug() << "About";
+}
+
 void TrayIconApp::setTrayIconActions()
 {
     // Setting actions...
@@ -55,6 +60,7 @@ void TrayIconApp::setTrayIconActions()
     //connect(m_MinimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
     //connect(m_RestoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
     connect(m_AutoStartAction, SIGNAL(toggled(bool)), this, SLOT(checkedAction(bool)));
+    connect(m_AboutInformationAction, SIGNAL(triggered()), this, SLOT(aboutInformationAction()));
     connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     // Setting system tray's icon menu...

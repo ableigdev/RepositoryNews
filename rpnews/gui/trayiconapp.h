@@ -18,6 +18,7 @@ private slots:
     void setTrayIconActions();
     void showTrayIcon();
     void checkedAction(bool value);
+    void aboutInformationAction();
 
 private:
     QMenu* m_TrayIconMenu;
