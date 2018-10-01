@@ -37,7 +37,7 @@ void TrayIconApp::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void TrayIconApp::checkedAction(bool value)
 {
-    qDebug() << "checked: " << value;
+    value ? m_AutoStartApp.turnOnAutoStart() : m_AutoStartApp.turnOffAutoStart();
 }
 
 void TrayIconApp::aboutInformationAction()

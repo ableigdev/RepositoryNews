@@ -5,6 +5,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QAction>
+#include "rpnews/helpers/AutoStartApplication.h"
 
 class TrayIconApp : public QMainWindow
 {
@@ -28,6 +29,8 @@ private:
     QAction* m_AboutInformationAction;
     QAction* m_QuitAction;
     QSystemTrayIcon* m_TrayIcon;
+
+    AutoStartApplication m_AutoStartApp;
 };
 
 #endif // TRAYWINDOW_H
