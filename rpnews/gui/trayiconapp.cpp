@@ -40,6 +40,11 @@ void TrayIconApp::checkedAction(bool value)
     value ? m_AutoStartApp.turnOnAutoStart() : m_AutoStartApp.turnOffAutoStart();
 }
 
+void TrayIconApp::addNewRepositoryAction()
+{
+    qDebug() << "Add new repository";
+}
+
 void TrayIconApp::aboutInformationAction()
 {
     qDebug() << "About";
@@ -57,8 +62,7 @@ void TrayIconApp::setTrayIconActions()
     m_AutoStartAction->setCheckable(true);
 
     // Connecting actions to slots...
-    //connect(m_MinimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
-    //connect(m_RestoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
+    connect(m_AddRepositoryAction, SIGNAL(triggered()), this, SLOT(addNewRepositoryAction()));
     connect(m_AutoStartAction, SIGNAL(toggled(bool)), this, SLOT(checkedAction(bool)));
     connect(m_AboutInformationAction, SIGNAL(triggered()), this, SLOT(aboutInformationAction()));
     connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));

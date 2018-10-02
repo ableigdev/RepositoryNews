@@ -20,6 +20,7 @@ private slots:
     void showTrayIcon();
     void checkedAction(bool value);
     void aboutInformationAction();
+    void addNewRepositoryAction();
 
 private:
     QMenu* m_TrayIconMenu;
