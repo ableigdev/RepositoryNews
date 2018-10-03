@@ -1,23 +1,10 @@
-#include <iostream>
-#include "git2.h"
-#include "gui/mainwindow.h"
 #include <QApplication>
-#include <QStyle>
-#include <QDesktopWidget>
+#include "gui/trayiconapp.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.setGeometry(
-                QStyle::alignedRect(
-                    Qt::LeftToRight,
-                    Qt::AlignCenter,
-                    w.size(),
-                    qApp->desktop()->availableGeometry()
-                    )
-                );
-    w.show();
+    TrayIconApp app;
 
     return a.exec();
 }
