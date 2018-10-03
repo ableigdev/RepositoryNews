@@ -5,7 +5,9 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QAction>
+#include <memory>
 #include "rpnews/helpers/AutoStartApplication.h"
+#include "mainwindow.h"
 
 class TrayIconApp : public QMainWindow
 {
@@ -32,6 +34,7 @@ private:
     QSystemTrayIcon* m_TrayIcon;
 
     AutoStartApplication m_AutoStartApp;
+    std::unique_ptr<MainWindow> m_MainWindow;
 };
 
 #endif // TRAYWINDOW_H
