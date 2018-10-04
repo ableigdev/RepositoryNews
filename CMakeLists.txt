@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(rpnews)
+set(CMAKE_CXX_STANDARD 14)
 
 # Set variables
 include(${CMAKE_SOURCE_DIR}/cmake/SetEnv.cmake)
