@@ -1,9 +1,10 @@
 #include <stdexcept>
+#include <regex>
 #include <QDir>
 #include <QString>
-#include "PathChecker.h"
+#include "ConfigChecker.h"
 
-std::string PathChecker::checkAndGetFinalPath(const std::string &nameRepository)
+std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepository)
 {
     QDir dir;
     dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
@@ -22,4 +23,12 @@ std::string PathChecker::checkAndGetFinalPath(const std::string &nameRepository)
     }
 
     return path.toStdString();
+}
+
+std::string ConfigChecker::getRepositoryFilderName(const std::string& url)
+{
+    std::regex regexValue(R"(\/([\w]+)\.[\w]+$)");
+    std::cmatch result;
+    std::regex_search(url.data(), result, regexValue);
+    return std::move(result[1].str());
 }

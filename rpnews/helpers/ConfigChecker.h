@@ -3,12 +3,13 @@
 
 #include <string>
 
-class PathChecker
+class ConfigChecker
 {
 public:
-    PathChecker() = default;
-    ~PathChecker() = default;
+    ConfigChecker() = default;
+    ~ConfigChecker() = default;
     static std::string checkAndGetFinalPath(const std::string& nameRepository);
+    static std::string getRepositoryFilderName(const std::string& url);
 };
 
 #endif //RPNEWS_PATHCHECKER_H
