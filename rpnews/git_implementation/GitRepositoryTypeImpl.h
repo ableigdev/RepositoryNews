@@ -23,7 +23,6 @@ public:
     virtual void saveConfig();
 
 private:
-    std::string getRepositoryFolderName(const std::string& url);
     static int userPassGitCredCb(git_cred** cred, const char* url, const char* usernameFromUrl, unsigned int allowedTypes, void *payload);
     int onGitCallBack(git_cred** cred, const char* url, const char* username_from_url, unsigned int allowed_types);
     static int progressCb(const char* str, int len, void* data);

@@ -10,7 +10,7 @@
 #include "rpnews/wrappers/GitReferenceWrapper.h"
 #include "rpnews/wrappers/GitRevwalkWrapper.h"
 #include "rpnews/wrappers/GitCommitLookupWrapper.h"
-#include "rpnews/helpers/PathChecker.h"
+#include "rpnews/helpers/ConfigChecker.h"
 #include "rpnews/helpers/ErrorMessageMaker.h"
 #include "rpnews/helpers/SaveConfig.h"
 
@@ -26,12 +26,12 @@ m_WasData(false)
     }
     else
     {
-        auto name = getRepositoryFolderName(url);
+        auto name = ConfigChecker::getRepositoryFolderName(url);
         if (name.empty())
         {
             throw std::logic_error("Invalid url");
         }
-        auto path = PathChecker::checkAndGetFinalPath(name);
+        auto path = ConfigChecker::checkAndGetFinalPath(name);
         m_Repository.create(path);
         m_Remote.create(m_Repository, url);
     }
@@ -45,14 +45,6 @@ m_WasData(false)
     connect();
     m_Counter = 0;
     m_NameOfBranches.emplace_back("origin/*");
-}
-
-std::string GitRepositoryTypeImpl::getRepositoryFolderName(const std::string& url)
-{
-    std::regex regexValue(R"(\/([\w]+)\.[\w]+$)");
-    std::cmatch result;
-    std::regex_search(url.data(), result, regexValue);
-    return std::move(result[1].str());
 }
 
 int GitRepositoryTypeImpl::userPassGitCredCb(git_cred **cred, const char *url, const char *usernameFromUrl,
