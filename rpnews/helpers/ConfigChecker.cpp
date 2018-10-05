@@ -25,7 +25,7 @@ std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepositor
     return path.toStdString();
 }
 
-std::string ConfigChecker::getRepositoryFilderName(const std::string& url)
+std::string ConfigChecker::getRepositoryFolderName(const std::string& url)
 {
     std::regex regexValue(R"(\/([\w]+)\.[\w]+$)");
     std::cmatch result;
