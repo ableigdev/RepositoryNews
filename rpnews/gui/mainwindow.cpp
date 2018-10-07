@@ -167,3 +167,13 @@ void MainWindow::on_Button_Cancel_clicked()
 {
     this->close();
 }
+
+bool MainWindow::repositoryIsReady() const
+{
+    return m_Repository != nullptr;
+}
+
+std::unique_ptr<IRepository> MainWindow::getRepository()
+{
+    return std::move(m_Repository);
+}

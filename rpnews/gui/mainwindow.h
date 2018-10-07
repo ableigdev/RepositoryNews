@@ -19,6 +19,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
+    bool repositoryIsReady() const;
+    std::unique_ptr<IRepository> getRepository();
 
 private slots:
     void on_Button_Cancel_clicked();
