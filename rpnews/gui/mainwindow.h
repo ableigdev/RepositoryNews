@@ -32,6 +32,7 @@ private slots:
 
 private:
     void closeEvent(QCloseEvent* event);
+    void showEvent(QShowEvent* event);
     void initializeComboBoxRepositoryType();
     void deleteRepositoryFolder(const std::string& name);
     void initializeComboBoxBranchName();

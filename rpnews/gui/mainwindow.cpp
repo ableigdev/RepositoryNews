@@ -41,6 +41,24 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
 }
 
+void MainWindow::showEvent(QShowEvent* event)
+{
+    m_RepositoryFactory.reset();
+    m_Repository.reset();
+    m_UI->Button_Connect->setEnabled(true);
+    m_UI->Button_Add_Save->setEnabled(false);
+    m_UI->Edit_URL->clear();
+    m_UI->Edit_Login->clear();
+    m_UI->Edit_Password->clear();
+    m_UI->ComboBox_BranchName->clear();
+    m_UI->ComboBox_BranchName->setEnabled(false);
+    m_UI->ComboBox_TimeInterval->clear();
+    m_UI->ComboBox_TimeInterval->setEnabled(false);
+    initializeComboBoxRepositoryType();
+    on_ComboBox_RepositoryType_activated(0);
+    event->accept();
+}
+
 void MainWindow::initializeComboBoxRepositoryType()
 {
     m_UI->ComboBox_RepositoryType->addItem("Git");
