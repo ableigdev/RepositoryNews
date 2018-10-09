@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(rpnews)
+
+set(CMAKE_CXX_FLAGS -pthread)
 set(CMAKE_CXX_STANDARD 14)
 
 # Set variables
