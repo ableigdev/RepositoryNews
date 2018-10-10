@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QAction>
 #include <memory>
+#include <vector>
 #include "rpnews/helpers/AutoStartApplication.h"
 #include "AddNewRepository.h"
 
@@ -35,6 +36,7 @@ private:
 
     AutoStartApplication m_AutoStartApp;
     std::unique_ptr<AddNewRepository> m_AddNewRepository;
+    std::vector<std::unique_ptr<IRepository>> m_Repositories;
 };
 
 #endif // TRAYWINDOW_H

@@ -44,7 +44,10 @@ void TrayIconApp::checkedAction(bool value)
 void TrayIconApp::addNewRepositoryAction()
 {
     m_AddNewRepository->exec();
-    qDebug() << "done";
+    if (m_AddNewRepository->repositoryIsReady())
+    {
+        m_Repositories.emplace_back(m_AddNewRepository->getRepository());
+    }
 }
 
 void TrayIconApp::aboutInformationAction()
