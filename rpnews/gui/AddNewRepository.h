@@ -19,6 +19,8 @@ class AddNewRepository : public QDialog
 public:
     explicit AddNewRepository(QWidget* parent = nullptr);
     ~AddNewRepository();
+    bool repositoryIsReady() const;
+    std::unique_ptr<IRepository> getRepository();
 
 private slots:
     void on_ComboBox_RepositoryType_activated(int index);

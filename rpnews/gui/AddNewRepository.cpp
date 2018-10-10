@@ -187,3 +187,13 @@ void AddNewRepository::on_Button_Cancel_clicked()
 {
     this->close();
 }
+
+bool AddNewRepository::repositoryIsReady() const
+{
+    return m_Repository.get() != nullptr;
+}
+
+std::unique_ptr<IRepository> AddNewRepository::getRepository()
+{
+    return std::move(m_Repository);
+}
