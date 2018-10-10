@@ -7,7 +7,7 @@
 #include <QAction>
 #include <memory>
 #include "rpnews/helpers/AutoStartApplication.h"
-#include "mainwindow.h"
+#include "AddNewRepository.h"
 
 class TrayIconApp : public QMainWindow
 {
@@ -34,7 +34,7 @@ private:
     QSystemTrayIcon* m_TrayIcon;
 
     AutoStartApplication m_AutoStartApp;
-    std::unique_ptr<MainWindow> m_MainWindow;
+    std::unique_ptr<AddNewRepository> m_AddNewRepository;
 };
 
 #endif // TRAYWINDOW_H

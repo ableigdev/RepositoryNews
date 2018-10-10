@@ -4,9 +4,9 @@
 #include <QApplication>
 #include <QDebug>
 
-TrayIconApp::TrayIconApp(QWidget *parent)
+TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
-      m_MainWindow(new MainWindow())
+      m_AddNewRepository(new AddNewRepository)
 {
     this->setTrayIconActions();
     this->showTrayIcon();
@@ -43,7 +43,8 @@ void TrayIconApp::checkedAction(bool value)
 
 void TrayIconApp::addNewRepositoryAction()
 {
-    m_MainWindow->show();
+    m_AddNewRepository->exec();
+    qDebug() << "done";
 }
 
 void TrayIconApp::aboutInformationAction()
@@ -76,3 +77,4 @@ void TrayIconApp::setTrayIconActions()
     m_TrayIconMenu->addAction(m_AboutInformationAction);
     m_TrayIconMenu->addAction(m_QuitAction);
 }
+
