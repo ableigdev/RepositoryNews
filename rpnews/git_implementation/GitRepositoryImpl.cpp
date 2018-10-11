@@ -41,3 +41,13 @@ void GitRepositoryImpl::saveConfig()
     m_GitRepositoryTypeImpl.saveConfig();
 }
 
+size_t GitRepositoryImpl::getCurrentBranchIndex() const
+{
+    return m_GitRepositoryTypeImpl.getCurrentBranchIndex();
+}
+
+std::string GitRepositoryImpl::getCurrentBranchName() const
+{
+    return m_GitRepositoryTypeImpl.getCurrentBranchName();
+}
+

@@ -215,3 +215,13 @@ void GitRepositoryTypeImpl::saveConfig()
         SaveConfig::save(git_repository_workdir(m_Repository.getPointer()), TypeRepository::Git, m_Username, m_Password);
     }
 }
+
+size_t GitRepositoryTypeImpl::getCurrentBranchIndex() const
+{
+    return m_CurrentBranch;
+}
+
+std::string GitRepositoryTypeImpl::getCurrentBranchName() const
+{
+    return m_NameOfBranches[m_CurrentBranch];
+}

@@ -18,6 +18,8 @@ public:
     virtual size_t getNumberOfBranches() const;
     virtual std::vector<commit> getLastCommit();
     virtual void setCurrentBranch(size_t index);
+    virtual size_t getCurrentBranchIndex() const;
+    virtual std::string getCurrentBranchName() const;
     virtual void prepareDataOfRepository();
     virtual void prepareBranches();
     virtual void saveConfig();
