@@ -26,12 +26,12 @@ m_WasData(false)
     }
     else
     {
-        auto name = ConfigChecker::getRepositoryFolderName(url);
-        if (name.empty())
+        m_RepositoryName = ConfigChecker::getRepositoryFolderName(url);
+        if (m_RepositoryName.empty())
         {
             throw std::logic_error("Invalid url");
         }
-        auto path = ConfigChecker::checkAndGetFinalPath(name);
+        auto path = ConfigChecker::checkAndGetFinalPath(m_RepositoryName);
         m_Repository.create(path);
         m_Remote.create(m_Repository, url);
     }
@@ -224,4 +224,9 @@ size_t GitRepositoryTypeImpl::getCurrentBranchIndex() const
 std::string GitRepositoryTypeImpl::getCurrentBranchName() const
 {
     return m_NameOfBranches[m_CurrentBranch];
+}
+
+std::string GitRepositoryTypeImpl::getRepositoryName() const
+{
+    return m_RepositoryName;
 }

@@ -20,6 +20,7 @@ public:
     virtual void setCurrentBranch(size_t index);
     virtual size_t getCurrentBranchIndex() const;
     virtual std::string getCurrentBranchName() const;
+    virtual std::string getRepositoryName() const;
     virtual void prepareDataOfRepository();
     virtual void prepareBranches();
     virtual void saveConfig();
@@ -39,6 +40,7 @@ private:
     int m_Counter;
     size_t m_CurrentBranch;
     bool m_WasData;
+    std::string m_RepositoryName {};
     git_wrapper::LibraryWrapper m_LibraryWrapper;
     git_wrapper::RepositoryWrapper m_Repository;
     git_wrapper::GitRemoteWrapper m_Remote;

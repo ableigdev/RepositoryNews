@@ -51,3 +51,8 @@ std::string GitRepositoryImpl::getCurrentBranchName() const
     return m_GitRepositoryTypeImpl.getCurrentBranchName();
 }
 
+std::string GitRepositoryImpl::getRepositoryName() const
+{
+    return m_GitRepositoryTypeImpl.getRepositoryName();
+}
+

@@ -15,6 +15,7 @@ public:
     virtual void setCurrentBranch(size_t) = 0;
     virtual size_t getCurrentBranchIndex() const = 0;
     virtual std::string getCurrentBranchName() const = 0;
+    virtual std::string getRepositoryName() const = 0;
     virtual std::vector<commit> getLastCommit() = 0;
     virtual void prepareRepository() = 0;
     virtual void prepareBranches() = 0;
