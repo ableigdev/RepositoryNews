@@ -8,8 +8,9 @@
 #include "rpnews/interfaces/IRepositoryFactory.h"
 #include "rpnews/interfaces/IRepository.h"
 
-namespace Ui {
-class AddNewRepository;
+namespace Ui
+{
+    class AddNewRepository;
 }
 
 class AddNewRepository : public QDialog
@@ -21,6 +22,7 @@ public:
     ~AddNewRepository();
     bool repositoryIsReady() const;
     std::unique_ptr<IRepository> getRepository();
+    std::chrono::seconds getIntervalTime() const;
 
 private slots:
     void on_ComboBox_RepositoryType_activated(int index);
@@ -43,7 +45,6 @@ private:
     std::unique_ptr<IRepositoryFactory> m_RepositoryFactory;
     std::unique_ptr<IRepository> m_Repository;
     std::chrono::seconds m_TimeForSynchronization;
-private:
 
 };
 

@@ -179,7 +179,6 @@ void AddNewRepository::on_ComboBox_TimeInterval_activated(int index)
 void AddNewRepository::on_Button_Add_Save_clicked()
 {
     m_Repository->saveConfig();
-    //emit repositoryIsReady(this);
     this->close();
 }
 
@@ -196,4 +195,9 @@ bool AddNewRepository::repositoryIsReady() const
 std::unique_ptr<IRepository> AddNewRepository::getRepository()
 {
     return std::move(m_Repository);
+}
+
+std::chrono::seconds AddNewRepository::getIntervalTime() const
+{
+    return m_TimeForSynchronization;
 }
