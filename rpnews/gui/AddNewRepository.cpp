@@ -58,6 +58,7 @@ void AddNewRepository::showEvent(QShowEvent* event)
     m_UI->ComboBox_TimeInterval->setEnabled(false);
     initializeComboBoxRepositoryType();
     on_ComboBox_RepositoryType_activated(0);
+    m_RepositoryIsReady = false;
     event->accept();
 }
 
@@ -181,6 +182,7 @@ void AddNewRepository::on_Button_Add_Save_clicked()
 {
     m_Repository->saveConfig();
     SaveConfig::saveGUIConfig(".configs/" + m_Repository->getRepositoryName() + "/", m_Repository->getCurrentBranchName(), m_Repository->getCurrentBranchIndex(), m_TimeForSynchronization);
+    m_RepositoryIsReady = true;
     this->close();
 }
 
@@ -191,7 +193,7 @@ void AddNewRepository::on_Button_Cancel_clicked()
 
 bool AddNewRepository::repositoryIsReady() const
 {
-    return m_Repository.get() != nullptr;
+    return m_RepositoryIsReady;
 }
 
 std::unique_ptr<IRepository> AddNewRepository::getRepository()

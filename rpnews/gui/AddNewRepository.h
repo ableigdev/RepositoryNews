@@ -45,6 +45,7 @@ private:
     std::unique_ptr<IRepositoryFactory> m_RepositoryFactory;
     std::unique_ptr<IRepository> m_Repository;
     std::chrono::seconds m_TimeForSynchronization;
+    bool m_RepositoryIsReady = false;
 
 };
 
