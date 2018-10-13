@@ -9,6 +9,7 @@
 #include "ui_AddNewRepository.h"
 #include "rpnews/git_implementation/GitRepositoryFactory.h"
 #include "rpnews/helpers/ConfigChecker.h"
+#include "rpnews/helpers/SaveConfig.h"
 
 
 AddNewRepository::AddNewRepository(QWidget *parent) :
@@ -179,6 +180,7 @@ void AddNewRepository::on_ComboBox_TimeInterval_activated(int index)
 void AddNewRepository::on_Button_Add_Save_clicked()
 {
     m_Repository->saveConfig();
+    SaveConfig::saveGUIConfig(".configs/" + m_Repository->getRepositoryName() + "/", m_Repository->getCurrentBranchName(), m_Repository->getCurrentBranchIndex(), m_TimeForSynchronization);
     this->close();
 }
 
