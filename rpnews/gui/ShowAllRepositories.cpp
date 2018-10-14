@@ -1,14 +1,32 @@
 #include "ShowAllRepositories.h"
 #include "ui_ShowAllRepositories.h"
+#include <QStyle>
+#include <QDesktopWidget>
+#include <QApplication>
 
-ShowAllRepositories::ShowAllRepositories(QWidget *parent) :
+ShowAllRepositories::ShowAllRepositories(TrayIconApp* parent) :
     QDialog(parent),
-    ui(new Ui::ShowAllRepositories)
+    m_UI(new Ui::ShowAllRepositories),
+    m_TrayIconApp(parent)
 {
-    ui->setupUi(this);
+    m_UI->setupUi(this);
+    this->setGeometry(
+                QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,
+                    this->size(),
+                    qApp->desktop()->availableGeometry()
+                    )
+                );
 }
 
 ShowAllRepositories::~ShowAllRepositories()
 {
-    delete ui;
+    delete m_UI;
+}
+
+void ShowAllRepositories::closeEvent(QCloseEvent* event)
+{
+    event->ignore();
+    this->hide();
 }

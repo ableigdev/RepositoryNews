@@ -2,9 +2,12 @@
 #define SHOWALLREPOSITORIES_H
 
 #include <QDialog>
+#include <QCloseEvent>
+#include "trayiconapp.h"
 
-namespace Ui {
-class ShowAllRepositories;
+namespace Ui
+{
+    class ShowAllRepositories;
 }
 
 class ShowAllRepositories : public QDialog
@@ -12,11 +15,15 @@ class ShowAllRepositories : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShowAllRepositories(QWidget *parent = nullptr);
+    explicit ShowAllRepositories(TrayIconApp* parent = nullptr);
     ~ShowAllRepositories();
 
 private:
-    Ui::ShowAllRepositories *ui;
+    void closeEvent(QCloseEvent* event);
+
+private:
+    Ui::ShowAllRepositories* m_UI;
+    TrayIconApp* m_TrayIconApp;
 };
 
 #endif // SHOWALLREPOSITORIES_H
