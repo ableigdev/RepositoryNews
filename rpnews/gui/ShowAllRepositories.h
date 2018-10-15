@@ -3,7 +3,11 @@
 
 #include <QDialog>
 #include <QCloseEvent>
-#include "trayiconapp.h"
+#include <QShowEvent>
+#include <memory>
+#include <vector>
+#include <chrono>
+#include "rpnews/interfaces/IRepository.h"
 
 namespace Ui
 {
@@ -15,15 +19,21 @@ class ShowAllRepositories : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShowAllRepositories(TrayIconApp* parent = nullptr);
+    explicit ShowAllRepositories(QWidget* parent = nullptr);
     ~ShowAllRepositories();
+    void show();
+    void setRepositories(std::vector<std::shared_ptr<IRepository>> ptr);
+    void setTimeInterval(std::chrono::seconds& time);
 
 private:
-    void closeEvent(QCloseEvent* event);
+    void initializeRepositoriesTableWidget();
+    void fillTheTable();
+    void deleteAllRows();
 
 private:
     Ui::ShowAllRepositories* m_UI;
-    TrayIconApp* m_TrayIconApp;
+    std::vector<std::shared_ptr<IRepository>> m_Reposiries {};
+    std::chrono::seconds m_TimeInterval;
 };
 
 #endif // SHOWALLREPOSITORIES_H
