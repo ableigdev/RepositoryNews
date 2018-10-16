@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QCloseEvent>
+#include <QShowEvent>
 #include <memory>
 #include <chrono>
 #include "rpnews/interfaces/IRepositoryFactory.h"
@@ -21,7 +22,7 @@ public:
     explicit AddNewRepository(QWidget* parent = nullptr);
     ~AddNewRepository();
     bool repositoryIsReady() const;
-    std::unique_ptr<IRepository> getRepository();
+    std::shared_ptr<IRepository> getRepository();
     std::chrono::seconds getIntervalTime() const;
 
 private slots:
@@ -43,7 +44,7 @@ private:
 private:
     Ui::AddNewRepository* m_UI;
     std::unique_ptr<IRepositoryFactory> m_RepositoryFactory;
-    std::unique_ptr<IRepository> m_Repository;
+    std::shared_ptr<IRepository> m_Repository;
     std::chrono::seconds m_TimeForSynchronization;
     bool m_RepositoryIsReady = false;
 
