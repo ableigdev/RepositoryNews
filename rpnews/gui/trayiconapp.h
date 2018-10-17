@@ -7,8 +7,10 @@
 #include <QAction>
 #include <memory>
 #include <vector>
+#include <chrono>
 #include "rpnews/helpers/AutoStartApplication.h"
 #include "AddNewRepository.h"
+#include "ShowAllRepositories.h"
 
 class TrayIconApp : public QMainWindow
 {
@@ -18,12 +20,12 @@ public:
 
 private slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
-    void trayActionExecute();
     void setTrayIconActions();
     void showTrayIcon();
     void checkedAction(bool value);
     void aboutInformationAction();
-    void addNewRepositoryAction();
+    void addNewRepositorySlot();
+    void showAllRepositoriesSlot();
 
 private:
     QMenu* m_TrayIconMenu;
@@ -36,7 +38,9 @@ private:
 
     AutoStartApplication m_AutoStartApp;
     std::unique_ptr<AddNewRepository> m_AddNewRepository;
-    std::vector<std::unique_ptr<IRepository>> m_Repositories;
+    std::unique_ptr<ShowAllRepositories> m_ShowAllRepositories;
+    std::vector<std::shared_ptr<IRepository>> m_Repositories;
+    std::chrono::seconds m_TimeInterval;
 };
 
 #endif // TRAYWINDOW_H

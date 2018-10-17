@@ -6,7 +6,8 @@
 
 TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
-      m_AddNewRepository(new AddNewRepository)
+      m_AddNewRepository(new AddNewRepository),
+      m_ShowAllRepositories(new ShowAllRepositories)
 {
     this->setTrayIconActions();
     this->showTrayIcon();
@@ -23,11 +24,6 @@ void TrayIconApp::showTrayIcon()
     m_TrayIcon->show();
 }
 
-void TrayIconApp::trayActionExecute()
-{
-    QMessageBox::information(this, "TrayIcon", "Test message");
-}
-
 void TrayIconApp::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if (reason == QSystemTrayIcon::Trigger)
@@ -41,12 +37,13 @@ void TrayIconApp::checkedAction(bool value)
     value ? m_AutoStartApp.turnOnAutoStart() : m_AutoStartApp.turnOffAutoStart();
 }
 
-void TrayIconApp::addNewRepositoryAction()
+void TrayIconApp::addNewRepositorySlot()
 {
     m_AddNewRepository->exec();
     if (m_AddNewRepository->repositoryIsReady())
     {
         m_Repositories.emplace_back(m_AddNewRepository->getRepository());
+        m_TimeInterval = m_AddNewRepository->getIntervalTime();
     }
 }
 
@@ -67,7 +64,8 @@ void TrayIconApp::setTrayIconActions()
     m_AutoStartAction->setCheckable(true);
 
     // Connecting actions to slots...
-    connect(m_AddRepositoryAction, SIGNAL(triggered()), this, SLOT(addNewRepositoryAction()));
+    connect(m_AddRepositoryAction, SIGNAL(triggered()), this, SLOT(addNewRepositorySlot()));
+    connect(m_ShowAllRepositoriesAction, SIGNAL(triggered()), this, SLOT(showAllRepositoriesSlot()));
     connect(m_AutoStartAction, SIGNAL(toggled(bool)), this, SLOT(checkedAction(bool)));
     connect(m_AboutInformationAction, SIGNAL(triggered()), this, SLOT(aboutInformationAction()));
     connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
@@ -79,5 +77,12 @@ void TrayIconApp::setTrayIconActions()
     m_TrayIconMenu->addAction(m_AutoStartAction);
     m_TrayIconMenu->addAction(m_AboutInformationAction);
     m_TrayIconMenu->addAction(m_QuitAction);
+}
+
+void TrayIconApp::showAllRepositoriesSlot()
+{
+    m_ShowAllRepositories->setTimeInterval(m_TimeInterval);
+    m_ShowAllRepositories->setRepositories(m_Repositories);
+    m_ShowAllRepositories->show();
 }
 
