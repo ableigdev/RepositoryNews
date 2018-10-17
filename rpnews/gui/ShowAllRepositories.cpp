@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QStringList>
+#include <string>
 
 ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
     QDialog(parent),
@@ -72,7 +73,7 @@ void ShowAllRepositories::fillTheTable()
         m_UI->RepositoriesTableWidget->insertRow(static_cast<int>(i));
         m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 0, new QTableWidgetItem(m_Reposiries[i]->getRepositoryName().c_str()));
         m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 1, new QTableWidgetItem(m_Reposiries[i]->getCurrentBranchName().c_str()));
-        m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 2, new QTableWidgetItem(static_cast<int>(m_TimeInterval.count())));
+        m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 2, new QTableWidgetItem(std::to_string(m_TimeInterval.count()).c_str()));
     }
 }
 
