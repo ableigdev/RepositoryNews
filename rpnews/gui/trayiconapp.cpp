@@ -43,7 +43,7 @@ void TrayIconApp::addNewRepositorySlot()
     if (m_AddNewRepository->repositoryIsReady())
     {
         m_Repositories.emplace_back(m_AddNewRepository->getRepository());
-        m_TimeInterval = m_AddNewRepository->getIntervalTime();
+        m_TimeIntervals.emplace_back(m_AddNewRepository->getIntervalTime());
     }
 }
 
@@ -81,7 +81,7 @@ void TrayIconApp::setTrayIconActions()
 
 void TrayIconApp::showAllRepositoriesSlot()
 {
-    m_ShowAllRepositories->setTimeInterval(m_TimeInterval);
+    m_ShowAllRepositories->setTimeInterval(m_TimeIntervals);
     m_ShowAllRepositories->setRepositories(m_Repositories);
     m_ShowAllRepositories->show();
 }

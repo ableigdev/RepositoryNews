@@ -23,7 +23,7 @@ public:
     ~ShowAllRepositories();
     void show();
     void setRepositories(std::vector<std::shared_ptr<IRepository>> ptr);
-    void setTimeInterval(std::chrono::seconds& time);
+    void setTimeInterval(std::vector<std::chrono::seconds>& time);
 
 private:
     void initializeRepositoriesTableWidget();
@@ -33,7 +33,7 @@ private:
 private:
     Ui::ShowAllRepositories* m_UI;
     std::vector<std::shared_ptr<IRepository>> m_Reposiries {};
-    std::chrono::seconds m_TimeInterval;
+    std::vector<std::chrono::seconds> m_TimeIntervals;
 };
 
 #endif // SHOWALLREPOSITORIES_H
