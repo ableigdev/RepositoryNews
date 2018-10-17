@@ -35,6 +35,7 @@ void ShowAllRepositories::initializeRepositoriesTableWidget()
     QStringList list;
     list << "Name Of Repository" << "Name of Branch" << "Time Interval (sec)";
     m_UI->RepositoriesTableWidget->setHorizontalHeaderLabels(list);
+    m_UI->RepositoriesTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     for (int i = 0; i < m_UI->RepositoriesTableWidget->columnCount(); ++i)
     {
