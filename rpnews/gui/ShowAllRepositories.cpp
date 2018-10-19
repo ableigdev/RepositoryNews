@@ -22,6 +22,7 @@ ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
                     )
                 );
     initializeRepositoriesTableWidget();
+    initializeContextMenu();
 }
 
 ShowAllRepositories::~ShowAllRepositories()
@@ -36,11 +37,15 @@ void ShowAllRepositories::initializeRepositoriesTableWidget()
     list << "Name Of Repository" << "Name of Branch" << "Time Interval (sec)";
     m_UI->RepositoriesTableWidget->setHorizontalHeaderLabels(list);
     m_UI->RepositoriesTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_UI->RepositoriesTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 
     for (int i = 0; i < m_UI->RepositoriesTableWidget->columnCount(); ++i)
     {
         m_UI->RepositoriesTableWidget->setColumnWidth(i, (m_UI->RepositoriesTableWidget->width() - 10) / 3);
     }
+
+    connect(m_UI->RepositoriesTableWidget, SIGNAL(clicked(QModelIndex)), this, SLOT(closeContextMenuSlot()));
+    connect(m_UI->RepositoriesTableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenuSLot(QPoint)));
 }
 
 void ShowAllRepositories::show()
@@ -84,4 +89,27 @@ void ShowAllRepositories::deleteAllRows()
     {
         m_UI->RepositoriesTableWidget->removeRow(i);
     }
+}
+
+void ShowAllRepositories::closeContextMenuSlot()
+{
+    m_ContextMenu->hide();
+}
+
+void ShowAllRepositories::showContextMenuSLot(QPoint position)
+{
+    m_ContextMenu->popup(m_UI->RepositoriesTableWidget->viewport()->mapToGlobal(position));
+}
+
+void ShowAllRepositories::initializeContextMenu()
+{
+    m_ContextMenu = std::make_unique<QMenu>(this);
+    m_ChangeProperties = std::make_unique<QAction>("Change", this);
+    connect(m_ChangeProperties.get(), SIGNAL(triggered()), this, SLOT(changePropertiesSlot()));
+    m_ContextMenu->addAction(m_ChangeProperties.get());
+}
+
+void ShowAllRepositories::changePropertiesSlot()
+{
+
 }
