@@ -4,6 +4,7 @@
 #include <QMenu>
 #include <QPoint>
 #include <QAction>
+#include <memory>
 #include "trayiconapp.h"
 
 class ContextMenu : public QMenu
@@ -16,14 +17,15 @@ public:
     virtual void popup(const QPoint& pos, QAction* action = nullptr);
 
 public slots:
-    void changeCharacteristics();
+    void changePropertiesSlot();
 
 private:
     void leaveEvent(QEvent*);
 
 private:
+    std::unique_ptr<QMenu> m_Menu;
     TrayIconApp* m_TrayIconApp;
-    QMenu* m_Menu;
+    std::unique_ptr<QAction> m_ChangeProperties;
 };
 
 #endif // CONTEXTMENU_H
