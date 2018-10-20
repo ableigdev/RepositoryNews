@@ -107,6 +107,8 @@ void GitRepositoryTypeImpl::prepareBranches()
     git_reference* reference;
     git_branch_t type = GIT_BRANCH_REMOTE;
     std::vector<const char*> name(50);
+    m_NameOfBranches.clear();
+    m_NameOfBranches.emplace_back("origin/*");
 
     while (git_branch_next(&reference, &type, branchIterator.getPointer()) != GIT_ITEROVER)
     {
@@ -115,7 +117,7 @@ void GitRepositoryTypeImpl::prepareBranches()
         {
             throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_branch_next"));
         }
-        m_NameOfBranches.emplace_back(std::move(std::string(name.at(0))));
+        m_NameOfBranches.emplace_back(std::string(name.at(0)));
     }
 }
 
