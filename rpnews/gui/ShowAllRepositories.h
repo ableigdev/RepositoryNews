@@ -5,6 +5,7 @@
 #include <QPoint>
 #include <QMenu>
 #include <QAction>
+#include <QCloseEvent>
 #include <memory>
 #include <vector>
 #include <chrono>
@@ -30,12 +31,18 @@ private slots:
     void closeContextMenuSlot();
     void showContextMenuSLot(QPoint);
     void changePropertiesSlot();
+    void chooseBranchSlot(int index);
+    void chooseTimeIntervalSlot(int index);
+    void savePropertiesSlot();
 
 private:
     void initializeRepositoriesTableWidget();
     void initializeContextMenu();
     void fillTheTable();
     void deleteAllRows();
+    void enabledActions(bool flag);
+    void closeEditMode();
+    void closeEvent(QCloseEvent* event);
 
 private:
     Ui::ShowAllRepositories* m_UI;
@@ -43,6 +50,7 @@ private:
     std::vector<std::chrono::seconds> m_TimeIntervals;
     std::unique_ptr<QMenu> m_ContextMenu;
     std::unique_ptr<QAction> m_ChangeProperties;
+    std::unique_ptr<QAction> m_SaveProperties;
 };
 
 #endif // SHOWALLREPOSITORIES_H
