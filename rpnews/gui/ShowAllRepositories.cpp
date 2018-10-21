@@ -69,7 +69,7 @@ void ShowAllRepositories::setRepositories(std::vector<std::shared_ptr<IRepositor
     m_Reposiries = ptr;
 }
 
-void ShowAllRepositories::setTimeInterval(std::vector<std::chrono::seconds>& time)
+void ShowAllRepositories::setTimeInterval(std::vector<std::shared_ptr<std::chrono::seconds>>& time)
 {
     m_TimeIntervals = time;
 }
@@ -82,7 +82,7 @@ void ShowAllRepositories::fillTheTable()
         m_UI->RepositoriesTableWidget->insertRow(static_cast<int>(i));
         m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 0, new QTableWidgetItem(m_Reposiries[i]->getRepositoryName().c_str()));
         m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 1, new QTableWidgetItem(m_Reposiries[i]->getCurrentBranchName().c_str()));
-        m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 2, new QTableWidgetItem(std::to_string(m_TimeIntervals[i].count()).c_str()));
+        m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 2, new QTableWidgetItem(std::to_string(m_TimeIntervals[i]->count()).c_str()));
     }
 }
 
@@ -177,7 +177,7 @@ void ShowAllRepositories::chooseTimeIntervalSlot(int index)
         }
     }
 
-    m_TimeIntervals[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())] = sec;
+    *m_TimeIntervals[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())] = sec;
 }
 
 void ShowAllRepositories::savePropertiesSlot()
@@ -196,14 +196,18 @@ void ShowAllRepositories::enabledActions(bool flag)
 void ShowAllRepositories::closeEditMode()
 {
     auto row = m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row();
-    m_UI->RepositoriesTableWidget->removeRow(row);
     m_UI->RepositoriesTableWidget->removeCellWidget(row, 1);
     m_UI->RepositoriesTableWidget->removeCellWidget(row, 2);
+    m_UI->RepositoriesTableWidget->removeRow(row);
+
     enabledActions(true);
 }
 
 void ShowAllRepositories::closeEvent(QCloseEvent* event)
 {
-    closeEditMode();
+    m_Reposiries.clear();
+    m_TimeIntervals.clear();
+    enabledActions(true);
+    deleteAllRows();
     event->accept();
 }

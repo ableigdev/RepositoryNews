@@ -43,7 +43,7 @@ void TrayIconApp::addNewRepositorySlot()
     if (m_AddNewRepository->repositoryIsReady())
     {
         m_Repositories.emplace_back(m_AddNewRepository->getRepository());
-        m_TimeIntervals.emplace_back(m_AddNewRepository->getIntervalTime());
+        m_TimeIntervals.emplace_back(std::make_shared<std::chrono::seconds>(m_AddNewRepository->getIntervalTime()));
     }
 }
 
