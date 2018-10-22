@@ -49,7 +49,7 @@ void TrayIconApp::addNewRepositorySlot()
 
 void TrayIconApp::aboutInformationAction()
 {
-    qDebug() << "About";
+    QMessageBox::about(nullptr, "About", "This program check new commits in your repository.");
 }
 
 void TrayIconApp::setTrayIconActions()
