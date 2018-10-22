@@ -15,12 +15,12 @@ TrayIconApp::TrayIconApp(QWidget* parent)
 
 void TrayIconApp::showTrayIcon()
 {
-    m_TrayIcon = new QSystemTrayIcon(this);
+    m_TrayIcon = std::make_unique<QSystemTrayIcon>(this);
     m_TrayIcon->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
-    m_TrayIcon->setContextMenu(m_TrayIconMenu);
+    m_TrayIcon->setContextMenu(m_TrayIconMenu.get());
     m_TrayIcon->setToolTip("rpnews");
 
-    connect(m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    connect(m_TrayIcon.get(), SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
     m_TrayIcon->show();
 }
 
@@ -55,28 +55,28 @@ void TrayIconApp::aboutInformationAction()
 void TrayIconApp::setTrayIconActions()
 {
     // Setting actions...
-    m_AddRepositoryAction = new QAction("Add repository...", this);
-    m_ShowAllRepositoriesAction = new QAction("Show All Repositories...", this);
-    m_AutoStartAction = new QAction("Autostart", this);
-    m_AboutInformationAction = new QAction("Information...");
-    m_QuitAction = new QAction("Quit", this);
+    m_AddRepositoryAction = std::make_unique<QAction>("Add repository...", this);
+    m_ShowAllRepositoriesAction = std::make_unique<QAction>("Show All Repositories...", this);
+    m_AutoStartAction = std::make_unique<QAction>("Autostart", this);
+    m_AboutInformationAction = std::make_unique<QAction>("Information...");
+    m_QuitAction = std::make_unique<QAction>("Quit", this);
 
     m_AutoStartAction->setCheckable(true);
 
     // Connecting actions to slots...
-    connect(m_AddRepositoryAction, SIGNAL(triggered()), this, SLOT(addNewRepositorySlot()));
-    connect(m_ShowAllRepositoriesAction, SIGNAL(triggered()), this, SLOT(showAllRepositoriesSlot()));
-    connect(m_AutoStartAction, SIGNAL(toggled(bool)), this, SLOT(checkedAction(bool)));
-    connect(m_AboutInformationAction, SIGNAL(triggered()), this, SLOT(aboutInformationAction()));
-    connect(m_QuitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(m_AddRepositoryAction.get(), SIGNAL(triggered()), this, SLOT(addNewRepositorySlot()));
+    connect(m_ShowAllRepositoriesAction.get(), SIGNAL(triggered()), this, SLOT(showAllRepositoriesSlot()));
+    connect(m_AutoStartAction.get(), SIGNAL(toggled(bool)), this, SLOT(checkedAction(bool)));
+    connect(m_AboutInformationAction.get(), SIGNAL(triggered()), this, SLOT(aboutInformationAction()));
+    connect(m_QuitAction.get(), SIGNAL(triggered()), qApp, SLOT(quit()));
 
     // Setting system tray's icon menu...
-    m_TrayIconMenu = new QMenu(this);
-    m_TrayIconMenu->addAction(m_AddRepositoryAction);
-    m_TrayIconMenu->addAction(m_ShowAllRepositoriesAction);
-    m_TrayIconMenu->addAction(m_AutoStartAction);
-    m_TrayIconMenu->addAction(m_AboutInformationAction);
-    m_TrayIconMenu->addAction(m_QuitAction);
+    m_TrayIconMenu = std::make_unique<QMenu>(this);
+    m_TrayIconMenu->addAction(m_AddRepositoryAction.get());
+    m_TrayIconMenu->addAction(m_ShowAllRepositoriesAction.get());
+    m_TrayIconMenu->addAction(m_AutoStartAction.get());
+    m_TrayIconMenu->addAction(m_AboutInformationAction.get());
+    m_TrayIconMenu->addAction(m_QuitAction.get());
 }
 
 void TrayIconApp::showAllRepositoriesSlot()

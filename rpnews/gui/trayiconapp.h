@@ -28,13 +28,13 @@ private slots:
     void showAllRepositoriesSlot();
 
 private:
-    QMenu* m_TrayIconMenu;
-    QAction* m_AddRepositoryAction;
-    QAction* m_ShowAllRepositoriesAction;
-    QAction* m_AutoStartAction;
-    QAction* m_AboutInformationAction;
-    QAction* m_QuitAction;
-    QSystemTrayIcon* m_TrayIcon;
+    std::unique_ptr<QMenu> m_TrayIconMenu;
+    std::unique_ptr<QAction> m_AddRepositoryAction;
+    std::unique_ptr<QAction> m_ShowAllRepositoriesAction;
+    std::unique_ptr<QAction> m_AutoStartAction;
+    std::unique_ptr<QAction> m_AboutInformationAction;
+    std::unique_ptr<QAction> m_QuitAction;
+    std::unique_ptr<QSystemTrayIcon> m_TrayIcon;
 
     AutoStartApplication m_AutoStartApp;
     std::unique_ptr<AddNewRepository> m_AddNewRepository;
