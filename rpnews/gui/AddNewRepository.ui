@@ -234,6 +234,17 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>ComboBox_RepositoryType</tabstop>
+  <tabstop>Edit_URL</tabstop>
+  <tabstop>Edit_Login</tabstop>
+  <tabstop>Edit_Password</tabstop>
+  <tabstop>Button_Connect</tabstop>
+  <tabstop>ComboBox_BranchName</tabstop>
+  <tabstop>ComboBox_TimeInterval</tabstop>
+  <tabstop>Button_Add_Save</tabstop>
+  <tabstop>Button_Cancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
