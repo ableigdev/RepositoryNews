@@ -34,15 +34,6 @@ AddNewRepository::~AddNewRepository()
     delete m_UI;
 }
 
-void AddNewRepository::closeEvent(QCloseEvent* event)
-{
-    if (this->isVisible())
-    {
-        event->ignore();
-        this->hide();
-    }
-}
-
 void AddNewRepository::showEvent(QShowEvent* event)
 {
     m_RepositoryFactory.reset();

@@ -34,7 +34,6 @@ private slots:
     void on_Button_Cancel_clicked();
 
 private:
-    void closeEvent(QCloseEvent* event);
     void showEvent(QShowEvent* event);
     void initializeComboBoxRepositoryType();
     void deleteRepositoryFolder(const std::string& name);
