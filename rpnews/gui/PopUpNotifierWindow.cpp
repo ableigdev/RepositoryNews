@@ -13,7 +13,7 @@ PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
 
     m_Animation.setTargetObject(this);
     m_Animation.setPropertyName("popupOpacity");
-    connect(&m_Animation, &QAbstractAnimation::finished, this, &PopUpNotifierWindow::hide);
+    connect(&m_Animation, &QAbstractAnimation::finished, this, &PopUpNotifierWindow::hideSlot);
 
     m_Label.setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
     m_Label.setStyleSheet("QLabel { color : white; "
@@ -21,11 +21,18 @@ PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
                           "margin-bottom: 6px;"
                           "margin-left: 10px;"
                           "margin-right: 10px; }");
+
+    m_Button.setMaximumWidth(15);
+    m_Button.setText("X");
+    m_Button.setFlat(true);
+    connect(&m_Button, &QPushButton::clicked, this, &PopUpNotifierWindow::pushButtonClickedSlot);
+
+    m_Layout.addWidget(&m_Button, 0, 1, Qt::AlignRight);
     m_Layout.addWidget(&m_Label, 0, 0);
     setLayout(&m_Layout);
 
     m_Timer = new QTimer();
-    connect(m_Timer, &QTimer::timeout, this, &PopUpNotifierWindow::hideAnimation);
+    connect(m_Timer, &QTimer::timeout, this, &PopUpNotifierWindow::stopTimerSlot);
 }
 
 void PopUpNotifierWindow::paintEvent(QPaintEvent* event)
@@ -67,30 +74,34 @@ void PopUpNotifierWindow::show()
     m_Timer->start(3000);
 }
 
-void PopUpNotifierWindow::hideAnimation()
+void PopUpNotifierWindow::stopTimerSlot()
 {
     m_Timer->stop();
-    m_Animation.setDuration(1000);
-    m_Animation.setStartValue(1.0);
-    m_Animation.setEndValue(0.0);
-    m_Animation.start();
 }
 
-void PopUpNotifierWindow::hide()
+void PopUpNotifierWindow::hideSlot()
 {
-    if (getPopUpOpacity() == 0.0)
+    if (getPopupOpacity() == 0.0)
     {
         QWidget::hide();
     }
 }
 
-void PopUpNotifierWindow::setPopUpOpacity(double opacity)
+void PopUpNotifierWindow::setPopupOpacity(double opacity)
 {
     m_PopUpOpacity = opacity;
     setWindowOpacity(opacity);
 }
 
-double PopUpNotifierWindow::getPopUpOpacity() const
+double PopUpNotifierWindow::getPopupOpacity() const
 {
     return m_PopUpOpacity;
+}
+
+void PopUpNotifierWindow::pushButtonClickedSlot()
+{
+    m_Animation.setDuration(1000);
+    m_Animation.setStartValue(1.0);
+    m_Animation.setEndValue(0.0);
+    m_Animation.start();
 }

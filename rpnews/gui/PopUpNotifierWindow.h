@@ -6,6 +6,7 @@
 #include <QGridLayout>
 #include <QPropertyAnimation>
 #include <QTimer>
+#include <QPushButton>
 
 class PopUpNotifierWindow : public QWidget
 {
@@ -19,18 +20,20 @@ public slots:
     void show();
 
 private slots:
-    void hideAnimation();
-    void hide();
+    void stopTimerSlot();
+    void hideSlot();
+    void pushButtonClickedSlot();
 
 protected:
     void paintEvent(QPaintEvent* event);
 
 private:
-    void setPopUpOpacity(double opacity);
-    double getPopUpOpacity() const;
+    void setPopupOpacity(double opacity);
+    double getPopupOpacity() const;
 
 private:
     QLabel m_Label;
+    QPushButton m_Button;
     QGridLayout m_Layout;
     QPropertyAnimation m_Animation;
     double m_PopUpOpacity;
