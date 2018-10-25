@@ -7,6 +7,7 @@
 #include <QPropertyAnimation>
 #include <QTimer>
 #include <QPushButton>
+#include "rpnews/helpers/rpnews_types.h"
 
 class PopUpNotifierWindow : public QWidget
 {
@@ -16,7 +17,7 @@ public:
     explicit PopUpNotifierWindow(QWidget* parent = nullptr);
 
 public slots:
-    void setPopUpText(const QString& text);
+    void setPopUpText(const commit& commit, const std::string& name);
     void show();
 
 private slots:
@@ -32,7 +33,10 @@ private:
     double getPopupOpacity() const;
 
 private:
-    QLabel m_Label;
+    QLabel m_LabelAuthor;
+    QLabel m_LabelMessage;
+    QLabel m_LabelDate;
+    QLabel m_LabelRepositoryName;
     QPushButton m_Button;
     QGridLayout m_Layout;
     QPropertyAnimation m_Animation;

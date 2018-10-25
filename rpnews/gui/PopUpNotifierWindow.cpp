@@ -15,20 +15,39 @@ PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
     m_Animation.setPropertyName("popupOpacity");
     connect(&m_Animation, &QAbstractAnimation::finished, this, &PopUpNotifierWindow::hideSlot);
 
-    m_Label.setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
-    m_Label.setStyleSheet("QLabel { color : white; "
+    m_LabelAuthor.setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    m_LabelAuthor.setStyleSheet("QLabel { color : black; "
                           "margin-top: 6px;"
-                          "margin-bottom: 6px;"
+                          "margin-left: 10px;"
+                          "margin-right: 10px; "
+                          "font-weight: bold; }");
+
+    m_LabelMessage.setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    m_LabelMessage.setStyleSheet("QLabel { color : black; "
+                          "margin-left: 10px;"
+                          "margin-right: 10px; }");
+
+    m_LabelDate.setAlignment(Qt::AlignRight);
+    m_LabelDate.setStyleSheet("QLabel { color : gray; "
+                          "margin-left: 10px;"
+                          "margin-right: 10px; }");
+
+    m_LabelRepositoryName.setAlignment(Qt::AlignLeft);
+    m_LabelRepositoryName.setStyleSheet("QLabel { color : gray; "
                           "margin-left: 10px;"
                           "margin-right: 10px; }");
 
     m_Button.setMaximumWidth(15);
-    m_Button.setText("X");
+    m_Button.setText("x");
+    m_Button.setStyleSheet("QPushButton { color: red; }");
     m_Button.setFlat(true);
     connect(&m_Button, &QPushButton::clicked, this, &PopUpNotifierWindow::pushButtonClickedSlot);
 
     m_Layout.addWidget(&m_Button, 0, 1, Qt::AlignRight);
-    m_Layout.addWidget(&m_Label, 0, 0);
+    m_Layout.addWidget(&m_LabelAuthor, 0, 0);
+    m_Layout.addWidget(&m_LabelMessage, 1, 0);
+    m_Layout.addWidget(&m_LabelRepositoryName, 2, 0);
+    m_Layout.addWidget(&m_LabelDate, 2, 0);
     setLayout(&m_Layout);
 
     m_Timer = new QTimer();
@@ -47,15 +66,30 @@ void PopUpNotifierWindow::paintEvent(QPaintEvent* event)
     roundedRect.setWidth(rect().width() - 10);
     roundedRect.setHeight(rect().height() - 10);
 
-    painter.setBrush(QBrush(QColor(0, 0, 0, 180)));
+    painter.setBrush(QBrush(QColor(255, 250, 250, 255)));
     painter.setPen(Qt::NoPen);
-    painter.drawRoundedRect(roundedRect, 10, 10);
+    painter.drawRoundedRect(roundedRect, 0, 0);
 }
 
-void PopUpNotifierWindow::setPopUpText(const QString& text)
+void PopUpNotifierWindow::setPopUpText(const commit& commit, const std::string& name)
 {
-    m_Label.setText(text);
-    adjustSize();
+    m_LabelAuthor.setText(commit.author.c_str());
+    m_LabelDate.setText(commit.date_time.c_str());
+    m_LabelMessage.setText(commit.message.c_str());
+    m_LabelRepositoryName.setText(name.c_str());
+    setMaximumHeight(50);
+    if (commit.message.size() < 50)
+    {
+        setMaximumWidth(72);
+    }
+    else if (commit.message.size() > 72)
+    {
+        setMaximumWidth(72);
+    }
+    else
+    {
+        adjustSize();
+    }
 }
 
 void PopUpNotifierWindow::show()
@@ -65,8 +99,8 @@ void PopUpNotifierWindow::show()
     m_Animation.setStartValue(0.0);
     m_Animation.setEndValue(1.0);
 
-    setGeometry(QApplication::desktop()->availableGeometry().width() - 36 - width() + QApplication::desktop()->availableGeometry().x(),
-                QApplication::desktop()->availableGeometry().height() - 36 - height() + QApplication::desktop()->availableGeometry().y(),
+    setGeometry(QApplication::desktop()->availableGeometry().width() - width() + QApplication::desktop()->availableGeometry().x(),
+                QApplication::desktop()->availableGeometry().height() - height() + QApplication::desktop()->availableGeometry().y(),
                 width(),
                 height());
     QWidget::show();
