@@ -10,6 +10,7 @@ PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
                   Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
+    setMaximumHeight(50);
 
     m_Animation.setTargetObject(this);
     m_Animation.setPropertyName("popupOpacity");
@@ -75,20 +76,18 @@ void PopUpNotifierWindow::setPopUpText(const commit& commit, const std::string& 
 {
     m_LabelAuthor.setText(commit.author.c_str());
     m_LabelDate.setText(commit.date_time.c_str());
-    m_LabelMessage.setText(commit.message.c_str());
     m_LabelRepositoryName.setText(name.c_str());
-    setMaximumHeight(50);
-    if (commit.message.size() < 50)
+    setMaximumWidth(500);
+
+    if (commit.message.size() > 72)
     {
-        setMaximumWidth(72);
-    }
-    else if (commit.message.size() > 72)
-    {
-        setMaximumWidth(72);
+        m_LabelMessage.setText(commit.message.substr(0, 68).append("...").c_str());
     }
     else
     {
-        adjustSize();
+        setMaximumWidth(400);
+        m_Layout.setColumnStretch(0, 400);
+        m_LabelMessage.setText(commit.message.c_str());
     }
 }
 
