@@ -11,6 +11,7 @@
 #include "rpnews/helpers/AutoStartApplication.h"
 #include "AddNewRepository.h"
 #include "ShowAllRepositories.h"
+#include "PopUpNotifierWindow.h"
 
 class TrayIconApp : public QMainWindow
 {
@@ -41,6 +42,7 @@ private:
     std::unique_ptr<ShowAllRepositories> m_ShowAllRepositories;
     std::vector<std::shared_ptr<IRepository>> m_Repositories;
     std::vector<std::shared_ptr<std::chrono::seconds>> m_TimeIntervals;
+    std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;
 };
 
 #endif // TRAYWINDOW_H

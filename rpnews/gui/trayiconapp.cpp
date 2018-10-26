@@ -7,7 +7,8 @@
 TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
       m_AddNewRepository(new AddNewRepository),
-      m_ShowAllRepositories(new ShowAllRepositories)
+      m_ShowAllRepositories(new ShowAllRepositories),
+      m_PopUpNotifierWindow(new PopUpNotifierWindow)
 {
     this->setTrayIconActions();
     this->showTrayIcon();
