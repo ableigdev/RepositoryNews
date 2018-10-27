@@ -5,6 +5,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QAction>
+#include <QTimer>
 #include <memory>
 #include <vector>
 #include <chrono>
@@ -27,6 +28,7 @@ private slots:
     void aboutInformationAction();
     void addNewRepositorySlot();
     void showAllRepositoriesSlot();
+    void timeIsOutSlot();
 
 private:
     std::unique_ptr<QMenu> m_TrayIconMenu;
@@ -43,6 +45,7 @@ private:
     std::vector<std::shared_ptr<IRepository>> m_Repositories;
     std::vector<std::shared_ptr<std::chrono::seconds>> m_TimeIntervals;
     std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;
+    std::unique_ptr<QTimer> m_Timer;
 };
 
 #endif // TRAYWINDOW_H
