@@ -8,12 +8,20 @@ TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
       m_AddNewRepository(new AddNewRepository),
       m_ShowAllRepositories(new ShowAllRepositories),
-      m_PopUpNotifierWindow(new PopUpNotifierWindow),
-      m_Timer(new QTimer(this))
+      m_PopUpNotifierWindow(new PopUpNotifierWindow)//,
+      //m_Timer(new QTimer(this))
 {
     this->setTrayIconActions();
     this->showTrayIcon();
-    connect(m_Timer.get(), &QTimer::timeout, this, &TrayIconApp::timeIsOutSlot);
+    //connect(m_Timer.get(), &QTimer::timeout, this, &TrayIconApp::timeIsOutSlot);
+}
+
+TrayIconApp::~TrayIconApp()
+{
+    for (const auto& i : m_Timers)
+    {
+        i->stop();
+    }
 }
 
 void TrayIconApp::showTrayIcon()
@@ -45,10 +53,18 @@ void TrayIconApp::addNewRepositorySlot()
     m_AddNewRepository->exec();
     if (m_AddNewRepository->repositoryIsReady())
     {
-        m_Repositories.emplace_back(m_AddNewRepository->getRepository());
-        m_TimeIntervals.emplace_back(std::make_shared<std::chrono::seconds>(m_AddNewRepository->getIntervalTime()));
-        m_Timer->setInterval(m_AddNewRepository->getIntervalTime());
-        m_Timer->start();
+        std::shared_ptr<QTimer> timer(new QTimer(this));
+        std::chrono::seconds sec{40};
+        timer->setInterval(sec);
+        timer->start();
+        m_Map.insert({timer->timerId(), m_AddNewRepository->getRepository()});
+        connect(timer.get(), &QTimer::timeout, [=]()
+        {
+            qDebug() << m_Map[timer->timerId()]->getRepositoryName().c_str();
+            qDebug() << timer->timerId();
+        });
+
+        m_Timers.push_back(std::move(timer));
     }
 }
 

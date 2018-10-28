@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <memory>
 #include <vector>
+#include <map>
 #include <chrono>
 #include "rpnews/helpers/AutoStartApplication.h"
 #include "AddNewRepository.h"
@@ -19,6 +20,7 @@ class TrayIconApp : public QMainWindow
     Q_OBJECT
 public:
     explicit TrayIconApp(QWidget *parent = nullptr);
+    virtual ~TrayIconApp();
 
 private slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -45,7 +47,8 @@ private:
     std::vector<std::shared_ptr<IRepository>> m_Repositories;
     std::vector<std::shared_ptr<std::chrono::seconds>> m_TimeIntervals;
     std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;
-    std::unique_ptr<QTimer> m_Timer;
+    std::vector<std::shared_ptr<QTimer>> m_Timers;
+    std::map<int, std::shared_ptr<IRepository>> m_Map;
 };
 
 #endif // TRAYWINDOW_H
