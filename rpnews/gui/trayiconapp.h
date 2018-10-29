@@ -30,7 +30,6 @@ private slots:
     void aboutInformationAction();
     void addNewRepositorySlot();
     void showAllRepositoriesSlot();
-    void timeIsOutSlot();
 
 private:
     std::unique_ptr<QMenu> m_TrayIconMenu;
@@ -47,7 +46,7 @@ private:
     std::vector<std::shared_ptr<IRepository>> m_Repositories;
     std::vector<std::shared_ptr<std::chrono::seconds>> m_TimeIntervals;
     std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;
-    std::vector<std::shared_ptr<QTimer>> m_Timers;
+    std::vector<QTimer*> m_Timers;
     std::map<int, std::shared_ptr<IRepository>> m_Map;
 };
 

@@ -8,12 +8,10 @@ TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
       m_AddNewRepository(new AddNewRepository),
       m_ShowAllRepositories(new ShowAllRepositories),
-      m_PopUpNotifierWindow(new PopUpNotifierWindow)//,
-      //m_Timer(new QTimer(this))
+      m_PopUpNotifierWindow(new PopUpNotifierWindow)
 {
     this->setTrayIconActions();
     this->showTrayIcon();
-    //connect(m_Timer.get(), &QTimer::timeout, this, &TrayIconApp::timeIsOutSlot);
 }
 
 TrayIconApp::~TrayIconApp()
@@ -21,6 +19,7 @@ TrayIconApp::~TrayIconApp()
     for (const auto& i : m_Timers)
     {
         i->stop();
+        delete i; // TODO: Check it
     }
 }
 
@@ -53,15 +52,18 @@ void TrayIconApp::addNewRepositorySlot()
     m_AddNewRepository->exec();
     if (m_AddNewRepository->repositoryIsReady())
     {
-        std::shared_ptr<QTimer> timer(new QTimer(this));
-        std::chrono::seconds sec{40};
-        timer->setInterval(sec);
+        QTimer* timer = new QTimer(this);
+        timer->setInterval(m_AddNewRepository->getIntervalTime());
         timer->start();
         m_Map.insert({timer->timerId(), m_AddNewRepository->getRepository()});
-        connect(timer.get(), &QTimer::timeout, [=]()
+        connect(timer, &QTimer::timeout, [=]()
         {
-            qDebug() << m_Map[timer->timerId()]->getRepositoryName().c_str();
-            qDebug() << timer->timerId();
+            auto result = m_Map[timer->timerId()]->getLastCommit();
+            if (!result.empty())
+            {
+                m_PopUpNotifierWindow->setPopUpText(result.front(), m_Map[timer->timerId()]->getRepositoryName());
+                m_PopUpNotifierWindow->show();
+            }
         });
 
         m_Timers.push_back(std::move(timer));
@@ -105,15 +107,5 @@ void TrayIconApp::showAllRepositoriesSlot()
     m_ShowAllRepositories->setTimeInterval(m_TimeIntervals);
     m_ShowAllRepositories->setRepositories(m_Repositories);
     m_ShowAllRepositories->show();
-}
-
-void TrayIconApp::timeIsOutSlot()
-{
-    auto result = m_Repositories.front()->getLastCommit();
-    if (!result.empty())
-    {
-        m_PopUpNotifierWindow->setPopUpText(result.front(), m_Repositories.front()->getRepositoryName());
-        m_PopUpNotifierWindow->show();
-    }
 }
 
