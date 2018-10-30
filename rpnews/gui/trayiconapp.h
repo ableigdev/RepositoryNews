@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QTimer>
+#include <QMetaObject>
 #include <memory>
 #include <vector>
 #include <map>
@@ -43,11 +44,10 @@ private:
     AutoStartApplication m_AutoStartApp;
     std::unique_ptr<AddNewRepository> m_AddNewRepository;
     std::unique_ptr<ShowAllRepositories> m_ShowAllRepositories;
-    std::vector<std::shared_ptr<IRepository>> m_Repositories;
-    std::vector<std::shared_ptr<std::chrono::seconds>> m_TimeIntervals;
     std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;
-    std::vector<QTimer*> m_Timers;
-    std::map<int, std::shared_ptr<IRepository>> m_Map;
+    std::vector<std::shared_ptr<QTimer>> m_Timers;
+    std::map<int, std::shared_ptr<IRepository>> m_Repositories;
+    std::vector<QMetaObject::Connection> m_Connections;
 };
 
 #endif // TRAYWINDOW_H

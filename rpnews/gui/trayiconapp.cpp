@@ -16,10 +16,10 @@ TrayIconApp::TrayIconApp(QWidget* parent)
 
 TrayIconApp::~TrayIconApp()
 {
-    for (const auto& i : m_Timers)
+    for (size_t i = 0; i < m_Timers.size(); ++i)
     {
-        i->stop();
-        delete i; // TODO: Check it
+        m_Timers[i]->stop();
+        QObject::disconnect(m_Connections[i]);
     }
 }
 
@@ -52,19 +52,19 @@ void TrayIconApp::addNewRepositorySlot()
     m_AddNewRepository->exec();
     if (m_AddNewRepository->repositoryIsReady())
     {
-        QTimer* timer = new QTimer(this);
+        std::shared_ptr<QTimer> timer(new QTimer(this));
         timer->setInterval(m_AddNewRepository->getIntervalTime());
         timer->start();
-        m_Map.insert({timer->timerId(), m_AddNewRepository->getRepository()});
-        connect(timer, &QTimer::timeout, [=]()
+        m_Repositories.insert({timer->timerId(), m_AddNewRepository->getRepository()});
+        m_Connections.push_back(connect(timer.get(), &QTimer::timeout, [=]()
         {
-            auto result = m_Map[timer->timerId()]->getLastCommit();
+            auto result = m_Repositories[timer->timerId()]->getLastCommit();
             if (!result.empty())
             {
-                m_PopUpNotifierWindow->setPopUpText(result.front(), m_Map[timer->timerId()]->getRepositoryName());
+                m_PopUpNotifierWindow->setPopUpText(result.front(), m_Repositories[timer->timerId()]->getRepositoryName());
                 m_PopUpNotifierWindow->show();
             }
-        });
+        }));
 
         m_Timers.push_back(std::move(timer));
     }
@@ -104,8 +104,9 @@ void TrayIconApp::setTrayIconActions()
 
 void TrayIconApp::showAllRepositoriesSlot()
 {
-    m_ShowAllRepositories->setTimeInterval(m_TimeIntervals);
-    m_ShowAllRepositories->setRepositories(m_Repositories);
+    // TODO: Change these methods
+//    m_ShowAllRepositories->setTimeInterval(m_TimeIntervals);
+//    m_ShowAllRepositories->setRepositories(m_Repositories);
     m_ShowAllRepositories->show();
 }
 
