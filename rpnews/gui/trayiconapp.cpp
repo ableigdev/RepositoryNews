@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QDebug>
+#include <algorithm>
 
 TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
@@ -55,13 +56,17 @@ void TrayIconApp::addNewRepositorySlot()
         std::shared_ptr<QTimer> timer(new QTimer(this));
         timer->setInterval(m_AddNewRepository->getIntervalTime());
         timer->start();
-        m_Repositories.insert({timer->timerId(), m_AddNewRepository->getRepository()});
+        m_Repositories.push_back({timer->timerId(), m_AddNewRepository->getRepository()});
         m_Connections.push_back(connect(timer.get(), &QTimer::timeout, [=]()
         {
-            auto result = m_Repositories[timer->timerId()]->getLastCommit();
+            auto find = std::find_if(m_Repositories.begin(), m_Repositories.end(), [=](auto it)
+            {
+                return it.first == timer->timerId();
+            });
+            auto result = find->second->getLastCommit();
             if (!result.empty())
             {
-                m_PopUpNotifierWindow->setPopUpText(result.front(), m_Repositories[timer->timerId()]->getRepositoryName());
+                m_PopUpNotifierWindow->setPopUpText(result.front(), find->second->getRepositoryName());
                 m_PopUpNotifierWindow->show();
             }
         }));

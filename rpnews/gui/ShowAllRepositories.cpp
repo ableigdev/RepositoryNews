@@ -9,6 +9,7 @@
 #include <QComboBox>
 #include <string>
 #include <chrono>
+#include "rpnews/helpers/SaveConfig.h"
 
 ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
     QDialog(parent),
@@ -53,7 +54,7 @@ void ShowAllRepositories::initializeRepositoriesTableWidget()
 
 void ShowAllRepositories::show()
 {
-    if (!m_Reposiries.empty())
+    if (!m_Repositories.empty())
     {
         fillTheTable();
         QWidget::show();
@@ -64,21 +65,21 @@ void ShowAllRepositories::show()
     }
 }
 
-void ShowAllRepositories::setRepositories(std::map<int, std::shared_ptr<IRepository>> ptr)
+void ShowAllRepositories::setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>> repositories)
 {
-    m_Reposiries = ptr;
+    m_Repositories = repositories;
 }
 
-void ShowAllRepositories::setTimers(std::vector<std::shared_ptr<QTimer>>& time)
+void ShowAllRepositories::setTimers(std::vector<std::shared_ptr<QTimer>>& timers)
 {
-    m_Timers = time;
+    m_Timers = timers;
 }
 
 void ShowAllRepositories::fillTheTable()
 {
     deleteAllRows();
     int counter = 0;
-    for (const auto& i : m_Reposiries)
+    for (const auto& i : m_Repositories)
     {
         m_UI->RepositoriesTableWidget->insertRow(counter);
         m_UI->RepositoriesTableWidget->setItem(counter, 0, new QTableWidgetItem(i.second->getRepositoryName().c_str()));
@@ -120,23 +121,12 @@ void ShowAllRepositories::initializeContextMenu()
 
 void ShowAllRepositories::changePropertiesSlot()
 {
-    int counter = 0;
     int index = m_UI->RepositoriesTableWidget->currentIndex().row();
     QComboBox* branchComboBox = new QComboBox();
     QComboBox* timeComboBox = new QComboBox();
-    m_ChosenRepository = m_Reposiries.begin();
 
-    while (m_ChosenRepository != m_Reposiries.end())
-    {
-        if (counter == index)
-        {
-            break;
-        }
-        ++m_ChosenRepository;
-        ++counter;
-    }
-    m_ChosenRepository->second->prepareBranches();
-    auto branches = m_ChosenRepository->second->getBranchName();
+    m_Repositories[static_cast<size_t>(index)].second->prepareBranches();
+    auto branches = m_Repositories[static_cast<size_t>(index)].second->getBranchName();
     for (const auto& nameOfBranch : branches)
     {
          branchComboBox->addItem(nameOfBranch.c_str());
@@ -159,7 +149,7 @@ void ShowAllRepositories::changePropertiesSlot()
 
 void ShowAllRepositories::chooseBranchSlot(int index)
 {
-    m_ChosenRepository->second->setCurrentBranch(static_cast<size_t>(index));
+    m_Repositories[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())].second->setCurrentBranch(static_cast<size_t>(index));
 }
 
 void ShowAllRepositories::chooseTimeIntervalSlot(int index)
@@ -197,7 +187,13 @@ void ShowAllRepositories::chooseTimeIntervalSlot(int index)
 
 void ShowAllRepositories::savePropertiesSlot()
 {
-    // TODO: Add the saving new config to file
+    size_t index = static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row());
+    std::chrono::seconds sec {m_Timers[index]->intervalAsDuration().count() / 1000};
+
+    SaveConfig::saveGUIConfig(".configs/" + m_Repositories[index].second->getRepositoryName() + "/",
+                              m_Repositories[index].second->getCurrentBranchName(),
+                              m_Repositories[index].second->getCurrentBranchIndex(),
+                              sec);
     closeEditMode();
     fillTheTable();
     this->update();
@@ -221,7 +217,7 @@ void ShowAllRepositories::closeEditMode()
 
 void ShowAllRepositories::closeEvent(QCloseEvent* event)
 {
-    m_Reposiries.clear();
+    m_Repositories.clear();
     m_Timers.clear();
     enabledActions(true);
     deleteAllRows();

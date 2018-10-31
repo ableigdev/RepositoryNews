@@ -46,7 +46,7 @@ private:
     std::unique_ptr<ShowAllRepositories> m_ShowAllRepositories;
     std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;
     std::vector<std::shared_ptr<QTimer>> m_Timers;
-    std::map<int, std::shared_ptr<IRepository>> m_Repositories;
+    std::vector<std::pair<int, std::shared_ptr<IRepository>>> m_Repositories;
     std::vector<QMetaObject::Connection> m_Connections;
 };
 

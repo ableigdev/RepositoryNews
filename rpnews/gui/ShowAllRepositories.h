@@ -25,7 +25,7 @@ public:
     explicit ShowAllRepositories(QWidget* parent = nullptr);
     ~ShowAllRepositories();
     void show();
-    void setRepositories(std::map<int, std::shared_ptr<IRepository>> ptr);
+    void setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>> ptr);
     void setTimers(std::vector<std::shared_ptr<QTimer>>& time);
 
 private slots:
@@ -47,9 +47,8 @@ private:
 
 private:
     Ui::ShowAllRepositories* m_UI;
-    std::map<int, std::shared_ptr<IRepository>> m_Reposiries {};
+    std::vector<std::pair<int, std::shared_ptr<IRepository>>> m_Repositories {};
     std::vector<std::shared_ptr<QTimer>> m_Timers;
-    std::map<int, std::shared_ptr<IRepository>>::iterator m_ChosenRepository;
     std::unique_ptr<QMenu> m_ContextMenu;
     std::unique_ptr<QAction> m_ChangeProperties;
     std::unique_ptr<QAction> m_SaveProperties;
