@@ -104,9 +104,8 @@ void TrayIconApp::setTrayIconActions()
 
 void TrayIconApp::showAllRepositoriesSlot()
 {
-    // TODO: Change these methods
-//    m_ShowAllRepositories->setTimeInterval(m_TimeIntervals);
-//    m_ShowAllRepositories->setRepositories(m_Repositories);
+    m_ShowAllRepositories->setTimers(m_Timers);
+    m_ShowAllRepositories->setRepositories(m_Repositories);
     m_ShowAllRepositories->show();
 }
 
