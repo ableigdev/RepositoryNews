@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QCloseEvent>
+#include <QTimer>
 #include <memory>
 #include <vector>
 #include <chrono>
@@ -24,8 +25,8 @@ public:
     explicit ShowAllRepositories(QWidget* parent = nullptr);
     ~ShowAllRepositories();
     void show();
-    void setRepositories(std::vector<std::shared_ptr<IRepository>> ptr);
-    void setTimeInterval(std::vector<std::shared_ptr<std::chrono::seconds>>& time);
+    void setRepositories(std::map<int, std::shared_ptr<IRepository>> ptr);
+    void setTimers(std::vector<std::shared_ptr<QTimer>>& time);
 
 private slots:
     void closeContextMenuSlot();
@@ -46,8 +47,9 @@ private:
 
 private:
     Ui::ShowAllRepositories* m_UI;
-    std::vector<std::shared_ptr<IRepository>> m_Reposiries {};
-    std::vector<std::shared_ptr<std::chrono::seconds>> m_TimeIntervals;
+    std::map<int, std::shared_ptr<IRepository>> m_Reposiries {};
+    std::vector<std::shared_ptr<QTimer>> m_Timers;
+    std::map<int, std::shared_ptr<IRepository>>::iterator m_ChosenRepository;
     std::unique_ptr<QMenu> m_ContextMenu;
     std::unique_ptr<QAction> m_ChangeProperties;
     std::unique_ptr<QAction> m_SaveProperties;

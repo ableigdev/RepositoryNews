@@ -64,25 +64,27 @@ void ShowAllRepositories::show()
     }
 }
 
-void ShowAllRepositories::setRepositories(std::vector<std::shared_ptr<IRepository>> ptr)
+void ShowAllRepositories::setRepositories(std::map<int, std::shared_ptr<IRepository>> ptr)
 {
     m_Reposiries = ptr;
 }
 
-void ShowAllRepositories::setTimeInterval(std::vector<std::shared_ptr<std::chrono::seconds>>& time)
+void ShowAllRepositories::setTimers(std::vector<std::shared_ptr<QTimer>>& time)
 {
-    m_TimeIntervals = time;
+    m_Timers = time;
 }
 
 void ShowAllRepositories::fillTheTable()
 {
     deleteAllRows();
-    for (size_t i = 0; i < m_Reposiries.size(); ++i)
+    int counter = 0;
+    for (const auto& i : m_Reposiries)
     {
-        m_UI->RepositoriesTableWidget->insertRow(static_cast<int>(i));
-        m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 0, new QTableWidgetItem(m_Reposiries[i]->getRepositoryName().c_str()));
-        m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 1, new QTableWidgetItem(m_Reposiries[i]->getCurrentBranchName().c_str()));
-        m_UI->RepositoriesTableWidget->setItem(static_cast<int>(i), 2, new QTableWidgetItem(std::to_string(m_TimeIntervals[i]->count()).c_str()));
+        m_UI->RepositoriesTableWidget->insertRow(counter);
+        m_UI->RepositoriesTableWidget->setItem(counter, 0, new QTableWidgetItem(i.second->getRepositoryName().c_str()));
+        m_UI->RepositoriesTableWidget->setItem(counter, 1, new QTableWidgetItem(i.second->getCurrentBranchName().c_str()));
+        m_UI->RepositoriesTableWidget->setItem(counter, 2, new QTableWidgetItem(std::to_string(m_Timers[static_cast<size_t>(counter)]->intervalAsDuration().count() / 1000).c_str()));
+        ++counter;
     }
 }
 
@@ -118,12 +120,23 @@ void ShowAllRepositories::initializeContextMenu()
 
 void ShowAllRepositories::changePropertiesSlot()
 {
+    int counter = 0;
     int index = m_UI->RepositoriesTableWidget->currentIndex().row();
     QComboBox* branchComboBox = new QComboBox();
     QComboBox* timeComboBox = new QComboBox();
+    m_ChosenRepository = m_Reposiries.begin();
 
-    m_Reposiries[static_cast<size_t>(index)]->prepareBranches();
-    auto branches = m_Reposiries[static_cast<size_t>(index)]->getBranchName();
+    while (m_ChosenRepository != m_Reposiries.end())
+    {
+        if (counter == index)
+        {
+            break;
+        }
+        ++m_ChosenRepository;
+        ++counter;
+    }
+    m_ChosenRepository->second->prepareBranches();
+    auto branches = m_ChosenRepository->second->getBranchName();
     for (const auto& nameOfBranch : branches)
     {
          branchComboBox->addItem(nameOfBranch.c_str());
@@ -138,13 +151,15 @@ void ShowAllRepositories::changePropertiesSlot()
 
     m_UI->RepositoriesTableWidget->setCellWidget(index, 1, branchComboBox);
     m_UI->RepositoriesTableWidget->setCellWidget(index, 2, timeComboBox);
+    chooseBranchSlot(0);
+    chooseTimeIntervalSlot(0);
     enabledActions(false);
     m_UI->RepositoriesTableWidget->update();
 }
 
 void ShowAllRepositories::chooseBranchSlot(int index)
 {
-    m_Reposiries[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())]->setCurrentBranch(static_cast<size_t>(index));
+    m_ChosenRepository->second->setCurrentBranch(static_cast<size_t>(index));
 }
 
 void ShowAllRepositories::chooseTimeIntervalSlot(int index)
@@ -177,11 +192,12 @@ void ShowAllRepositories::chooseTimeIntervalSlot(int index)
         }
     }
 
-    *m_TimeIntervals[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())] = sec;
+    m_Timers[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())]->setInterval(sec);
 }
 
 void ShowAllRepositories::savePropertiesSlot()
 {
+    // TODO: Add the saving new config to file
     closeEditMode();
     fillTheTable();
     this->update();
@@ -206,7 +222,7 @@ void ShowAllRepositories::closeEditMode()
 void ShowAllRepositories::closeEvent(QCloseEvent* event)
 {
     m_Reposiries.clear();
-    m_TimeIntervals.clear();
+    m_Timers.clear();
     enabledActions(true);
     deleteAllRows();
     event->accept();
