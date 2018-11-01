@@ -48,8 +48,8 @@ void ShowAllRepositories::initializeRepositoriesTableWidget()
         m_UI->RepositoriesTableWidget->setColumnWidth(i, (m_UI->RepositoriesTableWidget->width() - 10) / 3);
     }
 
-    connect(m_UI->RepositoriesTableWidget, SIGNAL(clicked(QModelIndex)), this, SLOT(closeContextMenuSlot()));
-    connect(m_UI->RepositoriesTableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenuSLot(QPoint)));
+    connect(m_UI->RepositoriesTableWidget, &QTableWidget::clicked, this, &ShowAllRepositories::closeContextMenuSlot);
+    connect(m_UI->RepositoriesTableWidget, &QTableWidget::customContextMenuRequested, this, &ShowAllRepositories::showContextMenuSLot);
 }
 
 void ShowAllRepositories::show()
@@ -112,8 +112,8 @@ void ShowAllRepositories::initializeContextMenu()
     m_ContextMenu = std::make_unique<QMenu>(this);
     m_ChangeProperties = std::make_unique<QAction>("Change", this);
     m_SaveProperties = std::make_unique<QAction>("Save", this);
-    connect(m_ChangeProperties.get(), SIGNAL(triggered()), this, SLOT(changePropertiesSlot()));
-    connect(m_SaveProperties.get(), SIGNAL(triggered()), this, SLOT(savePropertiesSlot()));
+    connect(m_ChangeProperties.get(), &QAction::triggered, this, &ShowAllRepositories::changePropertiesSlot);
+    connect(m_SaveProperties.get(), &QAction::triggered, this, &ShowAllRepositories::savePropertiesSlot);
     m_ContextMenu->addAction(m_ChangeProperties.get());
     m_ContextMenu->addAction(m_SaveProperties.get());
     enabledActions(true);
@@ -122,8 +122,8 @@ void ShowAllRepositories::initializeContextMenu()
 void ShowAllRepositories::changePropertiesSlot()
 {
     int index = m_UI->RepositoriesTableWidget->currentIndex().row();
-    QComboBox* branchComboBox = new QComboBox();
-    QComboBox* timeComboBox = new QComboBox();
+    auto branchComboBox = new QComboBox();
+    auto timeComboBox = new QComboBox();
 
     m_Repositories[static_cast<size_t>(index)].second->prepareBranches();
     auto branches = m_Repositories[static_cast<size_t>(index)].second->getBranchName();
@@ -136,8 +136,8 @@ void ShowAllRepositories::changePropertiesSlot()
     timeComboBox->addItem("30 min");
     timeComboBox->addItem("1 hour");
 
-    connect(branchComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseBranchSlot(int)));
-    connect(timeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseTimeIntervalSlot(int)));
+    connect(branchComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ShowAllRepositories::chooseBranchSlot);
+    connect(timeComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ShowAllRepositories::chooseTimeIntervalSlot);
 
     m_UI->RepositoriesTableWidget->setCellWidget(index, 1, branchComboBox);
     m_UI->RepositoriesTableWidget->setCellWidget(index, 2, timeComboBox);
