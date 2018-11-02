@@ -2,6 +2,7 @@
 #include <regex>
 #include <QDir>
 #include <QString>
+#include <QDebug>
 #include "ConfigChecker.h"
 
 std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepository)
@@ -30,5 +31,13 @@ std::string ConfigChecker::getRepositoryFolderName(const std::string& url)
     std::regex regexValue(R"(\/([\w]+)\.[\w]+$)");
     std::cmatch result;
     std::regex_search(url.data(), result, regexValue);
-    return std::move(result[1].str());
+    return result[1].str();
+}
+
+std::string ConfigChecker::getRepositoryFolderNameFromPath(const std::string& path)
+{
+    std::regex regexValue(R"(\/([\w]+)\/.git)");
+    std::cmatch result;
+    std::regex_search(path.data(), result, regexValue);
+    return result[1].str();
 }
