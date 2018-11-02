@@ -4,6 +4,9 @@
 #include <QApplication>
 #include <QDebug>
 #include <algorithm>
+#include "rpnews/helpers/CheckExistConfig.h"
+#include "rpnews/helpers/GetNewRepositoryFactory.h"
+#include "rpnews/interfaces/IRepositoryFactory.h"
 
 TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
@@ -13,6 +16,7 @@ TrayIconApp::TrayIconApp(QWidget* parent)
 {
     this->setTrayIconActions();
     this->showTrayIcon();
+    this->readRepositoriesFromDisk();
 }
 
 TrayIconApp::~TrayIconApp()
@@ -53,25 +57,7 @@ void TrayIconApp::addNewRepositorySlot()
     m_AddNewRepository->exec();
     if (m_AddNewRepository->repositoryIsReady())
     {
-        std::shared_ptr<QTimer> timer(new QTimer(this));
-        timer->setInterval(m_AddNewRepository->getIntervalTime());
-        timer->start();
-        m_Repositories.emplace_back(std::make_pair(timer->timerId(), m_AddNewRepository->getRepository()));
-        m_Connections.emplace_back(connect(timer.get(), &QTimer::timeout, [=]()
-        {
-            auto find = std::find_if(m_Repositories.begin(), m_Repositories.end(), [=](auto it)
-            {
-                return it.first == timer->timerId();
-            });
-            auto result = find->second->getLastCommit();
-            if (!result.empty())
-            {
-                m_PopUpNotifierWindow->setPopUpText(result.front(), find->second->getRepositoryName());
-                m_PopUpNotifierWindow->show();
-            }
-        }));
-
-        m_Timers.push_back(std::move(timer));
+        connectRepositoryWithTimer(m_AddNewRepository->getRepository(), m_AddNewRepository->getIntervalTime());
     }
 }
 
@@ -114,3 +100,47 @@ void TrayIconApp::showAllRepositoriesSlot()
     m_ShowAllRepositories->show();
 }
 
+void TrayIconApp::readRepositoriesFromDisk()
+{
+    auto informAboutRepositories = CheckExistConfig::check();
+    for (const auto& i : informAboutRepositories)
+    {
+        std::shared_ptr<IRepositoryFactory> repositoryFactory(helpers::getNewRepositoryFactory(i.type));
+        try
+        {
+            std::shared_ptr<IRepository> repository(repositoryFactory->createRepository(i.path, i.user, i.pass, true));
+            repository->prepareRepository();
+            repository->prepareBranches();
+            repository->setCurrentBranch(static_cast<size_t>(i.branchIndex));
+            std::chrono::seconds sec { i.timeInterval };
+            connectRepositoryWithTimer(std::move(repository), std::move(sec));
+        }
+        catch (const std::logic_error& e)
+        {
+            QMessageBox::critical(nullptr, "Error", e.what(), QMessageBox::Critical, QMessageBox::Ok);
+        }
+    }
+}
+
+void TrayIconApp::connectRepositoryWithTimer(std::shared_ptr<IRepository>&& repository, std::chrono::seconds&& sec)
+{
+    std::shared_ptr<QTimer> timer(new QTimer(this));
+    timer->setInterval(sec);
+    timer->start();
+    m_Repositories.emplace_back(std::make_pair(timer->timerId(), repository));
+    m_Connections.emplace_back(connect(timer.get(), &QTimer::timeout, [=]()
+    {
+        auto find = std::find_if(m_Repositories.begin(), m_Repositories.end(), [=](auto it)
+        {
+            return it.first == timer->timerId();
+        });
+        auto result = find->second->getLastCommit();
+        if (!result.empty())
+        {
+            m_PopUpNotifierWindow->setPopUpText(result.front(), find->second->getRepositoryName());
+            m_PopUpNotifierWindow->show();
+        }
+    }));
+
+    m_Timers.push_back(std::move(timer));
+}

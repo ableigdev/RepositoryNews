@@ -23,6 +23,10 @@ public:
     explicit TrayIconApp(QWidget *parent = nullptr);
     virtual ~TrayIconApp();
 
+private:
+    void readRepositoriesFromDisk();
+    void connectRepositoryWithTimer(std::shared_ptr<IRepository>&& rep, std::chrono::seconds&& sec);
+
 private slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void setTrayIconActions();
