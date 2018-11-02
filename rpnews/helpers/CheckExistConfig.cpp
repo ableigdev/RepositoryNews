@@ -20,12 +20,14 @@ std::vector<GetRepositoryInfo> CheckExistConfig::check()
 
         std::cmatch resultOfFindingRepositoryFolder;
         std::cmatch resultOfFindingConfigFile;
+        std::cmatch resultOfFindingConfigGUIFile;
         std::regex findRepositoryFolder(R"((.*(\.git)))");
         std::regex findConfigRepository(R"(.*(config_rep))");
+        std::regex findConfigGUIRepository(R"(.*(config_gui_rep))");
         std::string stringData;
         GetRepositoryInfo repositoryInfo {};
 
-        while (dirIterator.hasNext())
+        do
         {
             stringData = dirIterator.filePath().toStdString();
             if (std::regex_search(stringData.data(), resultOfFindingRepositoryFolder, findRepositoryFolder))
@@ -35,22 +37,31 @@ std::vector<GetRepositoryInfo> CheckExistConfig::check()
 
             if (std::regex_search(stringData.data(), resultOfFindingConfigFile, findConfigRepository))
             {
-                std::string str(resultOfFindingConfigFile.str());
-                std::ifstream inFile(str, std::ios::in);
-
+                std::ifstream inFile(resultOfFindingConfigFile.str(), std::ios::in);
                 inFile >> repositoryInfo.type >> repositoryInfo.user >> repositoryInfo.pass;
             }
 
-            if (!repositoryInfo.path.empty() && repositoryInfo.type != -1 && !repositoryInfo.user.empty() && !repositoryInfo.pass.empty())
+            if (std::regex_search(stringData.data(), resultOfFindingConfigGUIFile, findConfigGUIRepository))
+            {
+                std::ifstream inFile(resultOfFindingConfigGUIFile.str(), std::ios::in);
+                inFile >> repositoryInfo.branchName >> repositoryInfo.branchIndex >> repositoryInfo.timeInterval;
+            }
+
+            if (!repositoryInfo.path.empty() && repositoryInfo.type != -1
+                    && !repositoryInfo.user.empty() && !repositoryInfo.pass.empty()
+                    && !repositoryInfo.branchName.empty() && repositoryInfo.branchIndex != -1
+                    && repositoryInfo.timeInterval != -1)
             {
                 result.emplace_back(repositoryInfo);
                 repositoryInfo.path.clear();
                 repositoryInfo.type = -1;
                 repositoryInfo.user.clear();
                 repositoryInfo.pass.clear();
+                repositoryInfo.branchName.clear();
+                repositoryInfo.branchIndex = -1;
+                repositoryInfo.timeInterval = -1;
             }
-            dirIterator.next();
-        }
+        } while (!dirIterator.next().isEmpty());
     }
     return result;
 }
