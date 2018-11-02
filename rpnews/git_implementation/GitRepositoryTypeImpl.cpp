@@ -21,6 +21,7 @@ m_WasData(false)
 {
     if (flag)
     {
+        m_RepositoryName = ConfigChecker::getRepositoryFolderNameFromPath(url);
         m_Repository.open(url);
         m_Remote.open(m_Repository);
     }
