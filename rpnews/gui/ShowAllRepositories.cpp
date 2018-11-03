@@ -10,6 +10,7 @@
 #include <string>
 #include <chrono>
 #include "rpnews/helpers/SaveConfig.h"
+#include "rpnews/helpers/GetTimeInterval.h"
 
 ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
     QDialog(parent),
@@ -154,35 +155,7 @@ void ShowAllRepositories::chooseBranchSlot(int index)
 
 void ShowAllRepositories::chooseTimeIntervalSlot(int index)
 {
-    // TODO: Improve this part of the code
-    std::chrono::seconds sec;
-    switch (index)
-    {
-        case 0:
-        {
-            std::chrono::minutes min {5};
-            sec = min;
-            break;
-        }
-        case 1:
-        {
-            std::chrono::minutes min {30};
-            sec = min;
-            break;
-        }
-        case 2:
-        {
-            std::chrono::hours hour {1};
-            sec = hour;
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
-
-    m_Timers[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())]->setInterval(sec);
+    m_Timers[static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row())]->setInterval(helpers::getTimeInterval(index));
 }
 
 void ShowAllRepositories::savePropertiesSlot()

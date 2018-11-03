@@ -10,6 +10,8 @@
 #include "rpnews/git_implementation/GitRepositoryFactory.h"
 #include "rpnews/helpers/ConfigChecker.h"
 #include "rpnews/helpers/SaveConfig.h"
+#include "rpnews/helpers/GetNewRepositoryFactory.h"
+#include "rpnews/helpers/GetTimeInterval.h"
 
 
 AddNewRepository::AddNewRepository(QWidget *parent) :
@@ -60,18 +62,7 @@ void AddNewRepository::initializeComboBoxRepositoryType()
 
 void AddNewRepository::on_ComboBox_RepositoryType_activated(int index)
 {
-    switch (index)
-    {
-        case 0:
-        {
-            m_RepositoryFactory = std::make_unique<GitRepositoryFactory>();
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
+    m_RepositoryFactory.reset(helpers::getNewRepositoryFactory(index));
 }
 
 void AddNewRepository::on_Button_Connect_clicked()
@@ -146,27 +137,7 @@ void AddNewRepository::on_ComboBox_BranchName_activated(int index)
 
 void AddNewRepository::on_ComboBox_TimeInterval_activated(int index)
 {
-    switch (index)
-    {
-        case 0:
-        {
-            std::chrono::minutes min {5};
-            m_TimeForSynchronization = min;
-            break;
-        }
-        case 1:
-        {
-            std::chrono::minutes min {30};
-            m_TimeForSynchronization = min;
-            break;
-        }
-        case 2:
-        {
-            std::chrono::hours hours {1};
-            m_TimeForSynchronization = hours;
-            break;
-        }
-    }
+    m_TimeForSynchronization = helpers::getTimeInterval(index);
 }
 
 void AddNewRepository::on_Button_Add_Save_clicked()
