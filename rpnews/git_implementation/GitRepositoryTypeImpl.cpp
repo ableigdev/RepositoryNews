@@ -5,6 +5,7 @@
 #include <chrono>
 #include <QDir>
 #include <QDebug>
+#include <QtGlobal>
 #include "GitRepositoryTypeImpl.h"
 #include "rpnews/wrappers/GitBranchIteratorWrapper.h"
 #include "rpnews/wrappers/GitReferenceWrapper.h"
@@ -48,15 +49,17 @@ m_WasData(false)
     m_NameOfBranches.emplace_back("origin/*");
 }
 
-int GitRepositoryTypeImpl::userPassGitCredCb(git_cred **cred, const char *url, const char *usernameFromUrl,
-                                             unsigned int allowedTypes, void *payload)
+int GitRepositoryTypeImpl::userPassGitCredCb(git_cred** cred, const char* url, const char* usernameFromUrl,
+                                             unsigned int allowedTypes, void* payload)
 {
     auto self = static_cast<GitRepositoryTypeImpl*>(payload);
     return self->onGitCallBack(cred, url, usernameFromUrl, allowedTypes);
 }
 
-int GitRepositoryTypeImpl::onGitCallBack(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types)
+int GitRepositoryTypeImpl::onGitCallBack(git_cred** cred, const char* url, const char* username_from_url, unsigned int allowed_types)
 {
+    Q_UNUSED(url);
+    Q_UNUSED(username_from_url);
     if (m_Counter > 0)
     {
         throw std::logic_error("Invalid credential");
@@ -80,6 +83,8 @@ int GitRepositoryTypeImpl::progressCb(const char* str, int len, void* data)
 
 int GitRepositoryTypeImpl::onProgressCb(const char* str, int len)
 {
+    Q_UNUSED(str);
+    Q_UNUSED(len);
     m_WasData = true;
     return 0;
 }
@@ -142,7 +147,7 @@ std::vector<commit> GitRepositoryTypeImpl::checkNewCommit()
         result.emplace_back(newCommit);
     }
 
-    return std::move(result);
+    return result;
 }
 
 std::string GitRepositoryTypeImpl::getRefspecs()
@@ -155,7 +160,7 @@ std::string GitRepositoryTypeImpl::getRefspecs()
     refspecs += name;
     refspecs += ":refs/remotes/origin/";
     refspecs += name;
-    return std::move(refspecs);
+    return refspecs;
 }
 
 void GitRepositoryTypeImpl::fetchData()
