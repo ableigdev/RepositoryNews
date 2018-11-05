@@ -40,8 +40,12 @@ void AddNewRepository::showEvent(QShowEvent* event)
 {
     m_RepositoryFactory.reset();
     m_Repository.reset();
+    m_UI->ComboBox_RepositoryType->setEnabled(true);
+    m_UI->Edit_URL->setEnabled(true);
+    m_UI->Edit_Login->setEnabled(true);
+    m_UI->Edit_Password->setEnabled(true);
     m_UI->Button_Connect->setEnabled(true);
-    m_UI->Button_Add_Save->setEnabled(false);
+    m_UI->Button_Add_Save->setDisabled(true);
     m_UI->Edit_URL->clear();
     m_UI->Edit_Login->clear();
     m_UI->Edit_Password->clear();
@@ -49,7 +53,6 @@ void AddNewRepository::showEvent(QShowEvent* event)
     m_UI->ComboBox_BranchName->setEnabled(false);
     m_UI->ComboBox_TimeInterval->clear();
     m_UI->ComboBox_TimeInterval->setEnabled(false);
-    initializeComboBoxRepositoryType();
     on_ComboBox_RepositoryType_activated(0);
     m_RepositoryIsReady = false;
     event->accept();
@@ -88,8 +91,12 @@ void AddNewRepository::on_Button_Connect_clicked()
             on_ComboBox_BranchName_activated(0);
             initializeComboBoxTimeInterval();
             on_ComboBox_TimeInterval_activated(0);
+            m_UI->ComboBox_RepositoryType->setDisabled(true);
+            m_UI->Edit_URL->setDisabled(true);
+            m_UI->Edit_Login->setDisabled(true);
+            m_UI->Edit_Password->setDisabled(true);
+            m_UI->Button_Connect->setDisabled(true);
             m_UI->Button_Add_Save->setEnabled(true);
-            m_UI->Button_Connect->setEnabled(false);
         }
         catch (const std::logic_error& e)
         {
