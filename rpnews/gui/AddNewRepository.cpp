@@ -12,6 +12,7 @@
 #include "rpnews/helpers/SaveConfig.h"
 #include "rpnews/helpers/GetNewRepositoryFactory.h"
 #include "rpnews/helpers/GetTimeInterval.h"
+#include "rpnews/helpers/RepositoryExist.h"
 
 
 AddNewRepository::AddNewRepository(QWidget *parent) :
@@ -97,6 +98,12 @@ void AddNewRepository::on_Button_Connect_clicked()
             m_UI->Edit_Password->setDisabled(true);
             m_UI->Button_Connect->setDisabled(true);
             m_UI->Button_Add_Save->setEnabled(true);
+        }
+        catch(const RepositoryExist& e)
+        {
+            std::string message(e.what());
+            message.append("\nYou can't add a repository which already exists in the program.");
+            QMessageBox::warning(this, "Error", message.c_str(), QMessageBox::Warning, QMessageBox::Ok);
         }
         catch (const std::logic_error& e)
         {

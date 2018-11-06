@@ -4,6 +4,7 @@
 #include <QString>
 #include <QDebug>
 #include "ConfigChecker.h"
+#include "RepositoryExist.h"
 
 std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepository)
 {
@@ -20,7 +21,7 @@ std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepositor
 
     if (dir.exists(path))
     {
-        throw std::logic_error("The repository '" + nameRepository + "' is exist");
+        throw RepositoryExist(nameRepository);
     }
 
     return path.toStdString();
