@@ -126,7 +126,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Add and Save</string>
+    <string>&amp;Add and Save</string>
    </property>
   </widget>
   <widget class="QLabel" name="Label_Login">
@@ -165,7 +165,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Connect</string>
+    <string>&amp;Connect</string>
    </property>
   </widget>
   <widget class="QLabel" name="Label_MainString">
@@ -230,7 +230,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Cancel</string>
+    <string>Canc&amp;el</string>
    </property>
   </widget>
  </widget>
