@@ -54,16 +54,20 @@ void TrayIconApp::checkedAction(bool value)
 
 void TrayIconApp::addNewRepositorySlot()
 {
+    m_TrayIcon->hide();
     m_AddNewRepository->exec();
     if (m_AddNewRepository->repositoryIsReady())
     {
         connectRepositoryWithTimer(m_AddNewRepository->getRepository(), m_AddNewRepository->getIntervalTime());
     }
+    m_TrayIcon->show();
 }
 
 void TrayIconApp::aboutInformationAction()
 {
+    m_TrayIcon->hide();
     QMessageBox::about(nullptr, "About", "This program check new commits in your repository.");
+    m_TrayIcon->show();
 }
 
 void TrayIconApp::setTrayIconActions()
@@ -95,9 +99,11 @@ void TrayIconApp::setTrayIconActions()
 
 void TrayIconApp::showAllRepositoriesSlot()
 {
+    m_TrayIcon->hide();
     m_ShowAllRepositories->setTimers(m_Timers);
     m_ShowAllRepositories->setRepositories(m_Repositories);
     m_ShowAllRepositories->show();
+    m_TrayIcon->show();
 }
 
 void TrayIconApp::readRepositoriesFromDisk()

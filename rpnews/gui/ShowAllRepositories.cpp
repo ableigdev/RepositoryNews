@@ -58,7 +58,7 @@ void ShowAllRepositories::show()
     if (!m_Repositories.empty())
     {
         fillTheTable();
-        QWidget::show();
+        QDialog::exec();
     }
     else
     {
