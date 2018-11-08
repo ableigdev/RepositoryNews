@@ -100,9 +100,13 @@ void TrayIconApp::setTrayIconActions()
 void TrayIconApp::showAllRepositoriesSlot()
 {
     m_TrayIcon->hide();
-    m_ShowAllRepositories->setTimers(m_Timers);
-    m_ShowAllRepositories->setRepositories(m_Repositories);
+    m_ShowAllRepositories->setTimers(std::move(m_Timers));
+    m_ShowAllRepositories->setRepositories(std::move(m_Repositories));
+    m_ShowAllRepositories->setConnections(std::move(m_Connections));
     m_ShowAllRepositories->show();
+    m_Timers = std::move(m_ShowAllRepositories->getTimers());
+    m_Repositories = std::move(m_ShowAllRepositories->getRepositories());
+    m_Connections = std::move(m_ShowAllRepositories->getConnections());
     m_TrayIcon->show();
 }
 
