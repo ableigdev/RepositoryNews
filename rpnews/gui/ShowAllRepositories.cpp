@@ -9,8 +9,10 @@
 #include <QComboBox>
 #include <string>
 #include <chrono>
+#include <algorithm>
 #include "rpnews/helpers/SaveConfig.h"
 #include "rpnews/helpers/GetTimeInterval.h"
+#include "rpnews/helpers/DeleteRepositoryFolder.h"
 
 ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
     QDialog(parent),
@@ -66,14 +68,34 @@ void ShowAllRepositories::show()
     }
 }
 
-void ShowAllRepositories::setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>> repositories)
+void ShowAllRepositories::setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& repositories)
 {
-    m_Repositories = repositories;
+    m_Repositories = std::move(repositories);
 }
 
-void ShowAllRepositories::setTimers(std::vector<std::shared_ptr<QTimer>>& timers)
+void ShowAllRepositories::setTimers(std::vector<std::shared_ptr<QTimer>>&& timers)
 {
-    m_Timers = timers;
+    m_Timers = std::move(timers);
+}
+
+void ShowAllRepositories::setConnections(std::vector<QMetaObject::Connection>&& connections)
+{
+    m_Connections = std::move(connections);
+}
+
+std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& ShowAllRepositories::getRepositories()
+{
+    return std::move(m_Repositories);
+}
+
+std::vector<std::shared_ptr<QTimer>>&& ShowAllRepositories::getTimers()
+{
+    return std::move(m_Timers);
+}
+
+std::vector<QMetaObject::Connection>&& ShowAllRepositories::getConnections()
+{
+    return std::move(m_Connections);
 }
 
 void ShowAllRepositories::fillTheTable()
@@ -92,7 +114,8 @@ void ShowAllRepositories::fillTheTable()
 
 void ShowAllRepositories::deleteAllRows()
 {
-    for (int i = 0; i < m_UI->RepositoriesTableWidget->columnCount(); ++i)
+    m_UI->RepositoriesTableWidget->clearContents();
+    for (int i = 0; i < m_UI->RepositoriesTableWidget->rowCount(); ++i)
     {
         m_UI->RepositoriesTableWidget->removeRow(i);
     }
@@ -111,12 +134,15 @@ void ShowAllRepositories::showContextMenuSLot(QPoint position)
 void ShowAllRepositories::initializeContextMenu()
 {
     m_ContextMenu = std::make_unique<QMenu>(this);
-    m_ChangeProperties = std::make_unique<QAction>("Change", this);
-    m_SaveProperties = std::make_unique<QAction>("Save", this);
-    connect(m_ChangeProperties.get(), &QAction::triggered, this, &ShowAllRepositories::changePropertiesSlot);
-    connect(m_SaveProperties.get(), &QAction::triggered, this, &ShowAllRepositories::savePropertiesSlot);
-    m_ContextMenu->addAction(m_ChangeProperties.get());
-    m_ContextMenu->addAction(m_SaveProperties.get());
+    m_ChangeAction = std::make_unique<QAction>("Change", this);
+    m_SaveAction = std::make_unique<QAction>("Save", this);
+    m_DeleteAction = std::make_unique<QAction>("Delete", this);
+    connect(m_ChangeAction.get(), &QAction::triggered, this, &ShowAllRepositories::changePropertiesSlot);
+    connect(m_SaveAction.get(), &QAction::triggered, this, &ShowAllRepositories::savePropertiesSlot);
+    connect(m_DeleteAction.get(), &QAction::triggered, this, &ShowAllRepositories::deleteRepositorySlot);
+    m_ContextMenu->addAction(m_ChangeAction.get());
+    m_ContextMenu->addAction(m_SaveAction.get());
+    m_ContextMenu->addAction(m_DeleteAction.get());
     enabledActions(true);
 }
 
@@ -176,6 +202,7 @@ void ShowAllRepositories::enabledActions(bool flag)
 {
     m_ContextMenu->actions().at(0)->setEnabled(flag);
     m_ContextMenu->actions().at(1)->setDisabled(flag);
+    m_ContextMenu->actions().at(2)->setEnabled(flag);
 }
 
 void ShowAllRepositories::closeEditMode()
@@ -190,9 +217,21 @@ void ShowAllRepositories::closeEditMode()
 
 void ShowAllRepositories::closeEvent(QCloseEvent* event)
 {
-    m_Repositories.clear();
-    m_Timers.clear();
     enabledActions(true);
     deleteAllRows();
     event->accept();
+}
+
+void ShowAllRepositories::deleteRepositorySlot()
+{
+    size_t index = static_cast<size_t>(m_UI->RepositoriesTableWidget->currentIndex().row());
+    auto repositoryName = m_Repositories[index].second->getRepositoryName();
+    m_Timers[index]->stop();
+    QObject::disconnect(m_Connections[index]);
+    m_Timers.erase(std::remove(m_Timers.begin(), m_Timers.end(), m_Timers[index]), m_Timers.end());
+    m_Repositories.erase(std::remove(m_Repositories.begin(), m_Repositories.end(), m_Repositories[index]), m_Repositories.end());
+    m_Connections.erase(std::remove(m_Connections.begin(), m_Connections.end(), m_Connections[index]), m_Connections.end());
+    helpers::deleteRepositoryFolder(std::move(repositoryName));
+    fillTheTable();
+    this->update();
 }

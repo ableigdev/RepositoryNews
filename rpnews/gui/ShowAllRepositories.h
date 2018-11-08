@@ -7,6 +7,7 @@
 #include <QAction>
 #include <QCloseEvent>
 #include <QTimer>
+#include <QMetaObject>
 #include <memory>
 #include <vector>
 #include <chrono>
@@ -25,8 +26,13 @@ public:
     explicit ShowAllRepositories(QWidget* parent = nullptr);
     ~ShowAllRepositories();
     void show();
-    void setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>> ptr);
-    void setTimers(std::vector<std::shared_ptr<QTimer>>& time);
+    void setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& repositories);
+    void setTimers(std::vector<std::shared_ptr<QTimer>>&& time);
+    void setConnections(std::vector<QMetaObject::Connection>&& connections);
+
+    std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& getRepositories();
+    std::vector<std::shared_ptr<QTimer>>&& getTimers();
+    std::vector<QMetaObject::Connection>&& getConnections();
 
 private slots:
     void closeContextMenuSlot();
@@ -35,6 +41,7 @@ private slots:
     void chooseBranchSlot(int index);
     void chooseTimeIntervalSlot(int index);
     void savePropertiesSlot();
+    void deleteRepositorySlot();
 
 private:
     void initializeRepositoriesTableWidget();
@@ -49,9 +56,11 @@ private:
     Ui::ShowAllRepositories* m_UI;
     std::vector<std::pair<int, std::shared_ptr<IRepository>>> m_Repositories {};
     std::vector<std::shared_ptr<QTimer>> m_Timers;
+    std::vector<QMetaObject::Connection> m_Connections;
     std::unique_ptr<QMenu> m_ContextMenu;
-    std::unique_ptr<QAction> m_ChangeProperties;
-    std::unique_ptr<QAction> m_SaveProperties;
+    std::unique_ptr<QAction> m_ChangeAction;
+    std::unique_ptr<QAction> m_SaveAction;
+    std::unique_ptr<QAction> m_DeleteAction;
 };
 
 #endif // SHOWALLREPOSITORIES_H
