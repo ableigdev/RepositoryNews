@@ -13,7 +13,7 @@
 #include "rpnews/helpers/GetNewRepositoryFactory.h"
 #include "rpnews/helpers/GetTimeInterval.h"
 #include "rpnews/helpers/RepositoryExist.h"
-
+#include "rpnews/helpers/DeleteRepositoryFolder.h"
 
 AddNewRepository::AddNewRepository(QWidget *parent) :
     QDialog(parent),
@@ -41,19 +41,12 @@ void AddNewRepository::showEvent(QShowEvent* event)
 {
     m_RepositoryFactory.reset();
     m_Repository.reset();
-    m_UI->ComboBox_RepositoryType->setEnabled(true);
-    m_UI->Edit_URL->setEnabled(true);
-    m_UI->Edit_Login->setEnabled(true);
-    m_UI->Edit_Password->setEnabled(true);
-    m_UI->Button_Connect->setEnabled(true);
-    m_UI->Button_Add_Save->setDisabled(true);
+    enableElements(false);
     m_UI->Edit_URL->clear();
     m_UI->Edit_Login->clear();
     m_UI->Edit_Password->clear();
     m_UI->ComboBox_BranchName->clear();
-    m_UI->ComboBox_BranchName->setEnabled(false);
     m_UI->ComboBox_TimeInterval->clear();
-    m_UI->ComboBox_TimeInterval->setEnabled(false);
     on_ComboBox_RepositoryType_activated(0);
     m_RepositoryIsReady = false;
     event->accept();
@@ -92,12 +85,7 @@ void AddNewRepository::on_Button_Connect_clicked()
             on_ComboBox_BranchName_activated(0);
             initializeComboBoxTimeInterval();
             on_ComboBox_TimeInterval_activated(0);
-            m_UI->ComboBox_RepositoryType->setDisabled(true);
-            m_UI->Edit_URL->setDisabled(true);
-            m_UI->Edit_Login->setDisabled(true);
-            m_UI->Edit_Password->setDisabled(true);
-            m_UI->Button_Connect->setDisabled(true);
-            m_UI->Button_Add_Save->setEnabled(true);
+            enableElements(true);
         }
         catch(const RepositoryExist& e)
         {
@@ -107,22 +95,9 @@ void AddNewRepository::on_Button_Connect_clicked()
         }
         catch (const std::logic_error& e)
         {
-            deleteRepositoryFolder(folderName);
+            helpers::deleteRepositoryFolder(std::move(folderName));
             QMessageBox::critical(this, "Error", e.what(), QMessageBox::Critical, QMessageBox::Ok);
         }
-    }
-}
-
-void AddNewRepository::deleteRepositoryFolder(const std::string& name)
-{
-    QDir dir;
-    dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
-
-    if (dir.current().exists(".configs"))
-    {
-        dir.cd(".configs");
-        dir.cd(name.c_str());
-        dir.removeRecursively();
     }
 }
 
@@ -172,7 +147,7 @@ bool AddNewRepository::repositoryIsReady() const
     return m_RepositoryIsReady;
 }
 
-std::shared_ptr<IRepository> AddNewRepository::getRepository()
+std::shared_ptr<IRepository>&& AddNewRepository::getRepository()
 {
     return std::move(m_Repository);
 }
@@ -180,4 +155,16 @@ std::shared_ptr<IRepository> AddNewRepository::getRepository()
 std::chrono::seconds AddNewRepository::getIntervalTime() const
 {
     return m_TimeForSynchronization;
+}
+
+void AddNewRepository::enableElements(bool flag)
+{
+    m_UI->ComboBox_RepositoryType->setDisabled(flag);
+    m_UI->Edit_URL->setDisabled(flag);
+    m_UI->Edit_Login->setDisabled(flag);
+    m_UI->Edit_Password->setDisabled(flag);
+    m_UI->Button_Connect->setDisabled(flag);
+    m_UI->Button_Add_Save->setEnabled(flag);
+    m_UI->ComboBox_BranchName->setEnabled(flag);
+    m_UI->ComboBox_TimeInterval->setEnabled(flag);
 }

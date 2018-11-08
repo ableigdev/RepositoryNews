@@ -22,7 +22,7 @@ public:
     explicit AddNewRepository(QWidget* parent = nullptr);
     ~AddNewRepository();
     bool repositoryIsReady() const;
-    std::shared_ptr<IRepository> getRepository();
+    std::shared_ptr<IRepository>&& getRepository();
     std::chrono::seconds getIntervalTime() const;
 
 private slots:
@@ -36,9 +36,9 @@ private slots:
 private:
     void showEvent(QShowEvent* event);
     void initializeComboBoxRepositoryType();
-    void deleteRepositoryFolder(const std::string& name);
     void initializeComboBoxBranchName();
     void initializeComboBoxTimeInterval();
+    void enableElements(bool flag);
 
 private:
     Ui::AddNewRepository* m_UI;
