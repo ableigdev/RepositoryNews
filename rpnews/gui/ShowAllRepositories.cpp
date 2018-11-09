@@ -13,6 +13,7 @@
 #include "rpnews/helpers/SaveConfig.h"
 #include "rpnews/helpers/GetTimeInterval.h"
 #include "rpnews/helpers/DeleteRepositoryFolder.h"
+#include "rpnews/helpers/FillComboBox.h"
 
 ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
     QDialog(parent),
@@ -153,15 +154,8 @@ void ShowAllRepositories::changePropertiesSlot()
     auto timeComboBox = new QComboBox();
 
     m_Repositories[static_cast<size_t>(index)].second->prepareBranches();
-    auto branches = m_Repositories[static_cast<size_t>(index)].second->getBranchName();
-    for (const auto& nameOfBranch : branches)
-    {
-         branchComboBox->addItem(nameOfBranch.c_str());
-    }
-
-    timeComboBox->addItem("5 min");
-    timeComboBox->addItem("30 min");
-    timeComboBox->addItem("1 hour");
+    helpers::fillBranchComboBox(m_Repositories[static_cast<size_t>(index)].second->getBranchName(), branchComboBox);
+    helpers::fillTimeComboBox(timeComboBox);
 
     connect(branchComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ShowAllRepositories::chooseBranchSlot);
     connect(timeComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ShowAllRepositories::chooseTimeIntervalSlot);
@@ -189,7 +183,7 @@ void ShowAllRepositories::savePropertiesSlot()
     size_t index = static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row());
     std::chrono::seconds sec {m_Timers[index]->intervalAsDuration().count() / 1000};
 
-    SaveConfig::saveGUIConfig(".configs/" + m_Repositories[index].second->getRepositoryName() + "/",
+    SaveConfig::saveGUIConfig(m_Repositories[index].second->getRepositoryName(),
                               m_Repositories[index].second->getCurrentBranchName(),
                               m_Repositories[index].second->getCurrentBranchIndex(),
                               sec);

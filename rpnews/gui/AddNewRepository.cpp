@@ -14,6 +14,7 @@
 #include "rpnews/helpers/GetTimeInterval.h"
 #include "rpnews/helpers/RepositoryExist.h"
 #include "rpnews/helpers/DeleteRepositoryFolder.h"
+#include "rpnews/helpers/FillComboBox.h"
 
 AddNewRepository::AddNewRepository(QWidget *parent) :
     QDialog(parent),
@@ -103,19 +104,13 @@ void AddNewRepository::on_Button_Connect_clicked()
 
 void AddNewRepository::initializeComboBoxBranchName()
 {
-    auto nameOfBranches = m_Repository->getBranchName();
-    for (const auto& i : nameOfBranches)
-    {
-        m_UI->ComboBox_BranchName->addItem(i.c_str());
-    }
+    helpers::fillBranchComboBox(m_Repository->getBranchName(), m_UI->ComboBox_BranchName);
     m_UI->ComboBox_BranchName->setEnabled(true);
 }
 
 void AddNewRepository::initializeComboBoxTimeInterval()
 {
-    m_UI->ComboBox_TimeInterval->addItem("5 minutes");
-    m_UI->ComboBox_TimeInterval->addItem("30 minutes");
-    m_UI->ComboBox_TimeInterval->addItem("1 hour");
+    helpers::fillTimeComboBox(m_UI->ComboBox_TimeInterval);
     m_UI->ComboBox_TimeInterval->setEnabled(true);
 }
 
@@ -132,7 +127,10 @@ void AddNewRepository::on_ComboBox_TimeInterval_activated(int index)
 void AddNewRepository::on_Button_Add_Save_clicked()
 {
     m_Repository->saveConfig();
-    SaveConfig::saveGUIConfig(".configs/" + m_Repository->getRepositoryName() + "/", m_Repository->getCurrentBranchName(), m_Repository->getCurrentBranchIndex(), m_TimeForSynchronization);
+    SaveConfig::saveGUIConfig(m_Repository->getRepositoryName(),
+                              m_Repository->getCurrentBranchName(),
+                              m_Repository->getCurrentBranchIndex(),
+                              m_TimeForSynchronization);
     m_RepositoryIsReady = true;
     this->close();
 }
