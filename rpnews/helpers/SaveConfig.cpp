@@ -8,9 +8,9 @@ void SaveConfig::save(const std::string& path, const TypeRepository& type, const
     outFile.close();
 }
 
-void SaveConfig::saveGUIConfig(const std::string& path, const std::string& branchName, size_t branchIndex, std::chrono::seconds time)
+void SaveConfig::saveGUIConfig(const std::string& nameOfRepository, const std::string& branchName, size_t branchIndex, std::chrono::seconds time)
 {
-    std::ofstream outFile(path + "config_gui_rep", std::ios::out);
+    std::ofstream outFile(".config/" + nameOfRepository + "/config_gui_rep", std::ios::out);
     outFile << branchName << " " << branchIndex << " " << time.count();
     outFile.close();
 }
