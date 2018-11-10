@@ -9,4 +9,7 @@ file(GLOB HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h ${CMAKE_CURRENT_SOURCE_DIR}/*/
 # Set UIS variable
 file(GLOB UIS ${CMAKE_CURRENT_SOURCE_DIR}/*/.ui)
 
+#Set RCS variable
+file(GLOB RCS ${CMAKE_CURRENT_SOURCE_DIR}/*/*.qrc)
+
 include(${CMAKE_SOURCE_DIR}/cmake/ProjectConfig.cmake)

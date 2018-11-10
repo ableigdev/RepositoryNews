@@ -15,10 +15,10 @@ include(${CMAKE_SOURCE_DIR}/cmake/FindGit2.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/FindQt.cmake)
 
 # Target
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${UIS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${UIS} ${RCS})
 
 # Use the Widgets module from Qt 5
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Multimedia)
 
 # Target libgit2 library
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${LIBGIT2_INCLUDE}>)
