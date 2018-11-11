@@ -28,6 +28,8 @@ ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
                     qApp->desktop()->availableGeometry()
                     )
                 );
+    QIcon trayImage(":/images/images/logo.png");
+    this->setWindowIcon(trayImage);
     initializeRepositoriesTableWidget();
     initializeContextMenu();
 }

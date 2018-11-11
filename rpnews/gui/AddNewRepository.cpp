@@ -29,6 +29,8 @@ AddNewRepository::AddNewRepository(QWidget *parent) :
                     qApp->desktop()->availableGeometry()
                     )
                 );
+    QIcon trayImage(":/images/images/logo.png");
+    this->setWindowIcon(trayImage);
     initializeComboBoxRepositoryType();
     on_ComboBox_RepositoryType_activated(0);
 }

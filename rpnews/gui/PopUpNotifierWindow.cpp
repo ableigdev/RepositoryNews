@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QtMultimedia/QSound>
 
 PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
 {
@@ -104,7 +105,8 @@ void PopUpNotifierWindow::show()
                 height());
     QWidget::show();
     m_Animation.start();
-    m_Timer->start(3000);
+    m_Timer->start(1500);
+    QSound::play(":/sounds/sounds/open-ended.wav");
 }
 
 void PopUpNotifierWindow::stopTimerSlot()

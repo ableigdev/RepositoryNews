@@ -31,7 +31,8 @@ TrayIconApp::~TrayIconApp()
 void TrayIconApp::showTrayIcon()
 {
     m_TrayIcon = std::make_unique<QSystemTrayIcon>(this);
-    m_TrayIcon->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
+    QIcon trayImage(":/images/images/logo.png");
+    m_TrayIcon->setIcon(trayImage);
     m_TrayIcon->setContextMenu(m_TrayIconMenu.get());
     m_TrayIcon->setToolTip("rpnews");
 
