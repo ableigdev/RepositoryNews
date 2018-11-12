@@ -101,6 +101,7 @@ void TrayIconApp::setTrayIconActions()
 void TrayIconApp::showAllRepositoriesSlot()
 {
     m_TrayIcon->hide();
+    std::for_each(m_Timers.begin(), m_Timers.end(), [](auto it){ it->stop(); });
     m_ShowAllRepositories->setTimers(std::move(m_Timers));
     m_ShowAllRepositories->setRepositories(std::move(m_Repositories));
     m_ShowAllRepositories->setConnections(std::move(m_Connections));
@@ -108,6 +109,8 @@ void TrayIconApp::showAllRepositoriesSlot()
     m_Timers = std::move(m_ShowAllRepositories->getTimers());
     m_Repositories = std::move(m_ShowAllRepositories->getRepositories());
     m_Connections = std::move(m_ShowAllRepositories->getConnections());
+    std::for_each(m_Timers.begin(), m_Timers.end(), [](auto it){ it->start(); });
+    updateTimersID();
     m_TrayIcon->show();
 }
 
@@ -154,4 +157,12 @@ void TrayIconApp::connectRepositoryWithTimer(std::shared_ptr<IRepository>&& repo
     }));
 
     m_Timers.push_back(std::move(timer));
+}
+
+void TrayIconApp::updateTimersID()
+{
+    for (size_t i = 0; i < m_Repositories.size(); ++i)
+    {
+        m_Repositories[i].first = m_Timers[i]->timerId();
+    }
 }

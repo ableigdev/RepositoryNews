@@ -26,6 +26,7 @@ public:
 private:
     void readRepositoriesFromDisk();
     void connectRepositoryWithTimer(std::shared_ptr<IRepository>&& rep, std::chrono::seconds&& sec);
+    void updateTimersID();
 
 private slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
