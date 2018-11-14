@@ -11,6 +11,7 @@
 #include "rpnews/git_implementation/GitRepositoryImpl.h"
 #include "rpnews/git_implementation/GitRepositoryFactory.h"
 #include "rpnews/helpers/CheckExistConfig.h"
+#include "rpnews/helpers/RepositoryExist.h"
 
 namespace
 {
@@ -58,6 +59,15 @@ TEST(CreateObject, WrongUserName)
     deleteFolder();
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
     EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(url, "wrong_username", pass, false)), std::logic_error);
+}
+
+TEST(CreateObject, RepositoryExist)
+{
+    deleteFolder();
+    std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
+    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
+    rep->saveConfig();
+    EXPECT_THROW(rep.reset(ptr->createRepository(url, username, pass, false)), RepositoryExist);
 }
 
 TEST(MethodsTest, PrepareRepository)
