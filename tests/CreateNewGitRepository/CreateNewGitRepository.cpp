@@ -2,6 +2,7 @@
 #include <QDir>
 #include <string>
 #include <memory>
+#include <fstream>
 
 #include "rpnews/helpers/rpnews_types.h"
 #include "rpnews/interfaces/IRepository.h"
@@ -12,6 +13,7 @@
 #include "rpnews/git_implementation/GitRepositoryFactory.h"
 #include "rpnews/helpers/CheckExistConfig.h"
 #include "rpnews/helpers/RepositoryExist.h"
+#include "rpnews/helpers/SaveConfig.h"
 
 namespace
 {
@@ -149,8 +151,10 @@ TEST(OpenRepositoryTest, Valid)
     std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     EXPECT_TRUE(rep != nullptr);
     rep->saveConfig();
+    std::chrono::seconds sec { 30 };
+    SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchName(), rep->getCurrentBranchIndex(), sec);
     auto result = CheckExistConfig::check();
-    EXPECT_NO_THROW(rep.reset(ptr->createRepository(result[0].path, result[0].user, result[0].pass, true)));
+    EXPECT_NO_THROW(rep.reset(ptr->createRepository(result.front().path, result.front().user, result.front().pass, true)));
 }
 
 TEST(OpenRepositoryTest, WrongPath)
@@ -166,8 +170,10 @@ TEST(OpenRepositoryTest, WrongUserName)
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
     std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->saveConfig();
+    std::chrono::seconds sec { 30 };
+    SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchName(), rep->getCurrentBranchIndex(), sec);
     auto result = CheckExistConfig::check();
-    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(result[0].path, "wrong_username", result[0].pass, true)), std::logic_error);
+    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(result.front().path, "wrong_username", result.front().pass, true)), std::logic_error);
 }
 
 TEST(OpenRepositoryTest, WrongPassword)
@@ -176,8 +182,10 @@ TEST(OpenRepositoryTest, WrongPassword)
     std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
     std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->saveConfig();
+    std::chrono::seconds sec { 30 };
+    SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchName(), rep->getCurrentBranchIndex(), sec);
     auto result = CheckExistConfig::check();
-    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(result[0].path, username, "wrong_pass", true)), std::logic_error);
+    EXPECT_THROW(std::unique_ptr<IRepository> rep(ptr->createRepository(result.front().path, username, "wrong_pass", true)), std::logic_error);
 }
 
 TEST(CheckExistConfig, ConfigNotExist)
