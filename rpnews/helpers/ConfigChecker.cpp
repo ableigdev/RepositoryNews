@@ -37,7 +37,7 @@ std::string ConfigChecker::getRepositoryFolderName(const std::string& url)
 
 std::string ConfigChecker::getRepositoryFolderNameFromPath(const std::string& path)
 {
-    std::regex regexValue(R"(\/([\w]+)\/.git)");
+    std::regex regexValue(R"(\/([\w]+)\/.git$)");
     std::cmatch result;
     std::regex_search(path.data(), result, regexValue);
     return result[1].str();
