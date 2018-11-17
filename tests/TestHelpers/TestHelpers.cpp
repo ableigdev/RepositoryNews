@@ -61,6 +61,30 @@ TEST(ConfigChecker, BadURL)
     EXPECT_TRUE(ConfigChecker::getRepositoryFolderName(url).empty());
 }
 
+TEST(ConfigChecker, RepositoryNameFromPath)
+{
+    std::string path("user/home/repository/.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderNameFromPath(path), "repository");
+}
+
+TEST(ConfigChecker, BadPath)
+{
+    std::string path("user/home/repository/.git/folder");
+    EXPECT_TRUE(ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
+}
+
+TEST(ConfigChecker, BadPath2)
+{
+    std::string path("user/home/repository/folder");
+    EXPECT_TRUE(ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
+}
+
+TEST(ConfigChecker, BadPath3)
+{
+    std::string path("user/home/repository/./git");
+    EXPECT_TRUE(ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
+}
+
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);
