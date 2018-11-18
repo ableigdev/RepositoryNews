@@ -12,6 +12,10 @@
 #include "rpnews/helpers/rpnews_types.h"
 #include "rpnews/helpers/ConfigChecker.h"
 #include "rpnews/helpers/RepositoryExist.h"
+#include "rpnews/helpers/DeleteRepositoryFolder.h"
+#include "rpnews/helpers/ErrorMessageMaker.h"
+#include "rpnews/helpers/GetNewRepositoryFactory.h"
+
 
 namespace
 {
@@ -83,6 +87,38 @@ TEST(ConfigChecker, BadPath3)
 {
     std::string path("user/home/repository/./git");
     EXPECT_TRUE(ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
+}
+
+TEST(DeleteRepositoryFolder, Valid)
+{
+    QDir dir;
+    dir.mkdir(".configs");
+    dir.cd(".configs");
+    dir.mkdir("folder");
+    helpers::deleteRepositoryFolder("folder");
+    helpers::deleteRepositoryFolder(".configs");
+    EXPECT_TRUE(!dir.exists("folder"));
+    EXPECT_TRUE(!dir.exists(".configs"));
+}
+
+TEST(DeleteRepositoryFolder, NotConfigFolder)
+{
+    QDir dir;
+    dir.mkdir("folder");
+    EXPECT_TRUE(dir.exists("folder"));
+    helpers::deleteRepositoryFolder("folder");
+}
+
+TEST(GetNewRepositoryFactory, Valid)
+{
+    std::unique_ptr<IRepositoryFactory> factory(helpers::getNewRepositoryFactory(0));
+    EXPECT_TRUE(factory != nullptr);
+}
+
+TEST(GetNewRepositoryFactory, WrongIndex)
+{
+    std::unique_ptr<IRepositoryFactory> factory(helpers::getNewRepositoryFactory(-1));
+    EXPECT_TRUE(factory == nullptr);
 }
 
 int main(int argc, char** argv)
