@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include <QDir>
+#include <QApplication>
 #include <memory>
 #include <stdexcept>
 
@@ -15,6 +16,7 @@
 #include "rpnews/helpers/DeleteRepositoryFolder.h"
 #include "rpnews/helpers/ErrorMessageMaker.h"
 #include "rpnews/helpers/GetNewRepositoryFactory.h"
+#include "rpnews/helpers/GetTimeInterval.h"
 
 
 namespace
@@ -119,6 +121,20 @@ TEST(GetNewRepositoryFactory, WrongIndex)
 {
     std::unique_ptr<IRepositoryFactory> factory(helpers::getNewRepositoryFactory(-1));
     EXPECT_TRUE(factory == nullptr);
+}
+
+TEST(GetTimeInterval, Valid)
+{
+    EXPECT_EQ(helpers::getTimeInterval(0), std::chrono::seconds(300));
+    EXPECT_EQ(helpers::getTimeInterval(1), std::chrono::seconds(1800));
+    EXPECT_EQ(helpers::getTimeInterval(2), std::chrono::seconds(3600));
+}
+
+TEST(GetTimeInterval, BadIndex)
+{
+    int i = 1;
+    QApplication a(i, nullptr);
+    EXPECT_EQ(helpers::getTimeInterval(-1), std::chrono::seconds(300));
 }
 
 int main(int argc, char** argv)
