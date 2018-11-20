@@ -1,0 +1,13 @@
+[requires]
+Qt/5.11.0@bincrafters/stable
+gtest/1.8.1@bincrafters/stable
+libgit2/0.26.0@impsnldavid/testing
+
+[options]
+Qt:qtmultimedia=True
+
+[generators]
+cmake 
+
+[imports]
+bin, *.pdb -> ./bin
