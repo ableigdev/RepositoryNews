@@ -1,6 +1,4 @@
-set(PATH_TO_QT "/path/to/your/Qt/" CACHE STRING "Path to Qt")
-message(STATUS "Path to Qt(CMake): " ${PATH_TO_QT})
-set(CMAKE_PREFIX_PATH ${PATH_TO_QT})
+set(CMAKE_CXX_FLAGS -pthread)
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed
@@ -11,8 +9,6 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 # Find the QtWidgets library
-find_package(Qt5Widgets CONFIG REQUIRED)
-find_package(Qt5Multimedia CONFIG REQUIRED)
-
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
-add_definitions(${Qt5Widgets_DEFINITIONS})
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Multimedia REQUIRED)
