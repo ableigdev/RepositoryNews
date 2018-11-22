@@ -5,6 +5,9 @@ project(rpnews)
 set(CMAKE_CXX_FLAGS -pthread)
 set(CMAKE_CXX_STANDARD 14)
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 # Set variables
 include(${CMAKE_SOURCE_DIR}/cmake/SetEnv.cmake)
 
