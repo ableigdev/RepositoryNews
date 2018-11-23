@@ -7,4 +7,5 @@ add_executable(CreateNewGitRepository ${SRC_LIST} CreateNewGitRepository.cpp)
 
 # Target libgit2, qt and gtest libraries
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${LIBGIT2_INCLUDE}>)
-target_link_libraries(${PROJECT_NAME} $<BUILD_INTERFACE:${LIBGIT2_LIBRARY}> googletest Qt5::Widgets Qt5::Multimedia)
+target_link_libraries(${PROJECT_NAME} $<BUILD_INTERFACE:${LIBGIT2_LIBRARY}> Qt5::Widgets Qt5::Multimedia)
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS_GTEST})
