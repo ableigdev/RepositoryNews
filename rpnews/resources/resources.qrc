@@ -5,4 +5,7 @@
     <qresource prefix="/images">
         <file>images/logo.png</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file>fonts/OpenSans-Regular.ttf</file>
+    </qresource>
 </RCC>
