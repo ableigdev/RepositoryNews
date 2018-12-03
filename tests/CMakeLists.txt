@@ -18,3 +18,4 @@ endfunction(getSources)
 
 add_subdirectory(CreateNewGitRepository)
 add_subdirectory(TestHelpers)
+add_subdirectory(TestCrypt)
