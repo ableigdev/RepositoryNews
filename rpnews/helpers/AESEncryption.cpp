@@ -33,7 +33,7 @@ QByteArray AESEncryption::encrypt(const QByteArray& data, const QByteArray& pass
     EVP_CIPHER_CTX* evpCipherCtx = EVP_CIPHER_CTX_new();
     EVP_CIPHER_CTX_init(evpCipherCtx);
     EVP_EncryptInit(evpCipherCtx, EVP_aes_256_cbc(), reinterpret_cast<const unsigned char*>(sha256(password).data()),
-                    reinterpret_cast<const unsigned char*>(sha256("JulyAES" + password).data()));
+                    reinterpret_cast<const unsigned char*>(sha256(password).data()));
     EVP_EncryptUpdate(evpCipherCtx, reinterpret_cast<unsigned char*>(dataBuff.data()), &outLen,
                       reinterpret_cast<const unsigned char*>(data.data()),
                       data.size());
@@ -54,7 +54,7 @@ QByteArray AESEncryption::decrypt(const QByteArray& data, const QByteArray& pass
     EVP_CIPHER_CTX* evpCipherCtx = EVP_CIPHER_CTX_new();
     EVP_CIPHER_CTX_init(evpCipherCtx);
     EVP_DecryptInit(evpCipherCtx, EVP_aes_256_cbc(), reinterpret_cast<const unsigned char*>(sha256(password).data()),
-                    reinterpret_cast<const unsigned char*>(sha256("JulyAES" + password).data()));
+                    reinterpret_cast<const unsigned char*>(sha256(password).data()));
     EVP_DecryptUpdate(evpCipherCtx, reinterpret_cast<unsigned char*>(dataBuff.data()), &outLen,
                       reinterpret_cast<const unsigned char*>(data.data()),
                       data.size());
