@@ -15,7 +15,7 @@ public:
     void turnOffAutoStart();
 
 private:
-#ifdef Q_OS_WIN2
+#ifdef WIN32
     QSettings m_Settings;
 #endif
 #ifdef Q_OS_LINUX

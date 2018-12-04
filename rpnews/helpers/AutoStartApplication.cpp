@@ -6,7 +6,7 @@
 #include <QCoreApplication>
 
 AutoStartApplication::AutoStartApplication()
-#ifdef Q_OS_WIN32
+#ifdef WIN32
     : m_Settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat)
 #endif
 {
@@ -14,7 +14,7 @@ AutoStartApplication::AutoStartApplication()
 }
 void AutoStartApplication::turnOnAutoStart()
 {
-#ifdef Q_OS_WIN32
+#ifdef WIN32
     m_Settings.setValue("rpnews", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
     m_Settings.sync();
 #endif
@@ -54,7 +54,7 @@ void AutoStartApplication::turnOnAutoStart()
 
 void AutoStartApplication::turnOffAutoStart()
 {
-#ifdef Q_OS_WIN32
+#ifdef WIN32
     m_Settings.remove("rpnews");
 #endif
 #ifdef Q_OS_LINUX
