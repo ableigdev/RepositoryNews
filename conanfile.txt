@@ -1,7 +1,8 @@
 [requires]
 Qt/5.11.1@bincrafters/stable
 gtest/1.8.1@bincrafters/stable
-libgit2/0.26.0@impsnldavid/testing
+cryptopp/7.0.0@bincrafters/stable
+libgit2/0.27.7@libgit2pkg/testing
 
 [options]
 Qt:qtmultimedia=True
