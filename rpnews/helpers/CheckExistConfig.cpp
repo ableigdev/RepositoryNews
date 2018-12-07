@@ -5,6 +5,7 @@
 #include <regex>
 #include <fstream>
 #include "CheckExistConfig.h"
+#include "AESEncryption.h"
 
 std::vector<GetRepositoryInfo> CheckExistConfig::check()
 {
@@ -15,6 +16,7 @@ std::vector<GetRepositoryInfo> CheckExistConfig::check()
     if (dir.exists(".configs"))
     {
         dir.cd(".configs");
+        std::string key(AESEncryption::generateKey());
         std::string currentPath = dir.currentPath().toStdString();
         QDirIterator dirIterator(dir, QDirIterator::Subdirectories);
 
@@ -37,8 +39,20 @@ std::vector<GetRepositoryInfo> CheckExistConfig::check()
 
             if (std::regex_search(stringData.data(), resultOfFindingConfigFile, findConfigRepository))
             {
-                std::ifstream inFile(resultOfFindingConfigFile.str(), std::ios::in);
-                inFile >> repositoryInfo.type >> repositoryInfo.user >> repositoryInfo.pass;
+                const short QUANTITY_OF_BYTES = 16;
+                std::ifstream inFile(resultOfFindingConfigFile.str(), std::ios::in | std::ios::binary);
+                std::string encryptUser(QUANTITY_OF_BYTES, '0');
+                std::string encryptPass(QUANTITY_OF_BYTES, '0');
+                std::string type(QUANTITY_OF_BYTES / QUANTITY_OF_BYTES, '0');
+                inFile.read(&type.at(0), QUANTITY_OF_BYTES / QUANTITY_OF_BYTES);
+                inFile.seekg(QUANTITY_OF_BYTES / QUANTITY_OF_BYTES);
+                inFile.read(&encryptUser.at(0), QUANTITY_OF_BYTES);
+                inFile.seekg(QUANTITY_OF_BYTES + 1);
+                inFile.read(&encryptPass.at(0), QUANTITY_OF_BYTES);
+                repositoryInfo.type = std::atoi(type.data());
+                repositoryInfo.user = AESEncryption::decrypt(encryptUser, key).data();
+                repositoryInfo.pass = AESEncryption::decrypt(encryptPass, key).data();
+                inFile.close();
             }
 
             if (std::regex_search(stringData.data(), resultOfFindingConfigGUIFile, findConfigGUIRepository))
