@@ -4,6 +4,8 @@
 #include "cryptopp/aes.h"
 #include "cryptopp/modes.h"
 #include <vector>
+#include <QNetworkInterface>
+#include <QString>
 
 std::string AESEncryption::encrypt(const std::string& data, const std::string& password)
 {
@@ -12,7 +14,6 @@ std::string AESEncryption::encrypt(const std::string& data, const std::string& p
     CryptoPP::ECB_Mode<CryptoPP::AES>::Encryption encryption;
     encryption.SetKey(key.data(), key.size());
     CryptoPP::StringSource(data, true, new CryptoPP::StreamTransformationFilter(encryption, new CryptoPP::StringSink(result)));
-
     return result;
 }
 
@@ -24,5 +25,16 @@ std::string AESEncryption::decrypt(const std::string& data, const std::string& p
     decryption.SetKey(key.data(), key.size());
     CryptoPP::StringSource(data, true, new CryptoPP::StreamTransformationFilter(decryption, new CryptoPP::StringSink(result)));
     return result;
+}
+
+std::string AESEncryption::generateKey()
+{
+    QString key;
+    foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())
+    {
+        key += interface.hardwareAddress();
+    }
+    key.resize(32);
+    return key.toStdString();
 }
 
