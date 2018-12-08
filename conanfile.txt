@@ -12,3 +12,6 @@ cmake
 
 [imports]
 bin, *.pdb -> ./bin
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./bin
+lib, *.dll -> ./bin
