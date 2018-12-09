@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QtMultimedia/QSound>
+#include <QStyle>
 
 PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
 {
@@ -11,7 +12,7 @@ PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
                   Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
-    setMaximumHeight(50);
+    setMaximumHeight(120);
 
     m_Animation.setTargetObject(this);
     m_Animation.setPropertyName("popupOpacity");
@@ -82,6 +83,7 @@ void PopUpNotifierWindow::setPopUpText(const commit& commit, const std::string& 
 
     if (commit.message.size() > 72)
     {
+        setMaximumWidth(500);
         m_LabelMessage.setText(commit.message.substr(0, 68).append("...").c_str());
     }
     else
@@ -99,10 +101,11 @@ void PopUpNotifierWindow::show()
     m_Animation.setStartValue(0.0);
     m_Animation.setEndValue(1.0);
 
-    setGeometry(QApplication::desktop()->availableGeometry().width() - width() + QApplication::desktop()->availableGeometry().x(),
-                QApplication::desktop()->availableGeometry().height() - height() + QApplication::desktop()->availableGeometry().y(),
-                width(),
-                height());
+    setGeometry(QStyle::alignedRect(
+                        Qt::RightToLeft,
+                        Qt::AlignBottom,
+                        size(),
+                        qApp->desktop()->availableGeometry()));
     QWidget::show();
     m_Animation.start();
     m_Timer->start(1500);
