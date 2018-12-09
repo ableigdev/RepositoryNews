@@ -34,6 +34,10 @@ std::string AESEncryption::generateKey()
     {
         key += interface.hardwareAddress();
     }
+    while (key.size() < 32)
+    {
+        key.append(key);
+    }
     key.resize(32);
     return key.toStdString();
 }
