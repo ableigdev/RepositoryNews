@@ -7,6 +7,7 @@
 #include <QPropertyAnimation>
 #include <QTimer>
 #include <QPushButton>
+#include <memory>
 #include "rpnews/helpers/rpnews_types.h"
 
 class PopUpNotifierWindow : public QWidget
@@ -41,7 +42,7 @@ private:
     QGridLayout m_Layout;
     QPropertyAnimation m_Animation;
     double m_PopUpOpacity;
-    QTimer* m_Timer;
+    std::unique_ptr<QTimer> m_Timer;
     const short MAXIMUM_WIDTH = 500;
     const size_t RECOMMEND_COMMIT_LENGTH = 72;
 };

@@ -53,8 +53,8 @@ PopUpNotifierWindow::PopUpNotifierWindow(QWidget* parent) : QWidget(parent)
     m_Layout.addWidget(&m_LabelDate, 2, 0);
     setLayout(&m_Layout);
 
-    m_Timer = new QTimer();
-    connect(m_Timer, &QTimer::timeout, this, &PopUpNotifierWindow::stopTimerSlot);
+    m_Timer = std::make_unique<QTimer>();
+    connect(m_Timer.get(), &QTimer::timeout, this, &PopUpNotifierWindow::stopTimerSlot);
 }
 
 void PopUpNotifierWindow::paintEvent(QPaintEvent* event)
