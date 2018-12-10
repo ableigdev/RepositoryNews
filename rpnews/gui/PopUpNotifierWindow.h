@@ -42,6 +42,8 @@ private:
     QPropertyAnimation m_Animation;
     double m_PopUpOpacity;
     QTimer* m_Timer;
+    const short MAXIMUM_WIDTH = 500;
+    const size_t RECOMMEND_COMMIT_LENGTH = 72;
 };
 
 #endif // POPUPNOTIFIERWINDOW_H
