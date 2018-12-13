@@ -17,6 +17,7 @@ TrayIconApp::TrayIconApp(QWidget* parent)
     this->setTrayIconActions();
     this->showTrayIcon();
     this->readRepositoriesFromDisk();
+    m_AppSettings.value("AutoStartApp").toBool() ? m_AutoStartAction->setChecked(true) : m_AutoStartAction->setChecked(false);
 }
 
 TrayIconApp::~TrayIconApp()
@@ -51,6 +52,7 @@ void TrayIconApp::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 void TrayIconApp::checkedAction(bool value)
 {
     value ? m_AutoStartApp.turnOnAutoStart() : m_AutoStartApp.turnOffAutoStart();
+    m_AppSettings.setValue("AutoStartApp", value);
 }
 
 void TrayIconApp::addNewRepositorySlot()

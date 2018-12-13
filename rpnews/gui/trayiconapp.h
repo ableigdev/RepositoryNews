@@ -7,6 +7,7 @@
 #include <QAction>
 #include <QTimer>
 #include <QMetaObject>
+#include <QSettings>
 #include <memory>
 #include <vector>
 #include <map>
@@ -53,6 +54,7 @@ private:
     std::vector<std::shared_ptr<QTimer>> m_Timers;
     std::vector<std::pair<int, std::shared_ptr<IRepository>>> m_Repositories;
     std::vector<QMetaObject::Connection> m_Connections;
+    QSettings m_AppSettings;
 };
 
 #endif // TRAYWINDOW_H
