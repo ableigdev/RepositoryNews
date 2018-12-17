@@ -14,7 +14,11 @@ endif()
 include(${CMAKE_SOURCE_DIR}/cmake/FindQt.cmake)
 
 # Target
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${UIS} ${RCS})
+if(WIN32)
+	add_executable(${PROJECT_NAME} WIN32 ${SOURCES} ${HEADERS} ${UIS} ${RCS})
+else()
+	add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${UIS} ${RCS})
+endif()
 
 # Use the Widgets module from Qt 5
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
