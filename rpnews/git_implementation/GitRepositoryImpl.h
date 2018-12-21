@@ -3,6 +3,7 @@
 
 #include "rpnews/interfaces/IRepository.h"
 #include "GitRepositoryTypeImpl.h"
+#include <memory>
 
 class GitRepositoryImpl : public IRepository
 {
@@ -21,7 +22,7 @@ public:
     virtual void saveConfig();
 
 private:
-    GitRepositoryTypeImpl m_GitRepositoryTypeImpl;
+    std::unique_ptr<GitRepositoryTypeImpl> m_GitRepositoryTypeImpl;
 };
 
 
