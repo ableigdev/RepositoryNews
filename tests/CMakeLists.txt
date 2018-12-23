@@ -17,5 +17,7 @@ function(getSources input output)
 endfunction(getSources)
 
 add_subdirectory(CreateNewGitRepository)
-add_subdirectory(TestHelpers)
+add_subdirectory(GMockTesting)
 add_subdirectory(TestCrypt)
+add_subdirectory(TestHelpers)
+
