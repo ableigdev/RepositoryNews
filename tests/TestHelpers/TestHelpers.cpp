@@ -55,10 +55,58 @@ TEST(ConfigChecker, FolderIsNotExists)
     EXPECT_TRUE(!path.empty());
 }
 
-TEST(ConfigChecker, RepositoryFolderName)
+TEST(ConfigChecker, RepositoryFolderNameValid)
 {
     std::string url("https://name@bitbucket.org/name/repository.git");
     EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid2)
+{
+    std::string url("https://name@bitbucket.org/name/repository-lib.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository-lib");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid3)
+{
+    std::string url("https://name@bitbucket.org/name/repository_lib.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository_lib");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid4)
+{
+    std::string url("https://name@bitbucket.org/name/repository3.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository3");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid5)
+{
+    std::string url("https://name@bitbucket.org/name3_name.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "name3_name");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid6)
+{
+    std::string url("https://name@bitbucket.org/name3-name.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "name3-name");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid7)
+{
+    std::string url("https://name@bitbucket.org/name3-na_me.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "name3-na_me");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid8)
+{
+    std::string url("https://name@bitbucket.org/Name3-nA_me.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "Name3-nA_me");
+}
+
+TEST(ConfigChecker, RepositoryFolderNameValid9)
+{
+    std::string url("https://name@bitbucket.org/Na.me3-nA_me.git");
+    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "Na.me3-nA_me");
 }
 
 TEST(ConfigChecker, BadURL)
