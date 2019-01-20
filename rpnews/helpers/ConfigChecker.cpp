@@ -29,7 +29,7 @@ std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepositor
 
 std::string ConfigChecker::getRepositoryFolderName(const std::string& url)
 {
-    std::regex regexValue(R"(\/([\w]+)\.[\w]+$)");
+    std::regex regexValue(R"(\/([a-zA-Z0-9\._-]+)\.[\w]+$)");
     std::cmatch result;
     std::regex_search(url.data(), result, regexValue);
     return result[1].str();
@@ -37,7 +37,7 @@ std::string ConfigChecker::getRepositoryFolderName(const std::string& url)
 
 std::string ConfigChecker::getRepositoryFolderNameFromPath(const std::string& path)
 {
-    std::regex regexValue(R"(\/([\w]+)\/.git$)");
+    std::regex regexValue(R"(\/([a-zA-Z0-9\._-]+)\/.git$)");
     std::cmatch result;
     std::regex_search(path.data(), result, regexValue);
     return result[1].str();
