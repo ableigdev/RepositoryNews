@@ -3,12 +3,15 @@
 
 #include <string>
 
-class AESEncryption
+namespace helpers
 {
-public:
-    static std::string decrypt(const std::string& data, const std::string& password);
-    static std::string encrypt(const std::string& data, const std::string& password);
-    static std::string generateKey();
-};
+    class AESEncryption
+    {
+    public:
+        static std::string decrypt(const std::string& data, const std::string& password);
+        static std::string encrypt(const std::string& data, const std::string& password);
+        static std::string generateKey();
+    };
+}
 
 #endif // AESENCRYPTION_H

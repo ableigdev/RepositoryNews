@@ -7,7 +7,7 @@
 #include <QNetworkInterface>
 #include <QString>
 
-std::string AESEncryption::encrypt(const std::string& data, const std::string& password)
+std::string helpers::AESEncryption::encrypt(const std::string& data, const std::string& password)
 {
     std::vector<CryptoPP::byte> key(password.begin(), password.end());
     std::string result;
@@ -17,7 +17,7 @@ std::string AESEncryption::encrypt(const std::string& data, const std::string& p
     return result;
 }
 
-std::string AESEncryption::decrypt(const std::string& data, const std::string& password)
+std::string helpers::AESEncryption::decrypt(const std::string& data, const std::string& password)
 {
     std::vector<CryptoPP::byte> key(password.begin(), password.end());
     std::string result;
@@ -27,7 +27,7 @@ std::string AESEncryption::decrypt(const std::string& data, const std::string& p
     return result;
 }
 
-std::string AESEncryption::generateKey()
+std::string helpers::AESEncryption::generateKey()
 {
     QString key;
     foreach(QNetworkInterface interface, QNetworkInterface::allInterfaces())

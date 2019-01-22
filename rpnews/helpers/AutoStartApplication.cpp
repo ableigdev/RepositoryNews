@@ -5,14 +5,14 @@
 #include <QStandardPaths>
 #include <QCoreApplication>
 
-AutoStartApplication::AutoStartApplication()
+helpers::AutoStartApplication::AutoStartApplication()
 #ifdef WIN32
     : m_Settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat)
 #endif
 {
 
 }
-void AutoStartApplication::turnOnAutoStart()
+void helpers::AutoStartApplication::turnOnAutoStart()
 {
 #ifdef WIN32
     m_Settings.setValue("rpnews", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
@@ -52,7 +52,7 @@ void AutoStartApplication::turnOnAutoStart()
 #endif
 }
 
-void AutoStartApplication::turnOffAutoStart()
+void helpers::AutoStartApplication::turnOffAutoStart()
 {
 #ifdef WIN32
     m_Settings.remove("rpnews");

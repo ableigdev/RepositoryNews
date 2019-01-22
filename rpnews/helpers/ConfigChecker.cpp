@@ -6,7 +6,7 @@
 #include "ConfigChecker.h"
 #include "RepositoryExist.h"
 
-std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepository)
+std::string helpers::ConfigChecker::checkAndGetFinalPath(const std::string &nameRepository)
 {
     QDir dir;
     dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
@@ -27,7 +27,7 @@ std::string ConfigChecker::checkAndGetFinalPath(const std::string &nameRepositor
     return path.toStdString();
 }
 
-std::string ConfigChecker::getRepositoryFolderName(const std::string& url)
+std::string helpers::ConfigChecker::getRepositoryFolderName(const std::string& url)
 {
     std::regex regexValue(R"(\/([a-zA-Z0-9\._-]+)\.[\w]+$)");
     std::cmatch result;
@@ -35,7 +35,7 @@ std::string ConfigChecker::getRepositoryFolderName(const std::string& url)
     return result[1].str();
 }
 
-std::string ConfigChecker::getRepositoryFolderNameFromPath(const std::string& path)
+std::string helpers::ConfigChecker::getRepositoryFolderNameFromPath(const std::string& path)
 {
     std::regex regexValue(R"(\/([a-zA-Z0-9\._-]+)\/.git$)");
     std::cmatch result;

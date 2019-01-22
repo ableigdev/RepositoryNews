@@ -3,12 +3,15 @@
 
 #include <string>
 
-class ErrorMessageMaker
+namespace helpers
 {
-public:
-    ErrorMessageMaker() = default;
-    ~ErrorMessageMaker() = default;
-    static std::string getErrorMessage(const std::string& methodName);
-};
+    class ErrorMessageMaker
+    {
+    public:
+        ErrorMessageMaker() = default;
+        ~ErrorMessageMaker() = default;
+        static std::string getErrorMessage(const std::string& methodName);
+    };
+}
 
 #endif //RPNEWS_ERRORMESSAGEMAKER_H

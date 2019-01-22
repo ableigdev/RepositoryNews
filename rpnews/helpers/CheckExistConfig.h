@@ -5,12 +5,15 @@
 #include <vector>
 #include "rpnews_types.h"
 
-class CheckExistConfig
+namespace helpers
 {
-public:
-    CheckExistConfig() = default;
-    ~CheckExistConfig() = default;
-    static std::vector<GetRepositoryInfo> check();
-};
+    class CheckExistConfig
+    {
+    public:
+        CheckExistConfig() = default;
+        ~CheckExistConfig() = default;
+        static std::vector<GetRepositoryInfo> check();
+    };
+}
 
 #endif //RPNEWS_CHECKEXISTCONFIG_H

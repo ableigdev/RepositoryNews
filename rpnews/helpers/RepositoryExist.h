@@ -3,14 +3,17 @@
 
 #include <stdexcept>
 
-class RepositoryExist : public std::logic_error
+namespace helpers
 {
-public:
-    RepositoryExist(const std::string& name)
-        : std::logic_error("Repository '" + name + "' is exist!")
+    class RepositoryExist : public std::logic_error
     {
+    public:
+        RepositoryExist(const std::string& name)
+            : std::logic_error("Repository '" + name + "' is exist!")
+        {
 
-    }
-};
+        }
+    };
+}
 
 #endif // REPOSITORYEXIST_H

@@ -5,22 +5,25 @@
 #include <QtGlobal>
 #include <QString>
 
-class AutoStartApplication
+namespace helpers
 {
-public:
-    AutoStartApplication();
-    ~AutoStartApplication() = default;
+    class AutoStartApplication
+    {
+    public:
+        AutoStartApplication();
+        ~AutoStartApplication() = default;
 
-    void turnOnAutoStart();
-    void turnOffAutoStart();
+        void turnOnAutoStart();
+        void turnOffAutoStart();
 
-private:
-#ifdef WIN32
-    QSettings m_Settings;
-#endif
-#ifdef Q_OS_LINUX
-    QString m_AutostartPath {};
-#endif
-};
+    private:
+    #ifdef WIN32
+        QSettings m_Settings;
+    #endif
+    #ifdef Q_OS_LINUX
+        QString m_AutostartPath {};
+    #endif
+    };
+}
 
 #endif // AUTOSTARTAPPLICATION_H
