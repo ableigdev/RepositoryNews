@@ -45,98 +45,98 @@ TEST(ConfigChecker, FolderExists)
     std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
     auto nameOfRepository = rep->getRepositoryName();
     rep.release();
-    EXPECT_THROW(ConfigChecker::checkAndGetFinalPath(nameOfRepository), RepositoryExist);
+    EXPECT_THROW(helpers::ConfigChecker::checkAndGetFinalPath(nameOfRepository), helpers::RepositoryExist);
 }
 
 TEST(ConfigChecker, FolderIsNotExists)
 {
     deleteFolder();
-    auto path = ConfigChecker::checkAndGetFinalPath("name");
+    auto path = helpers::ConfigChecker::checkAndGetFinalPath("name");
     EXPECT_TRUE(!path.empty());
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid)
 {
     std::string url("https://name@bitbucket.org/name/repository.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "repository");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid2)
 {
     std::string url("https://name@bitbucket.org/name/repository-lib.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository-lib");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "repository-lib");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid3)
 {
     std::string url("https://name@bitbucket.org/name/repository_lib.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository_lib");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "repository_lib");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid4)
 {
     std::string url("https://name@bitbucket.org/name/repository3.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "repository3");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "repository3");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid5)
 {
     std::string url("https://name@bitbucket.org/name3_name.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "name3_name");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "name3_name");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid6)
 {
     std::string url("https://name@bitbucket.org/name3-name.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "name3-name");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "name3-name");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid7)
 {
     std::string url("https://name@bitbucket.org/name3-na_me.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "name3-na_me");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "name3-na_me");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid8)
 {
     std::string url("https://name@bitbucket.org/Name3-nA_me.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "Name3-nA_me");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "Name3-nA_me");
 }
 
 TEST(ConfigChecker, RepositoryFolderNameValid9)
 {
     std::string url("https://name@bitbucket.org/Na.me3-nA_me.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderName(url), "Na.me3-nA_me");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderName(url), "Na.me3-nA_me");
 }
 
 TEST(ConfigChecker, BadURL)
 {
     std::string url("https://name@bitbucket.org/name/repository./git");
-    EXPECT_TRUE(ConfigChecker::getRepositoryFolderName(url).empty());
+    EXPECT_TRUE(helpers::ConfigChecker::getRepositoryFolderName(url).empty());
 }
 
 TEST(ConfigChecker, RepositoryNameFromPath)
 {
     std::string path("user/home/repository/.git");
-    EXPECT_EQ(ConfigChecker::getRepositoryFolderNameFromPath(path), "repository");
+    EXPECT_EQ(helpers::ConfigChecker::getRepositoryFolderNameFromPath(path), "repository");
 }
 
 TEST(ConfigChecker, BadPath)
 {
     std::string path("user/home/repository/.git/folder");
-    EXPECT_TRUE(ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
+    EXPECT_TRUE(helpers::ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
 }
 
 TEST(ConfigChecker, BadPath2)
 {
     std::string path("user/home/repository/folder");
-    EXPECT_TRUE(ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
+    EXPECT_TRUE(helpers::ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
 }
 
 TEST(ConfigChecker, BadPath3)
 {
     std::string path("user/home/repository/./git");
-    EXPECT_TRUE(ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
+    EXPECT_TRUE(helpers::ConfigChecker::getRepositoryFolderNameFromPath(path).empty());
 }
 
 TEST(DeleteRepositoryFolder, Valid)

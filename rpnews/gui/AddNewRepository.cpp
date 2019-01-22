@@ -78,7 +78,7 @@ void AddNewRepository::on_Button_Connect_clicked()
     }
     else
     {
-        folderName = ConfigChecker::getRepositoryFolderName(url);
+        folderName = helpers::ConfigChecker::getRepositoryFolderName(url);
         try
         {
             m_Repository.reset(m_RepositoryFactory->createRepository(url, login.c_str(), pass.c_str(), false));
@@ -90,7 +90,7 @@ void AddNewRepository::on_Button_Connect_clicked()
             on_ComboBox_TimeInterval_activated(0);
             enableElements(true);
         }
-        catch(const RepositoryExist& e)
+        catch(const helpers::RepositoryExist& e)
         {
             std::string message(e.what());
             message.append("\nYou can't add a repository which already exists in the program.");
@@ -129,7 +129,7 @@ void AddNewRepository::on_ComboBox_TimeInterval_activated(int index)
 void AddNewRepository::on_Button_Add_Save_clicked()
 {
     m_Repository->saveConfig();
-    SaveConfig::saveGUIConfig(m_Repository->getRepositoryName(),
+    helpers::SaveConfig::saveGUIConfig(m_Repository->getRepositoryName(),
                               m_Repository->getCurrentBranchName(),
                               m_Repository->getCurrentBranchIndex(),
                               m_TimeForSynchronization);

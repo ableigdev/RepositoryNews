@@ -14,7 +14,7 @@ TEST(AESEncrypt, EncryptValid)
     std::string key_str(key.begin(), key.end());
     std::string plaitText_str(plainText.begin(), plainText.end());
     std::string expected_result(result.begin(), result.end());
-    auto result = AESEncryption::encrypt(plaitText_str, key_str);
+    auto result = helpers::AESEncryption::encrypt(plaitText_str, key_str);
     EXPECT_EQ(result, expected_result);
 }
 
@@ -23,7 +23,7 @@ TEST(AESEncrypt, DecryptValid)
     std::string key_str(key.begin(), key.end());
     std::string plaitText_str(result.begin(), result.end());
     std::string expected_result(plainText.begin(), plainText.end());
-    auto result = AESEncryption::decrypt(plaitText_str, key_str);
+    auto result = helpers::AESEncryption::decrypt(plaitText_str, key_str);
     EXPECT_EQ(result, expected_result);
 }
 

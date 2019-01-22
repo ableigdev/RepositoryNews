@@ -22,18 +22,18 @@ m_WasData(false)
 {
     if (flag)
     {
-        m_RepositoryName = ConfigChecker::getRepositoryFolderNameFromPath(url);
+        m_RepositoryName = helpers::ConfigChecker::getRepositoryFolderNameFromPath(url);
         m_Repository.open(url);
         m_Remote.open(m_Repository);
     }
     else
     {
-        m_RepositoryName = ConfigChecker::getRepositoryFolderName(url);
+        m_RepositoryName = helpers::ConfigChecker::getRepositoryFolderName(url);
         if (m_RepositoryName.empty())
         {
             throw std::logic_error("Invalid url");
         }
-        auto path = ConfigChecker::checkAndGetFinalPath(m_RepositoryName);
+        auto path = helpers::ConfigChecker::checkAndGetFinalPath(m_RepositoryName);
         m_Repository.create(path);
         m_Remote.create(m_Repository, url);
     }
@@ -93,7 +93,7 @@ void GitRepositoryTypeImpl::connect()
 {
     if (git_remote_connect(m_Remote.getPointer(), GIT_DIRECTION_FETCH, &m_FetchOptions.callbacks, nullptr, nullptr) != 0)
     {
-        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_remote_connect"));
+        throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_remote_connect"));
     }
 }
 
@@ -121,7 +121,7 @@ void GitRepositoryTypeImpl::prepareBranches()
         git_wrapper::GitReferenceWrapper referenceWrapper(reference);
         if (git_branch_name(&name.at(0), referenceWrapper.getPointer()) != 0)
         {
-            throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_branch_next"));
+            throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_branch_next"));
         }
         m_NameOfBranches.emplace_back(std::string(name.at(0)));
     }
@@ -172,7 +172,7 @@ void GitRepositoryTypeImpl::fetchData()
 
     if (git_remote_fetch(m_Remote.getPointer(), &refs, &m_FetchOptions, nullptr) != 0)
     {
-        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_remote_fetch"));
+        throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_remote_fetch"));
     }
     m_Counter = 0;
 }
@@ -220,7 +220,7 @@ void GitRepositoryTypeImpl::saveConfig()
 {
     if (m_Repository.getPointer() != nullptr)
     {
-        SaveConfig::save(git_repository_workdir(m_Repository.getPointer()), TypeRepository::Git, m_Username, m_Password);
+        helpers::SaveConfig::save(git_repository_workdir(m_Repository.getPointer()), TypeRepository::Git, m_Username, m_Password);
     }
 }
 

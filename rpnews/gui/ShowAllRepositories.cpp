@@ -185,7 +185,7 @@ void ShowAllRepositories::savePropertiesSlot()
     size_t index = static_cast<size_t>(m_UI->RepositoriesTableWidget->selectionModel()->currentIndex().row());
     std::chrono::seconds sec {m_Timers[index]->intervalAsDuration().count() / 1000};
 
-    SaveConfig::saveGUIConfig(m_Repositories[index].second->getRepositoryName(),
+    helpers::SaveConfig::saveGUIConfig(m_Repositories[index].second->getRepositoryName(),
                               m_Repositories[index].second->getCurrentBranchName(),
                               m_Repositories[index].second->getCurrentBranchIndex(),
                               sec);

@@ -47,7 +47,7 @@ private:
     std::unique_ptr<QAction> m_QuitAction;
     std::unique_ptr<QSystemTrayIcon> m_TrayIcon;
 
-    AutoStartApplication m_AutoStartApp;
+    helpers::AutoStartApplication m_AutoStartApp;
     std::unique_ptr<AddNewRepository> m_AddNewRepository;
     std::unique_ptr<ShowAllRepositories> m_ShowAllRepositories;
     std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;

@@ -7,7 +7,7 @@ git_wrapper::GitCommitLookupWrapper::GitCommitLookupWrapper(git_wrapper::Reposit
 {
     if (git_commit_lookup(&m_Commit, repo.getPointer(), &oid) != 0)
     {
-        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_commit_lookup"));
+        throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_commit_lookup"));
     }
 }
 

@@ -118,7 +118,7 @@ void TrayIconApp::showAllRepositoriesSlot()
 
 void TrayIconApp::readRepositoriesFromDisk()
 {
-    auto informAboutRepositories = CheckExistConfig::check();
+    auto informAboutRepositories = helpers::CheckExistConfig::check();
     for (const auto& i : informAboutRepositories)
     {
         std::shared_ptr<IRepositoryFactory> repositoryFactory(helpers::getNewRepositoryFactory(i.type));

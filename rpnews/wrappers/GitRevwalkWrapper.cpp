@@ -7,7 +7,7 @@ git_wrapper::GitRevwalkWrapper::GitRevwalkWrapper(git_wrapper::RepositoryWrapper
 {
     if (git_revwalk_new(&m_Revwalk, repo.getPointer()) != 0)
     {
-        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_revwalk_new"));
+        throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_revwalk_new"));
     }
 }
 

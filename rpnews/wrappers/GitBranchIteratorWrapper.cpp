@@ -7,7 +7,7 @@ git_wrapper::GitBranchIteratorWrapper::GitBranchIteratorWrapper(git_wrapper::Rep
 {
     if (git_branch_iterator_new(&m_BranchIterator, repo.getPointer(), GIT_BRANCH_REMOTE) != 0)
     {
-        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_branch_iterator_new"));
+        throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_branch_iterator_new"));
     }
 }
 

@@ -31,7 +31,7 @@ bool git_wrapper::GitRemoteWrapper::open(git_wrapper::RepositoryWrapper& repo)
     {
         if (git_remote_lookup(&m_Remote, repo.getPointer(), "origin") != 0)
         {
-            throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_remote_lookup"));
+            throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_remote_lookup"));
         }
         return true;
     }
@@ -42,7 +42,7 @@ void git_wrapper::GitRemoteWrapper::check(git_wrapper::RepositoryWrapper& repo, 
 {
     if (git_remote_create(&m_Remote, repo.getPointer(), "origin", url.data()) != 0)
     {
-        throw std::logic_error(ErrorMessageMaker::getErrorMessage("git_remote_create"));
+        throw std::logic_error(helpers::ErrorMessageMaker::getErrorMessage("git_remote_create"));
     }
 }
 
