@@ -74,7 +74,7 @@ void PopUpNotifierWindow::paintEvent(QPaintEvent* event)
     painter.drawRoundedRect(roundedRect, 0, 0);
 }
 
-void PopUpNotifierWindow::setPopUpText(const commit& commit, const std::string& name)
+void PopUpNotifierWindow::setPopUpText(const helpers::commit& commit, const std::string& name)
 {
     m_LabelAuthor.setText(commit.author.c_str());
     m_LabelDate.setText(commit.date_time.c_str());

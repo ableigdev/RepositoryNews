@@ -8,7 +8,7 @@ namespace helpers
     class RepositoryExist : public std::logic_error
     {
     public:
-        RepositoryExist(const std::string& name)
+        explicit RepositoryExist(const std::string& name)
             : std::logic_error("Repository '" + name + "' is exist!")
         {
 

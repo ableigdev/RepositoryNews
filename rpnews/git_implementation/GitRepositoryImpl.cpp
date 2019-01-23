@@ -1,6 +1,6 @@
 #include "GitRepositoryImpl.h"
 
-GitRepositoryImpl::GitRepositoryImpl(const std::string& url, const secure_string& user, const secure_string& pass, bool flag)
+GitRepositoryImpl::GitRepositoryImpl(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag)
 : m_GitRepositoryTypeImpl(new GitRepositoryTypeImpl(url, user, pass, flag))
 {
 
@@ -21,7 +21,7 @@ void GitRepositoryImpl::setCurrentBranch(size_t index)
     m_GitRepositoryTypeImpl->setCurrentBranch(index);
 }
 
-std::vector<commit> GitRepositoryImpl::getLastCommit()
+std::vector<helpers::commit> GitRepositoryImpl::getLastCommit()
 {
     return m_GitRepositoryTypeImpl->getLastCommit();
 }

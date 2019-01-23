@@ -7,7 +7,7 @@
 #include "CheckExistConfig.h"
 #include "AESEncryption.h"
 
-std::vector<GetRepositoryInfo> helpers::CheckExistConfig::check()
+std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
 {
     std::vector<GetRepositoryInfo> result {};
     QDir dir;

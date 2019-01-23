@@ -18,7 +18,7 @@ public:
     explicit PopUpNotifierWindow(QWidget* parent = nullptr);
 
 public slots:
-    void setPopUpText(const commit& commit, const std::string& name);
+    void setPopUpText(const helpers::commit& commit, const std::string& name);
     void show();
 
 private slots:

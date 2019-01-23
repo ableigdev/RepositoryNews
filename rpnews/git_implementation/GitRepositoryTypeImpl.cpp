@@ -15,7 +15,7 @@
 #include "rpnews/helpers/ErrorMessageMaker.h"
 #include "rpnews/helpers/SaveConfig.h"
 
-GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const secure_string& user, const secure_string& pass, bool flag)
+GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag)
 : m_Counter(0),
 m_CurrentBranch(0),
 m_WasData(false)
@@ -127,9 +127,9 @@ void GitRepositoryTypeImpl::prepareBranches()
     }
 }
 
-std::vector<commit> GitRepositoryTypeImpl::checkNewCommit()
+std::vector<helpers::commit> GitRepositoryTypeImpl::checkNewCommit()
 {
-    std::vector<commit> result {};
+    std::vector<helpers::commit> result {};
     git_wrapper::GitRevwalkWrapper revwalk(m_Repository);
     git_revwalk_sorting(revwalk.getPointer(), GIT_SORT_TOPOLOGICAL | GIT_SORT_TIME);
     git_revwalk_push_head(revwalk.getPointer());
@@ -138,7 +138,7 @@ std::vector<commit> GitRepositoryTypeImpl::checkNewCommit()
     if (git_revwalk_next(&oid, revwalk.getPointer()) == 0)
     {
         git_wrapper::GitCommitLookupWrapper lastCommit(m_Repository, oid);
-        commit newCommit;
+        helpers::commit newCommit;
         newCommit.author = git_commit_author(lastCommit.getPointer())->name;
         newCommit.message = git_commit_message(lastCommit.getPointer());
         auto datetime = git_commit_time(lastCommit.getPointer());
@@ -186,7 +186,7 @@ void GitRepositoryTypeImpl::changeHead()
     dir.rename("FETCH_HEAD", "HEAD");
 }
 
-std::vector<commit> GitRepositoryTypeImpl::getLastCommit()
+std::vector<helpers::commit> GitRepositoryTypeImpl::getLastCommit()
 {
     fetchData();
     if (m_WasData)
@@ -220,7 +220,7 @@ void GitRepositoryTypeImpl::saveConfig()
 {
     if (m_Repository.getPointer() != nullptr)
     {
-        helpers::SaveConfig::save(git_repository_workdir(m_Repository.getPointer()), TypeRepository::Git, m_Username, m_Password);
+        helpers::SaveConfig::save(git_repository_workdir(m_Repository.getPointer()), helpers::TypeRepository::Git, m_Username, m_Password);
     }
 }
 

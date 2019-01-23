@@ -31,14 +31,14 @@ namespace
 
     // Enter correct your data, before that you run these tests
     std::string url("https://name@bitbucket.org/name/repository.git"); // Your test repository
-    secure_string username("username"); // Your correct username
-    secure_string pass("pass"); // Your correct password
+    helpers::secure_string username("username"); // Your correct username
+    helpers::secure_string pass("pass"); // Your correct password
 }
 
 class MockGitRepositoryFactory : public IRepositoryFactory
 {
 public:
-    MOCK_METHOD4(createRepository, IRepository*(const std::string& url, const secure_string& user, const secure_string& pass, bool flag));
+    MOCK_METHOD4(createRepository, IRepository*(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag));
 };
 
 class MockRepository : public IRepository
@@ -50,7 +50,7 @@ public:
     MOCK_CONST_METHOD0(getCurrentBranchIndex, size_t());
     MOCK_CONST_METHOD0(getCurrentBranchName, std::string());
     MOCK_CONST_METHOD0(getRepositoryName, std::string());
-    MOCK_METHOD0(getLastCommit, std::vector<commit>());
+    MOCK_METHOD0(getLastCommit, std::vector<helpers::commit>());
     MOCK_METHOD0(prepareRepository, void());
     MOCK_METHOD0(prepareBranches, void());
     MOCK_METHOD0(saveConfig, void());

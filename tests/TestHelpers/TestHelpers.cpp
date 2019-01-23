@@ -34,8 +34,8 @@ namespace
 
     // Enter correct your data, before that you run these tests
     std::string url("https://name@bitbucket.org/name/repository.git"); // Your test repository
-    secure_string username("username"); // Your correct username
-    secure_string pass("pass"); // Your correct password
+    helpers::secure_string username("username"); // Your correct username
+    helpers::secure_string pass("pass"); // Your correct password
 }
 
 TEST(ConfigChecker, FolderExists)

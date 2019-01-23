@@ -12,11 +12,11 @@
 class GitRepositoryTypeImpl : public IRepositoryType
 {
 public:
-    GitRepositoryTypeImpl(const std::string& url, const secure_string& user, const secure_string& pass, bool flag);
+    GitRepositoryTypeImpl(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag);
     virtual ~GitRepositoryTypeImpl() = default;
     virtual std::vector<std::string> getNameOfBranches() const;
     virtual size_t getNumberOfBranches() const;
-    virtual std::vector<commit> getLastCommit();
+    virtual std::vector<helpers::commit> getLastCommit();
     virtual void setCurrentBranch(size_t index);
     virtual size_t getCurrentBranchIndex() const;
     virtual std::string getCurrentBranchName() const;
@@ -30,7 +30,7 @@ private:
     int onGitCallBack(git_cred** cred, const char* url, const char* username_from_url, unsigned int allowed_types);
     static int progressCb(const char* str, int len, void* data);
     int onProgressCb(const char* str, int len);
-    std::vector<commit> checkNewCommit();
+    std::vector<helpers::commit> checkNewCommit();
     void connect();
     void fetchData();
     void changeHead();
@@ -44,8 +44,8 @@ private:
     git_wrapper::LibraryWrapper m_LibraryWrapper;
     git_wrapper::RepositoryWrapper m_Repository;
     git_wrapper::GitRemoteWrapper m_Remote;
-    secure_string m_Username;
-    secure_string m_Password;
+    helpers::secure_string m_Username;
+    helpers::secure_string m_Password;
     git_fetch_options m_FetchOptions;
     std::vector<std::string> m_NameOfBranches {};
 };
