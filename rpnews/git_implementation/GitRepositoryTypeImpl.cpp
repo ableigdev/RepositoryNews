@@ -153,7 +153,7 @@ std::vector<helpers::commit> GitRepositoryTypeImpl::checkNewCommit()
 std::string GitRepositoryTypeImpl::getRefspecs()
 {
     std::cmatch cm;
-    std::regex regVal(R"(origin\/([\w]+|\*{1}))");
+    std::regex regVal(R"(origin\/([a-zA-Z0-9\/\._-]+|\*{1}))");
     std::regex_search(m_NameOfBranches[m_CurrentBranch].data(), cm, regVal);
     auto name = cm[1].str();
     std::string refspecs("+refs/heads/");
