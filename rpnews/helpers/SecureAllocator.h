@@ -10,13 +10,13 @@ namespace secure
     {
     public:
         template <typename AnotherDataType> struct rebind { typedef SecureAllocator<AnotherDataType> other; };
-        SecureAllocator() throw() {}
-        SecureAllocator(const SecureAllocator&) throw() {}
-        template <typename AnotherDataType> SecureAllocator(const SecureAllocator<AnotherDataType>&) throw() {}
+        SecureAllocator() noexcept {}
+        SecureAllocator(const SecureAllocator&) noexcept {}
+        template <typename AnotherDataType> SecureAllocator(const SecureAllocator<AnotherDataType>&) noexcept {}
 
         void deallocate(DataType* p, size_t counter)
         {
-            secureZeroMemoryFunction((void*)p, counter);
+            secureZeroMemoryFunction(static_cast<void*>(p), counter);
             std::allocator<DataType>::deallocate(p, counter);
         }
 
