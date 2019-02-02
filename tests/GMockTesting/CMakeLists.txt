@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(GMockTesting)
-getSources(${CMAKE_SOURCE_DIR}/rpnews/* SRC_LIST)
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} GMockTesting.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} GMockTesting.cpp)
 
 # Target qt and gtest libraries
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)

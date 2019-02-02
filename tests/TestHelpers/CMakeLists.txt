@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(TestHelpers)
-getSources(${CMAKE_SOURCE_DIR}/rpnews/* SRC_LIST)
-
-add_executable(TestHelpers ${SRC_LIST} TestHelpers.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} TestHelpers.cpp)
 
 # Target qt and gtest libraries
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)

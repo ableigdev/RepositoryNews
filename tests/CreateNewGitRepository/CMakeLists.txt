@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(CreateNewGitRepository)
-getSources(${CMAKE_SOURCE_DIR}/rpnews/* SRC_LIST)
 
-add_executable(CreateNewGitRepository ${SRC_LIST} CreateNewGitRepository.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} CreateNewGitRepository.cpp)
 
 # Target qt and gtest libraries
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
