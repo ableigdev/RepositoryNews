@@ -15,7 +15,7 @@
 #include "helpers/ErrorMessageMaker.h"
 #include "helpers/SaveConfig.h"
 
-GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag)
+git_impl::GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag)
 : m_Counter(0),
 m_CurrentBranch(0),
 m_WasData(false)
@@ -49,14 +49,14 @@ m_WasData(false)
     m_NameOfBranches.emplace_back("origin/*");
 }
 
-int GitRepositoryTypeImpl::userPassGitCredCb(git_cred** cred, const char* url, const char* usernameFromUrl,
+int git_impl::GitRepositoryTypeImpl::userPassGitCredCb(git_cred** cred, const char* url, const char* usernameFromUrl,
                                              unsigned int allowedTypes, void* payload)
 {
     auto self = static_cast<GitRepositoryTypeImpl*>(payload);
     return self->onGitCallBack(cred, url, usernameFromUrl, allowedTypes);
 }
 
-int GitRepositoryTypeImpl::onGitCallBack(git_cred** cred, const char* url, const char* username_from_url, unsigned int allowed_types)
+int git_impl::GitRepositoryTypeImpl::onGitCallBack(git_cred** cred, const char* url, const char* username_from_url, unsigned int allowed_types)
 {
     Q_UNUSED(url);
     Q_UNUSED(username_from_url);
@@ -75,13 +75,13 @@ int GitRepositoryTypeImpl::onGitCallBack(git_cred** cred, const char* url, const
     }
 }
 
-int GitRepositoryTypeImpl::progressCb(const char* str, int len, void* data)
+int git_impl::GitRepositoryTypeImpl::progressCb(const char* str, int len, void* data)
 {
     auto self = static_cast<GitRepositoryTypeImpl*>(data);
     return self->onProgressCb(str, len);
 }
 
-int GitRepositoryTypeImpl::onProgressCb(const char* str, int len)
+int git_impl::GitRepositoryTypeImpl::onProgressCb(const char* str, int len)
 {
     Q_UNUSED(str);
     Q_UNUSED(len);
@@ -89,7 +89,7 @@ int GitRepositoryTypeImpl::onProgressCb(const char* str, int len)
     return 0;
 }
 
-void GitRepositoryTypeImpl::connect()
+void git_impl::GitRepositoryTypeImpl::connect()
 {
     if (git_remote_connect(m_Remote.getPointer(), GIT_DIRECTION_FETCH, &m_FetchOptions.callbacks, nullptr, nullptr) != 0)
     {
@@ -97,17 +97,17 @@ void GitRepositoryTypeImpl::connect()
     }
 }
 
-std::vector<std::string> GitRepositoryTypeImpl::getNameOfBranches() const
+std::vector<std::string> git_impl::GitRepositoryTypeImpl::getNameOfBranches() const
 {
     return m_NameOfBranches;
 }
 
-size_t GitRepositoryTypeImpl::getNumberOfBranches() const
+size_t git_impl::GitRepositoryTypeImpl::getNumberOfBranches() const
 {
     return m_NameOfBranches.size();
 }
 
-void GitRepositoryTypeImpl::prepareBranches()
+void git_impl::GitRepositoryTypeImpl::prepareBranches()
 {
     git_wrapper::GitBranchIteratorWrapper branchIterator(m_Repository);
     git_reference* reference;
@@ -127,7 +127,7 @@ void GitRepositoryTypeImpl::prepareBranches()
     }
 }
 
-std::vector<helpers::commit> GitRepositoryTypeImpl::checkNewCommit()
+std::vector<helpers::commit> git_impl::GitRepositoryTypeImpl::checkNewCommit()
 {
     std::vector<helpers::commit> result {};
     git_wrapper::GitRevwalkWrapper revwalk(m_Repository);
@@ -150,7 +150,7 @@ std::vector<helpers::commit> GitRepositoryTypeImpl::checkNewCommit()
     return result;
 }
 
-std::string GitRepositoryTypeImpl::getRefspecs()
+std::string git_impl::GitRepositoryTypeImpl::getRefspecs()
 {
     std::cmatch cm;
     std::regex regVal(R"(origin\/([a-zA-Z0-9\/\._-]+|\*{1}))");
@@ -163,7 +163,7 @@ std::string GitRepositoryTypeImpl::getRefspecs()
     return refspecs;
 }
 
-void GitRepositoryTypeImpl::fetchData()
+void git_impl::GitRepositoryTypeImpl::fetchData()
 {
     auto refspecs = getRefspecs();
     std::vector<char *> arr(refspecs.size());
@@ -177,7 +177,7 @@ void GitRepositoryTypeImpl::fetchData()
     m_Counter = 0;
 }
 
-void GitRepositoryTypeImpl::changeHead()
+void git_impl::GitRepositoryTypeImpl::changeHead()
 {
     QString path(git_repository_workdir(m_Repository.getPointer()));
     QDir dir(path);
@@ -186,7 +186,7 @@ void GitRepositoryTypeImpl::changeHead()
     dir.rename("FETCH_HEAD", "HEAD");
 }
 
-std::vector<helpers::commit> GitRepositoryTypeImpl::getLastCommit()
+std::vector<helpers::commit> git_impl::GitRepositoryTypeImpl::getLastCommit()
 {
     fetchData();
     if (m_WasData)
@@ -198,7 +198,7 @@ std::vector<helpers::commit> GitRepositoryTypeImpl::getLastCommit()
     return {};
 }
 
-void GitRepositoryTypeImpl::setCurrentBranch(size_t index)
+void git_impl::GitRepositoryTypeImpl::setCurrentBranch(size_t index)
 {
     if (index < m_NameOfBranches.size())
     {
@@ -211,12 +211,12 @@ void GitRepositoryTypeImpl::setCurrentBranch(size_t index)
     }
 }
 
-void GitRepositoryTypeImpl::prepareDataOfRepository()
+void git_impl::GitRepositoryTypeImpl::prepareDataOfRepository()
 {
     fetchData();
 }
 
-void GitRepositoryTypeImpl::saveConfig()
+void git_impl::GitRepositoryTypeImpl::saveConfig()
 {
     if (m_Repository.getPointer() != nullptr)
     {
@@ -224,17 +224,17 @@ void GitRepositoryTypeImpl::saveConfig()
     }
 }
 
-size_t GitRepositoryTypeImpl::getCurrentBranchIndex() const
+size_t git_impl::GitRepositoryTypeImpl::getCurrentBranchIndex() const
 {
     return m_CurrentBranch;
 }
 
-std::string GitRepositoryTypeImpl::getCurrentBranchName() const
+std::string git_impl::GitRepositoryTypeImpl::getCurrentBranchName() const
 {
     return m_NameOfBranches[m_CurrentBranch];
 }
 
-std::string GitRepositoryTypeImpl::getRepositoryName() const
+std::string git_impl::GitRepositoryTypeImpl::getRepositoryName() const
 {
     return m_RepositoryName;
 }

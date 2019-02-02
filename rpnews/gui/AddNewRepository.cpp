@@ -147,7 +147,7 @@ bool AddNewRepository::repositoryIsReady() const
     return m_RepositoryIsReady;
 }
 
-std::shared_ptr<IRepository>&& AddNewRepository::getRepository()
+std::shared_ptr<interfaces::IRepository>&& AddNewRepository::getRepository()
 {
     return std::move(m_Repository);
 }

@@ -3,12 +3,19 @@
 
 #include "interfaces/IRepositoryFactory.h"
 
-class GitRepositoryFactory : public IRepositoryFactory
+namespace git_impl
 {
-public:
-    GitRepositoryFactory() = default;
-    virtual ~GitRepositoryFactory() = default;
-    virtual IRepository* createRepository(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag);
-};
-
+    class GitRepositoryFactory : public interfaces::IRepositoryFactory
+    {
+    public:
+        GitRepositoryFactory() = default;
+        virtual ~GitRepositoryFactory() = default;
+        virtual interfaces::IRepository* createRepository(
+                const std::string& url, 
+                const helpers::secure_string& user, 
+                const helpers::secure_string& pass, 
+                bool flag);
+    };
+}
+    
 #endif //RPNEWS_GITREPOSITORYFACTORY_H

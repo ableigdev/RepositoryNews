@@ -41,8 +41,8 @@ namespace
 TEST(ConfigChecker, FolderExists)
 {
     deleteFolder();
-    std::unique_ptr<IRepositoryFactory> ptr(new GitRepositoryFactory);
-    std::unique_ptr<IRepository> rep(ptr->createRepository(url, username, pass, false));
+    std::unique_ptr<interfaces::IRepositoryFactory> ptr(new git_impl::GitRepositoryFactory);
+    std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(url, username, pass, false));
     auto nameOfRepository = rep->getRepositoryName();
     rep.release();
     EXPECT_THROW(helpers::ConfigChecker::checkAndGetFinalPath(nameOfRepository), helpers::RepositoryExist);
@@ -161,13 +161,13 @@ TEST(DeleteRepositoryFolder, NotConfigFolder)
 
 TEST(GetNewRepositoryFactory, Valid)
 {
-    std::unique_ptr<IRepositoryFactory> factory(helpers::getNewRepositoryFactory(0));
+    std::unique_ptr<interfaces::IRepositoryFactory> factory(helpers::getNewRepositoryFactory(0));
     EXPECT_TRUE(factory != nullptr);
 }
 
 TEST(GetNewRepositoryFactory, WrongIndex)
 {
-    std::unique_ptr<IRepositoryFactory> factory(helpers::getNewRepositoryFactory(-1));
+    std::unique_ptr<interfaces::IRepositoryFactory> factory(helpers::getNewRepositoryFactory(-1));
     EXPECT_TRUE(factory == nullptr);
 }
 

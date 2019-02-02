@@ -71,7 +71,7 @@ void ShowAllRepositories::show()
     }
 }
 
-void ShowAllRepositories::setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& repositories)
+void ShowAllRepositories::setRepositories(std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>>&& repositories)
 {
     m_Repositories = std::move(repositories);
 }
@@ -86,7 +86,7 @@ void ShowAllRepositories::setConnections(std::vector<QMetaObject::Connection>&& 
     m_Connections = std::move(connections);
 }
 
-std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& ShowAllRepositories::getRepositories()
+std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>>&& ShowAllRepositories::getRepositories()
 {
     return std::move(m_Repositories);
 }

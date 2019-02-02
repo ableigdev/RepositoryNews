@@ -5,7 +5,7 @@
 
 namespace helpers
 {
-    IRepositoryFactory* getNewRepositoryFactory(int index);
+    interfaces::IRepositoryFactory* getNewRepositoryFactory(int index);
 }
 
 #endif // GETNEWREPOSITORYFACTORY_H

@@ -35,13 +35,13 @@ namespace
     helpers::secure_string pass("pass"); // Your correct password
 }
 
-class MockGitRepositoryFactory : public IRepositoryFactory
+class MockGitRepositoryFactory : public interfaces::IRepositoryFactory
 {
 public:
-    MOCK_METHOD4(createRepository, IRepository*(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag));
+    MOCK_METHOD4(createRepository, interfaces::IRepository*(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag));
 };
 
-class MockRepository : public IRepository
+class MockRepository : public interfaces::IRepository
 {
 public:
     MOCK_CONST_METHOD0(getBranchName, std::vector<std::string>());
@@ -60,8 +60,8 @@ TEST(GitRepositoryFactoryTest, CallGitRepositoryImpl)
 {
     deleteFolder();
     auto factory = std::make_unique<MockGitRepositoryFactory>();
-    EXPECT_CALL(*factory, createRepository(url, username, pass, false)).WillOnce(Return(new GitRepositoryImpl(url, username, pass, false)));
-    std::unique_ptr<IRepository> rep(factory->createRepository(url, username, pass, false));
+    EXPECT_CALL(*factory, createRepository(url, username, pass, false)).WillOnce(Return(new git_impl::GitRepositoryImpl(url, username, pass, false)));
+    std::unique_ptr<interfaces::IRepository> rep(factory->createRepository(url, username, pass, false));
     EXPECT_TRUE(rep.get() != nullptr);
 }
 
@@ -70,7 +70,7 @@ TEST(ShowAllRepositoryTest, CallGetRepositoryName)
     int i = 1;
     QApplication a(i, nullptr);
     auto repository = std::make_shared<MockRepository>();
-    std::vector<std::pair<int, std::shared_ptr<IRepository>>> vector;
+    std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>> vector;
     std::shared_ptr<QTimer> timer = std::make_shared<QTimer>();
     std::vector<std::shared_ptr<QTimer>> vector_of_timers;
     std::chrono::seconds sec{ 30 };

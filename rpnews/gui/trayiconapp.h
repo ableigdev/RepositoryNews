@@ -26,7 +26,7 @@ public:
 
 private:
     void readRepositoriesFromDisk();
-    void connectRepositoryWithTimer(std::shared_ptr<IRepository>&& rep, std::chrono::seconds&& sec);
+    void connectRepositoryWithTimer(std::shared_ptr<interfaces::IRepository>&& rep, std::chrono::seconds&& sec);
     void updateTimersID();
 
 private slots:
@@ -52,7 +52,7 @@ private:
     std::unique_ptr<ShowAllRepositories> m_ShowAllRepositories;
     std::unique_ptr<PopUpNotifierWindow> m_PopUpNotifierWindow;
     std::vector<std::shared_ptr<QTimer>> m_Timers;
-    std::vector<std::pair<int, std::shared_ptr<IRepository>>> m_Repositories;
+    std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>> m_Repositories;
     std::vector<QMetaObject::Connection> m_Connections;
     QSettings m_AppSettings;
 };

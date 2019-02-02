@@ -26,11 +26,11 @@ public:
     explicit ShowAllRepositories(QWidget* parent = nullptr);
     ~ShowAllRepositories();
     void show();
-    void setRepositories(std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& repositories);
+    void setRepositories(std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>>&& repositories);
     void setTimers(std::vector<std::shared_ptr<QTimer>>&& time);
     void setConnections(std::vector<QMetaObject::Connection>&& connections);
 
-    std::vector<std::pair<int, std::shared_ptr<IRepository>>>&& getRepositories();
+    std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>>&& getRepositories();
     std::vector<std::shared_ptr<QTimer>>&& getTimers();
     std::vector<QMetaObject::Connection>&& getConnections();
 
@@ -54,7 +54,7 @@ private:
 
 private:
     Ui::ShowAllRepositories* m_UI;
-    std::vector<std::pair<int, std::shared_ptr<IRepository>>> m_Repositories {};
+    std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>> m_Repositories {};
     std::vector<std::shared_ptr<QTimer>> m_Timers;
     std::vector<QMetaObject::Connection> m_Connections;
     std::unique_ptr<QMenu> m_ContextMenu;

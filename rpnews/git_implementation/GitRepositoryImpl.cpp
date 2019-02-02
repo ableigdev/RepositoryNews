@@ -1,57 +1,61 @@
 #include "GitRepositoryImpl.h"
 
-GitRepositoryImpl::GitRepositoryImpl(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag)
+git_impl::GitRepositoryImpl::GitRepositoryImpl(
+    const std::string& url, 
+    const helpers::secure_string& user, 
+    const helpers::secure_string& pass, 
+    bool flag)
 : m_GitRepositoryTypeImpl(new GitRepositoryTypeImpl(url, user, pass, flag))
 {
 
 }
 
-std::vector<std::string> GitRepositoryImpl::getBranchName() const
+std::vector<std::string> git_impl::GitRepositoryImpl::getBranchName() const
 {
     return m_GitRepositoryTypeImpl->getNameOfBranches();
 }
 
-size_t GitRepositoryImpl::getNumberOfBranches() const
+size_t git_impl::GitRepositoryImpl::getNumberOfBranches() const
 {
     return m_GitRepositoryTypeImpl->getNumberOfBranches();
 }
 
-void GitRepositoryImpl::setCurrentBranch(size_t index)
+void git_impl::GitRepositoryImpl::setCurrentBranch(size_t index)
 {
     m_GitRepositoryTypeImpl->setCurrentBranch(index);
 }
 
-std::vector<helpers::commit> GitRepositoryImpl::getLastCommit()
+std::vector<helpers::commit> git_impl::GitRepositoryImpl::getLastCommit()
 {
     return m_GitRepositoryTypeImpl->getLastCommit();
 }
 
-void GitRepositoryImpl::prepareBranches()
+void git_impl::GitRepositoryImpl::prepareBranches()
 {
     m_GitRepositoryTypeImpl->prepareBranches();
 }
 
-void GitRepositoryImpl::prepareRepository()
+void git_impl::GitRepositoryImpl::prepareRepository()
 {
     m_GitRepositoryTypeImpl->prepareDataOfRepository();
 }
 
-void GitRepositoryImpl::saveConfig()
+void git_impl::GitRepositoryImpl::saveConfig()
 {
     m_GitRepositoryTypeImpl->saveConfig();
 }
 
-size_t GitRepositoryImpl::getCurrentBranchIndex() const
+size_t git_impl::GitRepositoryImpl::getCurrentBranchIndex() const
 {
     return m_GitRepositoryTypeImpl->getCurrentBranchIndex();
 }
 
-std::string GitRepositoryImpl::getCurrentBranchName() const
+std::string git_impl::GitRepositoryImpl::getCurrentBranchName() const
 {
     return m_GitRepositoryTypeImpl->getCurrentBranchName();
 }
 
-std::string GitRepositoryImpl::getRepositoryName() const
+std::string git_impl::GitRepositoryImpl::getRepositoryName() const
 {
     return m_GitRepositoryTypeImpl->getRepositoryName();
 }

@@ -1,13 +1,13 @@
 #include "GetNewRepositoryFactory.h"
 #include "git_implementation/GitRepositoryFactory.h"
 
-IRepositoryFactory* helpers::getNewRepositoryFactory(int index)
+interfaces::IRepositoryFactory* helpers::getNewRepositoryFactory(int index)
 {
     switch (index)
     {
         case 0:
         {
-            return new GitRepositoryFactory();
+            return new git_impl::GitRepositoryFactory();
         }
         default:
         {

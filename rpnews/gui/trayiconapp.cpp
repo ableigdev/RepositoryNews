@@ -121,10 +121,10 @@ void TrayIconApp::readRepositoriesFromDisk()
     auto informAboutRepositories = helpers::CheckExistConfig::check();
     for (const auto& i : informAboutRepositories)
     {
-        std::shared_ptr<IRepositoryFactory> repositoryFactory(helpers::getNewRepositoryFactory(i.type));
+        std::shared_ptr<interfaces::IRepositoryFactory> repositoryFactory(helpers::getNewRepositoryFactory(i.type));
         try
         {
-            std::shared_ptr<IRepository> repository(repositoryFactory->createRepository(i.path, i.user, i.pass, true));
+            std::shared_ptr<interfaces::IRepository> repository(repositoryFactory->createRepository(i.path, i.user, i.pass, true));
             repository->prepareRepository();
             repository->prepareBranches();
             repository->setCurrentBranch(static_cast<size_t>(i.branchIndex));
@@ -138,7 +138,7 @@ void TrayIconApp::readRepositoriesFromDisk()
     }
 }
 
-void TrayIconApp::connectRepositoryWithTimer(std::shared_ptr<IRepository>&& repository, std::chrono::seconds&& sec)
+void TrayIconApp::connectRepositoryWithTimer(std::shared_ptr<interfaces::IRepository>&& repository, std::chrono::seconds&& sec)
 {
     std::shared_ptr<QTimer> timer(new QTimer(this));
     timer->setInterval(sec);
