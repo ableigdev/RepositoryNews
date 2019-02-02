@@ -4,9 +4,9 @@
 #include <QApplication>
 #include <QDebug>
 #include <algorithm>
-#include "rpnews/helpers/CheckExistConfig.h"
-#include "rpnews/helpers/GetNewRepositoryFactory.h"
-#include "rpnews/interfaces/IRepositoryFactory.h"
+#include "helpers/CheckExistConfig.h"
+#include "helpers/GetNewRepositoryFactory.h"
+#include "interfaces/IRepositoryFactory.h"
 
 TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),

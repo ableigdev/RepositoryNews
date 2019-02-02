@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 #include <chrono>
-#include "rpnews/interfaces/IRepository.h"
+#include "interfaces/IRepository.h"
 
 namespace Ui
 {

@@ -12,7 +12,7 @@
 #include <vector>
 #include <map>
 #include <chrono>
-#include "rpnews/helpers/AutoStartApplication.h"
+#include "helpers/AutoStartApplication.h"
 #include "AddNewRepository.h"
 #include "ShowAllRepositories.h"
 #include "PopUpNotifierWindow.h"

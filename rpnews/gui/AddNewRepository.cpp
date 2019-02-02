@@ -7,14 +7,14 @@
 #include <stdexcept>
 #include "AddNewRepository.h"
 #include "ui_AddNewRepository.h"
-#include "rpnews/git_implementation/GitRepositoryFactory.h"
-#include "rpnews/helpers/ConfigChecker.h"
-#include "rpnews/helpers/SaveConfig.h"
-#include "rpnews/helpers/GetNewRepositoryFactory.h"
-#include "rpnews/helpers/GetTimeInterval.h"
-#include "rpnews/helpers/RepositoryExist.h"
-#include "rpnews/helpers/DeleteRepositoryFolder.h"
-#include "rpnews/helpers/FillComboBox.h"
+#include "git_implementation/GitRepositoryFactory.h"
+#include "helpers/ConfigChecker.h"
+#include "helpers/SaveConfig.h"
+#include "helpers/GetNewRepositoryFactory.h"
+#include "helpers/GetTimeInterval.h"
+#include "helpers/RepositoryExist.h"
+#include "helpers/DeleteRepositoryFolder.h"
+#include "helpers/FillComboBox.h"
 
 AddNewRepository::AddNewRepository(QWidget *parent) :
     QDialog(parent),

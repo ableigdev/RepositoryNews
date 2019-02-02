@@ -8,7 +8,7 @@
 #include <QTimer>
 #include <QPushButton>
 #include <memory>
-#include "rpnews/helpers/rpnews_types.h"
+#include "helpers/rpnews_types.h"
 
 class PopUpNotifierWindow : public QWidget
 {

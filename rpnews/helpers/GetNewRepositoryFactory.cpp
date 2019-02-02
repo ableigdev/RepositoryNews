@@ -1,5 +1,5 @@
 #include "GetNewRepositoryFactory.h"
-#include "rpnews/git_implementation/GitRepositoryFactory.h"
+#include "git_implementation/GitRepositoryFactory.h"
 
 IRepositoryFactory* helpers::getNewRepositoryFactory(int index)
 {

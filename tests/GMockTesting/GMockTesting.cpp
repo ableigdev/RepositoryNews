@@ -1,12 +1,12 @@
 #include "gmock/gmock.h"
-#include "rpnews/interfaces/IRepository.h"
-#include "rpnews/interfaces/IRepositoryFactory.h"
-#include "rpnews/interfaces/IRepositoryType.h"
-#include "rpnews/git_implementation/GitRepositoryImpl.h"
-#include "rpnews/git_implementation/GitRepositoryFactory.h"
-#include "rpnews/git_implementation/GitRepositoryTypeImpl.h"
-#include "rpnews/helpers/rpnews_types.h"
-#include "rpnews/gui/ShowAllRepositories.h"
+#include "interfaces/IRepository.h"
+#include "interfaces/IRepositoryFactory.h"
+#include "interfaces/IRepositoryType.h"
+#include "git_implementation/GitRepositoryImpl.h"
+#include "git_implementation/GitRepositoryFactory.h"
+#include "git_implementation/GitRepositoryTypeImpl.h"
+#include "helpers/rpnews_types.h"
+#include "gui/ShowAllRepositories.h"
 
 #include <QDir>
 #include <QApplication>

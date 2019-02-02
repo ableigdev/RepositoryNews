@@ -1,7 +1,7 @@
 #ifndef RPNEWS_GITREPOSITORYIMPL_H
 #define RPNEWS_GITREPOSITORYIMPL_H
 
-#include "rpnews/interfaces/IRepository.h"
+#include "interfaces/IRepository.h"
 #include "GitRepositoryTypeImpl.h"
 #include <memory>
 

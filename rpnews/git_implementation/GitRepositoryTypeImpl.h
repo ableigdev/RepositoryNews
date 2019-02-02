@@ -2,11 +2,11 @@
 #define RPNEWS_GITREPOSITORYTYPEIMPL_H
 
 #include <string>
-#include "rpnews/interfaces/IRepositoryType.h"
-#include "rpnews/helpers/rpnews_types.h"
-#include "rpnews/wrappers/LibraryWrapper.h"
-#include "rpnews/wrappers/RepositoryWrapper.h"
-#include "rpnews/wrappers/GitRemoteWrapper.h"
+#include "interfaces/IRepositoryType.h"
+#include "helpers/rpnews_types.h"
+#include "wrappers/LibraryWrapper.h"
+#include "wrappers/RepositoryWrapper.h"
+#include "wrappers/GitRemoteWrapper.h"
 #include <QDebug>
 
 class GitRepositoryTypeImpl : public IRepositoryType

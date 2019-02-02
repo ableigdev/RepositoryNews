@@ -1,5 +1,5 @@
 #include "GitRemoteWrapper.h"
-#include "rpnews/helpers/ErrorMessageMaker.h"
+#include "helpers/ErrorMessageMaker.h"
 #include <stdexcept>
 
 git_wrapper::GitRemoteWrapper::GitRemoteWrapper(git_wrapper::RepositoryWrapper &repo, const std::string& url)

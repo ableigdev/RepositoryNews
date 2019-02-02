@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "rpnews/helpers/AESEncryption.h"
+#include "helpers/AESEncryption.h"
 #include <QByteArray>
 
 namespace

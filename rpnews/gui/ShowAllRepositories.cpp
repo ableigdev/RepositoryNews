@@ -10,10 +10,10 @@
 #include <string>
 #include <chrono>
 #include <algorithm>
-#include "rpnews/helpers/SaveConfig.h"
-#include "rpnews/helpers/GetTimeInterval.h"
-#include "rpnews/helpers/DeleteRepositoryFolder.h"
-#include "rpnews/helpers/FillComboBox.h"
+#include "helpers/SaveConfig.h"
+#include "helpers/GetTimeInterval.h"
+#include "helpers/DeleteRepositoryFolder.h"
+#include "helpers/FillComboBox.h"
 
 ShowAllRepositories::ShowAllRepositories(QWidget* parent) :
     QDialog(parent),

@@ -4,19 +4,19 @@
 #include <memory>
 #include <stdexcept>
 
-#include "rpnews/interfaces/IRepository.h"
-#include "rpnews/interfaces/IRepositoryType.h"
-#include "rpnews/interfaces/IRepositoryFactory.h"
-#include "rpnews/git_implementation/GitRepositoryTypeImpl.h"
-#include "rpnews/git_implementation/GitRepositoryImpl.h"
-#include "rpnews/git_implementation/GitRepositoryFactory.h"
-#include "rpnews/helpers/rpnews_types.h"
-#include "rpnews/helpers/ConfigChecker.h"
-#include "rpnews/helpers/RepositoryExist.h"
-#include "rpnews/helpers/DeleteRepositoryFolder.h"
-#include "rpnews/helpers/ErrorMessageMaker.h"
-#include "rpnews/helpers/GetNewRepositoryFactory.h"
-#include "rpnews/helpers/GetTimeInterval.h"
+#include "interfaces/IRepository.h"
+#include "interfaces/IRepositoryType.h"
+#include "interfaces/IRepositoryFactory.h"
+#include "git_implementation/GitRepositoryTypeImpl.h"
+#include "git_implementation/GitRepositoryImpl.h"
+#include "git_implementation/GitRepositoryFactory.h"
+#include "helpers/rpnews_types.h"
+#include "helpers/ConfigChecker.h"
+#include "helpers/RepositoryExist.h"
+#include "helpers/DeleteRepositoryFolder.h"
+#include "helpers/ErrorMessageMaker.h"
+#include "helpers/GetNewRepositoryFactory.h"
+#include "helpers/GetTimeInterval.h"
 
 
 namespace

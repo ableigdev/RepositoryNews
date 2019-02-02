@@ -1,5 +1,5 @@
 #include "GitCommitLookupWrapper.h"
-#include "rpnews/helpers/ErrorMessageMaker.h"
+#include "helpers/ErrorMessageMaker.h"
 #include <string>
 #include <stdexcept>
 

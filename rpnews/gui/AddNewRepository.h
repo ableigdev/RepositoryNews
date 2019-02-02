@@ -6,8 +6,8 @@
 #include <QShowEvent>
 #include <memory>
 #include <chrono>
-#include "rpnews/interfaces/IRepositoryFactory.h"
-#include "rpnews/interfaces/IRepository.h"
+#include "interfaces/IRepositoryFactory.h"
+#include "interfaces/IRepository.h"
 
 namespace Ui
 {

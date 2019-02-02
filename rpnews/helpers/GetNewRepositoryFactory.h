@@ -1,7 +1,7 @@
 #ifndef GETNEWREPOSITORYFACTORY_H
 #define GETNEWREPOSITORYFACTORY_H
 
-#include "rpnews/interfaces/IRepositoryFactory.h"
+#include "interfaces/IRepositoryFactory.h"
 
 namespace helpers
 {

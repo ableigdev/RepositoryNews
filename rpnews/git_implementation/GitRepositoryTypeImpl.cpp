@@ -7,13 +7,13 @@
 #include <QDebug>
 #include <QtGlobal>
 #include "GitRepositoryTypeImpl.h"
-#include "rpnews/wrappers/GitBranchIteratorWrapper.h"
-#include "rpnews/wrappers/GitReferenceWrapper.h"
-#include "rpnews/wrappers/GitRevwalkWrapper.h"
-#include "rpnews/wrappers/GitCommitLookupWrapper.h"
-#include "rpnews/helpers/ConfigChecker.h"
-#include "rpnews/helpers/ErrorMessageMaker.h"
-#include "rpnews/helpers/SaveConfig.h"
+#include "wrappers/GitBranchIteratorWrapper.h"
+#include "wrappers/GitReferenceWrapper.h"
+#include "wrappers/GitRevwalkWrapper.h"
+#include "wrappers/GitCommitLookupWrapper.h"
+#include "helpers/ConfigChecker.h"
+#include "helpers/ErrorMessageMaker.h"
+#include "helpers/SaveConfig.h"
 
 GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag)
 : m_Counter(0),

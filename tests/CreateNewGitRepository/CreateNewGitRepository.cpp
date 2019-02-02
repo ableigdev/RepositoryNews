@@ -4,16 +4,16 @@
 #include <memory>
 #include <fstream>
 
-#include "rpnews/helpers/rpnews_types.h"
-#include "rpnews/interfaces/IRepository.h"
-#include "rpnews/interfaces/IRepositoryType.h"
-#include "rpnews/interfaces/IRepositoryFactory.h"
-#include "rpnews/git_implementation/GitRepositoryTypeImpl.h"
-#include "rpnews/git_implementation/GitRepositoryImpl.h"
-#include "rpnews/git_implementation/GitRepositoryFactory.h"
-#include "rpnews/helpers/CheckExistConfig.h"
-#include "rpnews/helpers/RepositoryExist.h"
-#include "rpnews/helpers/SaveConfig.h"
+#include "helpers/rpnews_types.h"
+#include "interfaces/IRepository.h"
+#include "interfaces/IRepositoryType.h"
+#include "interfaces/IRepositoryFactory.h"
+#include "git_implementation/GitRepositoryTypeImpl.h"
+#include "git_implementation/GitRepositoryImpl.h"
+#include "git_implementation/GitRepositoryFactory.h"
+#include "helpers/CheckExistConfig.h"
+#include "helpers/RepositoryExist.h"
+#include "helpers/SaveConfig.h"
 
 namespace
 {
