@@ -5,12 +5,18 @@
 *.opensdf
 
 # Any user files
-*.user
+*.user*
 *.VC.db
 *.VC.VC.opendb
+.idea/
+.directory
 
 # Output files
 bin/
 obj/
 build/
+cmake-build-debug/
+installed/
 
+# *.exe files
+*.exe

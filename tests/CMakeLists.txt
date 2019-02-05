@@ -1,14 +1,14 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10)
 
-project(rpnews_tests)
+include(${CMAKE_SOURCE_DIR}/cmake/FindQt.cmake)
+include_directories(${CONAN_INCLUDE_DIRS_GTEST})
+include_directories(${CMAKE_SOURCE_DIR}/rpnews)
+file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/rpnews/*/*.cpp)
+file(GLOB HEADERS ${CMAKE_SOURCE_DIR}/rpnews/*/*.h)
 
-include_directories(../src)
 
-set(GTEST_SRC ../googletest/googletest/src/gtest-all.cc)
-include_directories(../googletest/googletest ../googletest/googletest/include)
+add_subdirectory(CreateNewGitRepository)
+add_subdirectory(GMockTesting)
+add_subdirectory(TestCrypt)
+add_subdirectory(TestHelpers)
 
-add_library(googletest STATIC ${GTEST_SRC})
-target_link_libraries(googletest ${CMAKE_THREAD_LIBS_INIT})
-
-add_executable(rpnews_tests rpnews_tests.cpp)
-target_link_libraries(rpnews_tests googletest)
