@@ -69,7 +69,7 @@ TEST(CreateObject, RepositoryExist)
     std::unique_ptr<interfaces::IRepositoryFactory> ptr(new git_impl::GitRepositoryFactory);
     std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(url, username, pass, false));
     rep->saveConfig();
-    EXPECT_THROW(rep.reset(ptr->createRepository(url, username, pass, false)), helpers::RepositoryExist);
+    EXPECT_THROW(rep = ptr->createRepository(url, username, pass, false), helpers::RepositoryExist);
 }
 
 TEST(MethodsTest, PrepareRepository)
@@ -154,7 +154,7 @@ TEST(OpenRepositoryTest, Valid)
     std::chrono::seconds sec { 30 };
     helpers::SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchName(), rep->getCurrentBranchIndex(), sec);
     auto result = helpers::CheckExistConfig::check();
-    EXPECT_NO_THROW(rep.reset(ptr->createRepository(result.front().path, result.front().user, result.front().pass, true)));
+    EXPECT_NO_THROW(rep = ptr->createRepository(result.front().path, result.front().user, result.front().pass, true));
 }
 
 TEST(OpenRepositoryTest, WrongPath)

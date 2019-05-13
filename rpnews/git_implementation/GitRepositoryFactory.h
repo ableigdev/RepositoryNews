@@ -9,12 +9,12 @@ namespace git_impl
     {
     public:
         GitRepositoryFactory() = default;
-        virtual ~GitRepositoryFactory() = default;
-        virtual interfaces::IRepository* createRepository(
+        virtual ~GitRepositoryFactory() override = default;
+        virtual std::unique_ptr<interfaces::IRepository> createRepository(
                 const std::string& url, 
                 const helpers::secure_string& user, 
                 const helpers::secure_string& pass, 
-                bool flag);
+                bool flag) override;
     };
 }
     

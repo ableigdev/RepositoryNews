@@ -62,7 +62,7 @@ void AddNewRepository::initializeComboBoxRepositoryType()
 
 void AddNewRepository::on_ComboBox_RepositoryType_activated(int index)
 {
-    m_RepositoryFactory.reset(helpers::getNewRepositoryFactory(index));
+    m_RepositoryFactory = helpers::getNewRepositoryFactory(index);
 }
 
 void AddNewRepository::on_Button_Connect_clicked()
@@ -81,7 +81,7 @@ void AddNewRepository::on_Button_Connect_clicked()
         folderName = helpers::ConfigChecker::getRepositoryFolderName(url);
         try
         {
-            m_Repository.reset(m_RepositoryFactory->createRepository(url, login.c_str(), pass.c_str(), false));
+            m_Repository = m_RepositoryFactory->createRepository(url, login.c_str(), pass.c_str(), false);
             m_Repository->prepareRepository();
             m_Repository->prepareBranches();
             initializeComboBoxBranchName();

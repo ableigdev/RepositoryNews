@@ -15,17 +15,17 @@ namespace git_impl
     {
     public:
         GitRepositoryTypeImpl(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag);
-        virtual ~GitRepositoryTypeImpl() = default;
-        virtual std::vector<std::string> getNameOfBranches() const;
-        virtual size_t getNumberOfBranches() const;
-        virtual std::vector<helpers::commit> getLastCommit();
-        virtual void setCurrentBranch(size_t index);
-        virtual size_t getCurrentBranchIndex() const;
-        virtual std::string getCurrentBranchName() const;
-        virtual std::string getRepositoryName() const;
-        virtual void prepareDataOfRepository();
-        virtual void prepareBranches();
-        virtual void saveConfig();
+        virtual ~GitRepositoryTypeImpl() override = default;
+        virtual std::vector<std::string> getNameOfBranches() const override;
+        virtual size_t getNumberOfBranches() const override;
+        virtual std::vector<helpers::commit> getLastCommit() override;
+        virtual void setCurrentBranch(size_t index) override;
+        virtual size_t getCurrentBranchIndex() const override;
+        virtual std::string getCurrentBranchName() const override;
+        virtual std::string getRepositoryName() const override;
+        virtual void prepareDataOfRepository() override;
+        virtual void prepareBranches() override;
+        virtual void saveConfig() override;
 
     private:
         static int userPassGitCredCb(git_cred** cred, const char* url, const char* usernameFromUrl, unsigned int allowedTypes, void *payload);

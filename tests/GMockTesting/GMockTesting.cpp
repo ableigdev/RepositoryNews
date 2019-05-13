@@ -16,31 +16,6 @@
 
 using namespace testing;
 
-namespace
-{
-    void deleteFolder()
-    {
-        QDir dir;
-        dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
-        if (dir.exists(".configs"))
-        {
-            dir.cd(".configs");
-            dir.removeRecursively();
-        }
-    }
-
-    // Enter correct your data, before that you run these tests
-    std::string url("https://name@bitbucket.org/name/repository.git"); // Your test repository
-    helpers::secure_string username("username"); // Your correct username
-    helpers::secure_string pass("pass"); // Your correct password
-}
-
-class MockGitRepositoryFactory : public interfaces::IRepositoryFactory
-{
-public:
-    MOCK_METHOD4(createRepository, interfaces::IRepository*(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag));
-};
-
 class MockRepository : public interfaces::IRepository
 {
 public:
@@ -55,15 +30,6 @@ public:
     MOCK_METHOD0(prepareBranches, void());
     MOCK_METHOD0(saveConfig, void());
 };
-
-TEST(GitRepositoryFactoryTest, CallGitRepositoryImpl)
-{
-    deleteFolder();
-    auto factory = std::make_unique<MockGitRepositoryFactory>();
-    EXPECT_CALL(*factory, createRepository(url, username, pass, false)).WillOnce(Return(new git_impl::GitRepositoryImpl(url, username, pass, false)));
-    std::unique_ptr<interfaces::IRepository> rep(factory->createRepository(url, username, pass, false));
-    EXPECT_TRUE(rep.get() != nullptr);
-}
 
 TEST(ShowAllRepositoryTest, CallGetRepositoryName)
 {

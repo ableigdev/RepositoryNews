@@ -1,11 +1,12 @@
 #ifndef GETNEWREPOSITORYFACTORY_H
 #define GETNEWREPOSITORYFACTORY_H
 
+#include <memory>
 #include "interfaces/IRepositoryFactory.h"
 
 namespace helpers
 {
-    interfaces::IRepositoryFactory* getNewRepositoryFactory(int index);
+    std::unique_ptr<interfaces::IRepositoryFactory> getNewRepositoryFactory(int index);
 }
 
 #endif // GETNEWREPOSITORYFACTORY_H
