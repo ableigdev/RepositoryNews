@@ -15,29 +15,17 @@
 #include "helpers/ErrorMessageMaker.h"
 #include "helpers/SaveConfig.h"
 
-git_impl::GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag)
+git_impl::GitRepositoryTypeImpl::GitRepositoryTypeImpl(const std::string &url, const helpers::secure_string& user, const helpers::secure_string& pass, std::unique_ptr<interfaces::IStrategy>&& strategy)
 : m_Counter(0),
 m_CurrentBranch(0),
 m_WasData(false)
 {
-    if (flag)
+    if (strategy == nullptr)
     {
-        m_RepositoryName = helpers::ConfigChecker::getRepositoryFolderNameFromPath(url);
-        m_Repository.open(url);
-        m_Remote.open(m_Repository);
-    }
-    else
-    {
-        m_RepositoryName = helpers::ConfigChecker::getRepositoryFolderName(url);
-        if (m_RepositoryName.empty())
-        {
-            throw std::logic_error("Invalid url");
-        }
-        auto path = helpers::ConfigChecker::checkAndGetFinalPath(m_RepositoryName);
-        m_Repository.create(path);
-        m_Remote.create(m_Repository, url);
+        throw std::logic_error("Bad strategy");
     }
 
+    strategy->raiseRepository(&m_RepositoryName, url, &m_Repository, &m_Remote);
     m_Username = user;
     m_Password = pass;
     m_FetchOptions = GIT_FETCH_OPTIONS_INIT;

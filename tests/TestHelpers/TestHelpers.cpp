@@ -10,6 +10,7 @@
 #include "git_implementation/GitRepositoryTypeImpl.h"
 #include "git_implementation/GitRepositoryImpl.h"
 #include "git_implementation/GitRepositoryFactory.h"
+#include "git_implementation/GitCreateRepositoryStrategyImpl.h"
 #include "helpers/rpnews_types.h"
 #include "helpers/ConfigChecker.h"
 #include "helpers/RepositoryExist.h"
@@ -42,7 +43,8 @@ TEST(ConfigChecker, FolderExists)
 {
     deleteFolder();
     std::unique_ptr<interfaces::IRepositoryFactory> ptr(new git_impl::GitRepositoryFactory);
-    std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(url, username, pass, false));
+    auto createStategy(std::make_unique<git_impl::GitCreateRepositoryStrategyImpl>());
+    std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(url, username, pass, std::move(createStategy)));
     auto nameOfRepository = rep->getRepositoryName();
     rep.release();
     EXPECT_THROW(helpers::ConfigChecker::checkAndGetFinalPath(nameOfRepository), helpers::RepositoryExist);

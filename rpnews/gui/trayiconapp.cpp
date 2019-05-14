@@ -7,6 +7,7 @@
 #include "helpers/CheckExistConfig.h"
 #include "helpers/GetNewRepositoryFactory.h"
 #include "interfaces/IRepositoryFactory.h"
+#include "git_implementation/GitOpenRepositoryStrategyImpl.h"
 
 TrayIconApp::TrayIconApp(QWidget* parent)
     : QMainWindow(parent),
@@ -122,9 +123,10 @@ void TrayIconApp::readRepositoriesFromDisk()
     for (const auto& i : informAboutRepositories)
     {
         std::shared_ptr<interfaces::IRepositoryFactory> repositoryFactory(helpers::getNewRepositoryFactory(i.type));
+        auto openStrategy(std::make_unique<git_impl::GitOpenRepositoryStrategyImpl>());
         try
         {
-            std::shared_ptr<interfaces::IRepository> repository(repositoryFactory->createRepository(i.path, i.user, i.pass, true));
+            std::shared_ptr<interfaces::IRepository> repository(repositoryFactory->createRepository(i.path, i.user, i.pass, std::move(openStrategy)));
             repository->prepareRepository();
             repository->prepareBranches();
             repository->setCurrentBranch(static_cast<size_t>(i.branchIndex));

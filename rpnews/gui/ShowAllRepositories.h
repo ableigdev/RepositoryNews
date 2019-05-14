@@ -27,7 +27,7 @@ public:
     ~ShowAllRepositories();
     void show();
     void setRepositories(std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>>&& repositories);
-    void setTimers(std::vector<std::shared_ptr<QTimer>>&& time);
+    void setTimers(std::vector<std::shared_ptr<QTimer>>&& timers);
     void setConnections(std::vector<QMetaObject::Connection>&& connections);
 
     std::vector<std::pair<int, std::shared_ptr<interfaces::IRepository>>>&& getRepositories();

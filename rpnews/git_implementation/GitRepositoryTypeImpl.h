@@ -3,6 +3,7 @@
 
 #include <string>
 #include "interfaces/IRepositoryType.h"
+#include "interfaces/IStrategy.h"
 #include "helpers/rpnews_types.h"
 #include "wrappers/LibraryWrapper.h"
 #include "wrappers/RepositoryWrapper.h"
@@ -14,7 +15,7 @@ namespace git_impl
     class GitRepositoryTypeImpl : public interfaces::IRepositoryType
     {
     public:
-        GitRepositoryTypeImpl(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, bool flag);
+        GitRepositoryTypeImpl(const std::string& url, const helpers::secure_string& user, const helpers::secure_string& pass, std::unique_ptr<interfaces::IStrategy>&& strategy);
         virtual ~GitRepositoryTypeImpl() override = default;
         virtual std::vector<std::string> getNameOfBranches() const override;
         virtual size_t getNumberOfBranches() const override;

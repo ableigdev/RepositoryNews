@@ -8,6 +8,7 @@
 #include "AddNewRepository.h"
 #include "ui_AddNewRepository.h"
 #include "git_implementation/GitRepositoryFactory.h"
+#include "git_implementation/GitCreateRepositoryStrategyImpl.h"
 #include "helpers/ConfigChecker.h"
 #include "helpers/SaveConfig.h"
 #include "helpers/GetNewRepositoryFactory.h"
@@ -79,9 +80,10 @@ void AddNewRepository::on_Button_Connect_clicked()
     else
     {
         folderName = helpers::ConfigChecker::getRepositoryFolderName(url);
+        auto createStrategy(std::make_unique<git_impl::GitCreateRepositoryStrategyImpl>());
         try
         {
-            m_Repository = m_RepositoryFactory->createRepository(url, login.c_str(), pass.c_str(), false);
+            m_Repository = m_RepositoryFactory->createRepository(url, login.c_str(), pass.c_str(), std::move(createStrategy));
             m_Repository->prepareRepository();
             m_Repository->prepareBranches();
             initializeComboBoxBranchName();

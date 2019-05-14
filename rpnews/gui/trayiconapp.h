@@ -26,7 +26,7 @@ public:
 
 private:
     void readRepositoriesFromDisk();
-    void connectRepositoryWithTimer(std::shared_ptr<interfaces::IRepository>&& rep, std::chrono::seconds&& sec);
+    void connectRepositoryWithTimer(std::shared_ptr<interfaces::IRepository>&& repository, std::chrono::seconds&& sec);
     void updateTimersID();
 
 private slots:

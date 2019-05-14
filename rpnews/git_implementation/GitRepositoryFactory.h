@@ -2,6 +2,7 @@
 #define RPNEWS_GITREPOSITORYFACTORY_H
 
 #include "interfaces/IRepositoryFactory.h"
+#include "interfaces/IStrategy.h"
 
 namespace git_impl
 {
@@ -14,7 +15,7 @@ namespace git_impl
                 const std::string& url, 
                 const helpers::secure_string& user, 
                 const helpers::secure_string& pass, 
-                bool flag) override;
+                std::unique_ptr<interfaces::IStrategy>&& strategy) override;
     };
 }
     

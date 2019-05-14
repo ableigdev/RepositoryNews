@@ -2,6 +2,7 @@
 #define RPNEWS_GITREPOSITORYIMPL_H
 
 #include "interfaces/IRepository.h"
+#include "interfaces/IStrategy.h"
 #include "GitRepositoryTypeImpl.h"
 #include <memory>
 
@@ -13,7 +14,7 @@ namespace git_impl
         GitRepositoryImpl(const std::string& url, 
             const helpers::secure_string& user, 
             const helpers::secure_string& pass, 
-            bool flag);
+            std::unique_ptr<interfaces::IStrategy>&& strategy);
         virtual ~GitRepositoryImpl() override = default;
         virtual std::vector<std::string> getBranchName() const override;
         virtual size_t getNumberOfBranches() const override;

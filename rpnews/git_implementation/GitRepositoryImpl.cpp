@@ -4,8 +4,8 @@ git_impl::GitRepositoryImpl::GitRepositoryImpl(
     const std::string& url, 
     const helpers::secure_string& user, 
     const helpers::secure_string& pass, 
-    bool flag)
-: m_GitRepositoryTypeImpl(new GitRepositoryTypeImpl(url, user, pass, flag))
+    std::unique_ptr<interfaces::IStrategy>&& strategy)
+    : m_GitRepositoryTypeImpl(new GitRepositoryTypeImpl(url, user, pass, std::move(strategy)))
 {
 
 }
