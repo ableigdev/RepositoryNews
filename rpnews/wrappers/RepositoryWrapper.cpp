@@ -15,6 +15,22 @@ git_wrapper::RepositoryWrapper::~RepositoryWrapper()
     }
 }
 
+git_wrapper::RepositoryWrapper::RepositoryWrapper(git_wrapper::RepositoryWrapper &&repositoryWrapper) noexcept
+: m_Repo(repositoryWrapper.m_Repo)
+{
+    repositoryWrapper.m_Repo = nullptr;
+}
+
+git_wrapper::RepositoryWrapper& git_wrapper::RepositoryWrapper::operator=(git_wrapper::RepositoryWrapper&& repositoryWrapper) noexcept
+{
+    if (this != &repositoryWrapper)
+    {
+        m_Repo = repositoryWrapper.m_Repo;
+        repositoryWrapper.m_Repo = nullptr;
+    }
+    return *this;
+}
+
 void git_wrapper::RepositoryWrapper::check(const std::string& path)
 {
     if (git_repository_init(&m_Repo, path.data(), false) != 0)

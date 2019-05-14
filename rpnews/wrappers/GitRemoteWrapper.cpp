@@ -15,6 +15,22 @@ git_wrapper::GitRemoteWrapper::~GitRemoteWrapper()
     }
 }
 
+git_wrapper::GitRemoteWrapper::GitRemoteWrapper(git_wrapper::GitRemoteWrapper&& remoteWrapper) noexcept
+: m_Remote(remoteWrapper.m_Remote)
+{
+    remoteWrapper.m_Remote = nullptr;
+}
+
+git_wrapper::GitRemoteWrapper& git_wrapper::GitRemoteWrapper::operator=(git_wrapper::GitRemoteWrapper&& remoteWrapper) noexcept
+{
+    if (this != &remoteWrapper)
+    {
+        m_Remote = remoteWrapper.m_Remote;
+        remoteWrapper.m_Remote = nullptr;
+    }
+    return *this;
+}
+
 bool git_wrapper::GitRemoteWrapper::create(git_wrapper::RepositoryWrapper& repo, const std::string& url)
 {
     if (m_Remote == nullptr)
