@@ -43,7 +43,7 @@ void ShowAllRepositories::initializeRepositoriesTableWidget()
 {
     m_UI->RepositoriesTableWidget->setColumnCount(3);
     QStringList list;
-    list << "Name Of Repository" << "Name of Branch" << "Time Interval (sec)";
+    list << "Name Of Repository" << "Name of Branch" << "Time Interval (min)";
     m_UI->RepositoriesTableWidget->setHorizontalHeaderLabels(list);
     m_UI->RepositoriesTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_UI->RepositoriesTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -110,7 +110,7 @@ void ShowAllRepositories::fillTheTable()
         m_UI->RepositoriesTableWidget->insertRow(counter);
         m_UI->RepositoriesTableWidget->setItem(counter, 0, new QTableWidgetItem(i.second->getRepositoryName().c_str()));
         m_UI->RepositoriesTableWidget->setItem(counter, 1, new QTableWidgetItem(i.second->getCurrentBranchName().c_str()));
-        m_UI->RepositoriesTableWidget->setItem(counter, 2, new QTableWidgetItem(std::to_string(m_Timers[static_cast<size_t>(counter)]->intervalAsDuration().count() / 1000).c_str()));
+        m_UI->RepositoriesTableWidget->setItem(counter, 2, new QTableWidgetItem(std::to_string((m_Timers[static_cast<size_t>(counter)]->intervalAsDuration().count() / 1000) / 60).c_str()));
         ++counter;
     }
 }
