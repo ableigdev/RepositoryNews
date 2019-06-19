@@ -3,9 +3,7 @@
 #include <functional>
 #include <memory>
 #include <chrono>
-#include <QDir>
-#include <QDebug>
-#include <QtGlobal>
+#include <filesystem>
 #include "GitRepositoryTypeImpl.h"
 #include "wrappers/GitBranchIteratorWrapper.h"
 #include "wrappers/GitReferenceWrapper.h"
@@ -167,11 +165,10 @@ void git_impl::GitRepositoryTypeImpl::fetchData()
 
 void git_impl::GitRepositoryTypeImpl::changeHead()
 {
-    QString path(git_repository_workdir(m_Repository.getPointer()));
-    QDir dir(path);
-    dir.cd(".git");
-    dir.remove("HEAD");
-    dir.rename("FETCH_HEAD", "HEAD");
+    std::filesystem::path currentPath(git_repository_workdir(m_Repository.getPointer()));
+    currentPath /= ".git";
+    std::filesystem::remove(currentPath / "HEAD");
+    std::filesystem::rename(currentPath / "FETCH_HEAD", currentPath / "HEAD");
 }
 
 std::vector<helpers::commit> git_impl::GitRepositoryTypeImpl::getLastCommit()
