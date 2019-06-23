@@ -12,9 +12,9 @@ void helpers::SaveConfig::save(const std::string& path, const TypeRepository& ty
     outFile.close();
 }
 
-void helpers::SaveConfig::saveGUIConfig(const std::string& nameOfRepository, const std::string& branchName, size_t branchIndex, std::chrono::seconds time)
+void helpers::SaveConfig::saveGUIConfig(const std::string& nameOfRepository, size_t branchIndex, std::chrono::seconds time)
 {
     std::ofstream outFile(".configs/" + nameOfRepository + "/config_gui_rep", std::ios::out);
-    outFile << branchName << " " << branchIndex << " " << time.count();
+    outFile << branchIndex << " " << time.count();
     outFile.close();
 }

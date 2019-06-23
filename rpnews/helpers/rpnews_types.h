@@ -23,7 +23,6 @@ namespace helpers
         int type = -1;
         secure_string user {};
         secure_string pass {};
-        std::string branchName {};
         int branchIndex = -1;
         int timeInterval = -1;
     };

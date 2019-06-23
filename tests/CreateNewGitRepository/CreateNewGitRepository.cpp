@@ -175,7 +175,7 @@ TEST(OpenRepositoryTest, Valid)
     EXPECT_TRUE(rep != nullptr);
     rep->saveConfig();
     std::chrono::seconds sec { 30 };
-    helpers::SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchName(), rep->getCurrentBranchIndex(), sec);
+    helpers::SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchIndex(), sec);
     auto result = helpers::CheckExistConfig::check();
     auto openStrategy(std::make_unique<git_impl::GitOpenRepositoryStrategyImpl>());
     EXPECT_NO_THROW(rep = ptr->createRepository(result.front().path, result.front().user, result.front().pass, std::move(openStrategy)));
@@ -197,7 +197,7 @@ TEST(OpenRepositoryTest, WrongUserName)
     std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(url, username, pass, std::move(createStrategy)));
     rep->saveConfig();
     std::chrono::seconds sec { 30 };
-    helpers::SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchName(), rep->getCurrentBranchIndex(), sec);
+    helpers::SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchIndex(), sec);
     auto result = helpers::CheckExistConfig::check();
     auto openStrategy(std::make_unique<git_impl::GitOpenRepositoryStrategyImpl>());
     EXPECT_THROW(std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(result.front().path, "wrong_username", result.front().pass, std::move(openStrategy))), std::logic_error);
@@ -211,7 +211,7 @@ TEST(OpenRepositoryTest, WrongPassword)
     std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(url, username, pass, std::move(createStrategy)));
     rep->saveConfig();
     std::chrono::seconds sec { 30 };
-    helpers::SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchName(), rep->getCurrentBranchIndex(), sec);
+    helpers::SaveConfig::saveGUIConfig(rep->getRepositoryName(), rep->getCurrentBranchIndex(), sec);
     auto result = helpers::CheckExistConfig::check();
     auto openStrategy(std::make_unique<git_impl::GitOpenRepositoryStrategyImpl>());
     EXPECT_THROW(std::unique_ptr<interfaces::IRepository> rep(ptr->createRepository(result.front().path, username, "wrong_pass", std::move(openStrategy))), std::logic_error);

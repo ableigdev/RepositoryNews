@@ -186,7 +186,6 @@ void ShowAllRepositories::savePropertiesSlot()
     std::chrono::seconds sec {m_Timers[index]->intervalAsDuration().count() / 1000};
 
     helpers::SaveConfig::saveGUIConfig(m_Repositories[index].second->getRepositoryName(),
-                              m_Repositories[index].second->getCurrentBranchName(),
                               m_Repositories[index].second->getCurrentBranchIndex(),
                               sec);
     closeEditMode();

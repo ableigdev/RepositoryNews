@@ -132,7 +132,6 @@ void AddNewRepository::on_Button_Add_Save_clicked()
 {
     m_Repository->saveConfig();
     helpers::SaveConfig::saveGUIConfig(m_Repository->getRepositoryName(),
-                              m_Repository->getCurrentBranchName(),
                               m_Repository->getCurrentBranchIndex(),
                               m_TimeForSynchronization);
     m_RepositoryIsReady = true;

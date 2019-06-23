@@ -58,12 +58,12 @@ std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
             if (std::regex_search(stringData.data(), resultOfFindingConfigGUIFile, findConfigGUIRepository))
             {
                 std::ifstream inFile(resultOfFindingConfigGUIFile.str(), std::ios::in);
-                inFile >> repositoryInfo.branchName >> repositoryInfo.branchIndex >> repositoryInfo.timeInterval;
+                inFile >> repositoryInfo.branchIndex >> repositoryInfo.timeInterval;
             }
 
             if (!repositoryInfo.path.empty() && repositoryInfo.type != -1
                     && !repositoryInfo.user.empty() && !repositoryInfo.pass.empty()
-                    && !repositoryInfo.branchName.empty() && repositoryInfo.branchIndex != -1
+                    && repositoryInfo.branchIndex != -1
                     && repositoryInfo.timeInterval != -1)
             {
                 result.emplace_back(repositoryInfo);
@@ -71,7 +71,6 @@ std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
                 repositoryInfo.type = -1;
                 repositoryInfo.user.clear();
                 repositoryInfo.pass.clear();
-                repositoryInfo.branchName.clear();
                 repositoryInfo.branchIndex = -1;
                 repositoryInfo.timeInterval = -1;
             }
