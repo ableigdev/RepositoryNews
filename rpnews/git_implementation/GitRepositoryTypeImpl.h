@@ -8,7 +8,6 @@
 #include "wrappers/LibraryWrapper.h"
 #include "wrappers/RepositoryWrapper.h"
 #include "wrappers/GitRemoteWrapper.h"
-#include <QDebug>
 
 namespace git_impl
 {
@@ -32,7 +31,7 @@ namespace git_impl
         static int userPassGitCredCb(git_cred** cred, const char* url, const char* usernameFromUrl, unsigned int allowedTypes, void *payload);
         int onGitCallBack(git_cred** cred, const char* url, const char* username_from_url, unsigned int allowed_types);
         static int progressCb(const char* str, int len, void* data);
-        int onProgressCb(const char* str, int len);
+        int onProgressCb(const char*, int);
         std::vector<helpers::commit> checkNewCommit();
         void connect();
         void fetchData();

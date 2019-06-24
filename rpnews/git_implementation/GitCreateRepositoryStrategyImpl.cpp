@@ -5,7 +5,7 @@ void git_impl::GitCreateRepositoryStrategyImpl::raiseRepository(std::string *nam
     *name = helpers::ConfigChecker::getRepositoryFolderName(url);
     if (name->empty())
     {
-        throw std::logic_error("Invalid url");
+        throw std::logic_error("Invalid URL");
     }
     auto path = helpers::ConfigChecker::checkAndGetFinalPath(*name);
     repository->create(path);

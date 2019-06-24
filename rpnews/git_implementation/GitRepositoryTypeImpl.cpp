@@ -42,10 +42,8 @@ int git_impl::GitRepositoryTypeImpl::userPassGitCredCb(git_cred** cred, const ch
     return self->onGitCallBack(cred, url, usernameFromUrl, allowedTypes);
 }
 
-int git_impl::GitRepositoryTypeImpl::onGitCallBack(git_cred** cred, const char* url, const char* username_from_url, unsigned int allowed_types)
+int git_impl::GitRepositoryTypeImpl::onGitCallBack(git_cred** cred, const char*, const char*, unsigned int allowed_types)
 {
-    Q_UNUSED(url);
-    Q_UNUSED(username_from_url);
     if (m_Counter > 0)
     {
         throw std::logic_error("Invalid credential");
@@ -67,10 +65,8 @@ int git_impl::GitRepositoryTypeImpl::progressCb(const char* str, int len, void* 
     return self->onProgressCb(str, len);
 }
 
-int git_impl::GitRepositoryTypeImpl::onProgressCb(const char* str, int len)
+int git_impl::GitRepositoryTypeImpl::onProgressCb(const char*, int)
 {
-    Q_UNUSED(str);
-    Q_UNUSED(len);
     m_WasData = true;
     return 0;
 }
