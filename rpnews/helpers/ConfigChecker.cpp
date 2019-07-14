@@ -1,30 +1,28 @@
 #include <stdexcept>
 #include <regex>
-#include <QDir>
-#include <QString>
-#include <QDebug>
+#include <filesystem>
 #include "ConfigChecker.h"
 #include "RepositoryExist.h"
 
-std::string helpers::ConfigChecker::checkAndGetFinalPath(const std::string &nameRepository)
+std::string helpers::ConfigChecker::checkAndGetFinalPath(const std::string& nameRepository)
 {
-    QDir dir;
-    dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+    std::string folderName(".configs");
+    auto currentPath = std::filesystem::current_path();
 
-    if (!dir.current().exists(".configs"))
+    if (!std::filesystem::exists(folderName))
     {
-        dir.current().mkdir(".configs");
+        std::filesystem::create_directory(folderName, currentPath);
     }
 
-    dir.cd(".configs");
-    QString path = dir.currentPath() + "/" + dir.path() + "/" + nameRepository.data();
+    currentPath /= folderName;
+    currentPath /= nameRepository;
 
-    if (dir.exists(path))
+    if (std::filesystem::exists(currentPath))
     {
         throw RepositoryExist(nameRepository);
     }
 
-    return path.toStdString();
+    return currentPath.string();
 }
 
 std::string helpers::ConfigChecker::getRepositoryFolderName(const std::string& url)

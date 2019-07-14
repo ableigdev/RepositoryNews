@@ -1,25 +1,16 @@
-#include <QDir>
-#include <QDirIterator>
-#include <QDebug>
-#include <QStringList>
 #include <regex>
 #include <fstream>
+#include <filesystem>
 #include "CheckExistConfig.h"
 #include "AESEncryption.h"
 
 std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
 {
     std::vector<GetRepositoryInfo> result {};
-    QDir dir;
-    dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
 
-    if (dir.exists(".configs"))
+    if (std::filesystem::exists(".configs"))
     {
-        dir.cd(".configs");
         std::string key(AESEncryption::generateKey());
-        std::string currentPath = dir.currentPath().toStdString();
-        QDirIterator dirIterator(dir, QDirIterator::Subdirectories);
-
         std::cmatch resultOfFindingRepositoryFolder;
         std::cmatch resultOfFindingConfigFile;
         std::cmatch resultOfFindingConfigGUIFile;
@@ -29,12 +20,12 @@ std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
         std::string stringData;
         GetRepositoryInfo repositoryInfo {};
 
-        do
+        for (auto& currDir : std::filesystem::recursive_directory_iterator(std::filesystem::current_path() / ".configs"))
         {
-            stringData = dirIterator.filePath().toStdString();
-            if (std::regex_search(stringData.data(), resultOfFindingRepositoryFolder, findRepositoryFolder))
+            stringData = currDir.path().string();
+            if (repositoryInfo.path.empty() && std::regex_search(stringData.data(), resultOfFindingRepositoryFolder, findRepositoryFolder))
             {
-                repositoryInfo.path = currentPath + "/" + resultOfFindingRepositoryFolder[1].str();
+                repositoryInfo.path = resultOfFindingRepositoryFolder[1].str();
             }
 
             if (std::regex_search(stringData.data(), resultOfFindingConfigFile, findConfigRepository))
@@ -43,15 +34,15 @@ std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
                 std::ifstream inFile(resultOfFindingConfigFile.str(), std::ios::in | std::ios::binary);
                 std::string encryptUser(QUANTITY_OF_BYTES, '0');
                 std::string encryptPass(QUANTITY_OF_BYTES, '0');
-                std::string type(QUANTITY_OF_BYTES / QUANTITY_OF_BYTES, '0');
-                inFile.read(&type.at(0), QUANTITY_OF_BYTES / QUANTITY_OF_BYTES);
-                inFile.seekg(QUANTITY_OF_BYTES / QUANTITY_OF_BYTES);
+                std::string type(1, '0');
+                inFile.read(&type.at(0), 1);
+                inFile.seekg(1);
                 inFile.read(&encryptUser.at(0), QUANTITY_OF_BYTES);
                 inFile.seekg(QUANTITY_OF_BYTES + 1);
                 inFile.read(&encryptPass.at(0), QUANTITY_OF_BYTES);
                 repositoryInfo.type = std::atoi(type.data());
-                repositoryInfo.user = AESEncryption::decrypt(encryptUser, key).data();
-                repositoryInfo.pass = AESEncryption::decrypt(encryptPass, key).data();
+                repositoryInfo.user = std::move(AESEncryption::decrypt(encryptUser, key));
+                repositoryInfo.pass = std::move(AESEncryption::decrypt(encryptPass, key));
                 inFile.close();
             }
 
@@ -66,7 +57,7 @@ std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
                     && repositoryInfo.branchIndex != -1
                     && repositoryInfo.timeInterval != -1)
             {
-                result.emplace_back(repositoryInfo);
+                result.push_back(repositoryInfo);
                 repositoryInfo.path.clear();
                 repositoryInfo.type = -1;
                 repositoryInfo.user.clear();
@@ -74,7 +65,7 @@ std::vector<helpers::GetRepositoryInfo> helpers::CheckExistConfig::check()
                 repositoryInfo.branchIndex = -1;
                 repositoryInfo.timeInterval = -1;
             }
-        } while (!dirIterator.next().isEmpty());
+        }
     }
     return result;
 }
