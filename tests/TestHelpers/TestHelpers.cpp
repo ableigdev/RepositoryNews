@@ -149,16 +149,19 @@ TEST(DeleteRepositoryFolder, Valid)
     dir.mkdir("folder");
     helpers::deleteRepositoryFolder("folder");
     helpers::deleteRepositoryFolder(".configs");
+    auto dir2 = QDir::current();
     EXPECT_TRUE(!dir.exists("folder"));
-    EXPECT_TRUE(!dir.exists(".configs"));
+    EXPECT_TRUE(!dir2.exists(".configs"));
 }
 
 TEST(DeleteRepositoryFolder, NotConfigFolder)
 {
     QDir dir;
-    dir.mkdir("folder");
-    EXPECT_TRUE(dir.exists("folder"));
-    helpers::deleteRepositoryFolder("folder");
+    std::string folder("folder2");
+    dir.mkdir(folder.data());
+    EXPECT_TRUE(dir.exists(folder.data()));
+    helpers::deleteRepositoryFolder(folder);
+    EXPECT_TRUE(dir.exists(folder.data()));
 }
 
 TEST(GetNewRepositoryFactory, Valid)
@@ -182,8 +185,6 @@ TEST(GetTimeInterval, Valid)
 
 TEST(GetTimeInterval, BadIndex)
 {
-    int i = 1;
-    QApplication a(i, nullptr);
     EXPECT_EQ(helpers::getTimeInterval(-1), std::chrono::seconds(300));
 }
 
