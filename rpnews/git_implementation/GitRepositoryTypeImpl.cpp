@@ -23,7 +23,7 @@ m_WasData(false)
         throw std::logic_error("Bad strategy");
     }
 
-    strategy->raiseRepository(&m_RepositoryName, url, &m_Repository, &m_Remote);
+    strategy->raiseRepository(m_RepositoryName, url, m_Repository, m_Remote);
     m_Username = user;
     m_Password = pass;
     m_FetchOptions = GIT_FETCH_OPTIONS_INIT;

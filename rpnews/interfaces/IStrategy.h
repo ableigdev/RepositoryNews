@@ -12,7 +12,7 @@ namespace interfaces
     public:
         IStrategy() = default;
         virtual ~IStrategy() = default;
-        virtual void raiseRepository(std::string* name, const std::string& url, git_wrapper::RepositoryWrapper* repository, git_wrapper::GitRemoteWrapper* remote) = 0;
+        virtual void raiseRepository(std::string& name, const std::string& url, git_wrapper::RepositoryWrapper& repository, git_wrapper::GitRemoteWrapper& remote) = 0;
     };
 }
 

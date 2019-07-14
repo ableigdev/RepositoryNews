@@ -12,7 +12,7 @@ namespace git_impl
     public:
         GitCreateRepositoryStrategyImpl() = default;
         virtual ~GitCreateRepositoryStrategyImpl() override = default;
-        virtual void raiseRepository(std::string* name, const std::string& url, git_wrapper::RepositoryWrapper* repository, git_wrapper::GitRemoteWrapper* remote) override;
+        virtual void raiseRepository(std::string& name, const std::string& url, git_wrapper::RepositoryWrapper& repository, git_wrapper::GitRemoteWrapper& remote) override;
     };
 }
 
