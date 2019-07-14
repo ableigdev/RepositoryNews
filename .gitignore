@@ -14,7 +14,7 @@
 # Output files
 bin/
 obj/
-build/
+build*/
 cmake-build-debug/
 installed/
 
