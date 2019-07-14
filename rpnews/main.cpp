@@ -2,10 +2,12 @@
 #include <QLockFile>
 #include <QDir>
 #include <QMessageBox>
+#include <glog/logging.h>
 #include "gui/trayiconapp.h"
 
 int main(int argc, char *argv[])
 {
+    google::InitGoogleLogging("rpnews_log.txt");
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);
     QLockFile lockFile(QDir::temp().absoluteFilePath("temp.lock"));
