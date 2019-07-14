@@ -8,6 +8,7 @@ target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::Core)
 target_link_libraries(${PROJECT_NAME} Qt5::Multimedia)
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS_GTEST})
+target_link_libraries(${PROJECT_NAME} stdc++fs)
 # Target libgit2 library
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBGIT2}>)
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
