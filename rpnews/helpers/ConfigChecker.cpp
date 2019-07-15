@@ -35,7 +35,11 @@ std::string helpers::ConfigChecker::getRepositoryFolderName(const std::string& u
 
 std::string helpers::ConfigChecker::getRepositoryFolderNameFromPath(const std::string& path)
 {
+#ifdef __linux__
     std::regex regexValue(R"(\/([a-zA-Z0-9\._-]+)\/.git$)");
+#elif _WIN32
+    std::regex regexValue(R"(\\([a-zA-Z0-9\._-]+)\\.git$)");
+#endif
     std::cmatch result;
     std::regex_search(path.data(), result, regexValue);
     return result[1].str();
