@@ -18,6 +18,8 @@ if(WIN32)
 	add_executable(${PROJECT_NAME} WIN32 ${mainFile} ${SOURCES} ${HEADERS} ${UIS} ${RCS})
 else()
 	add_executable(${PROJECT_NAME} ${mainFile} ${SOURCES} ${HEADERS} ${UIS} ${RCS})
+	# Target filesystem library
+	target_link_libraries(${PROJECT_NAME} stdc++fs)
 endif()
 
 # Use the Widgets module from Qt 5
@@ -27,8 +29,6 @@ target_link_libraries(${PROJECT_NAME} Qt5::Multimedia)
 # Target libgit2 library
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS_LIBGIT2}>)
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
-# Target filesystem library
-target_link_libraries(${PROJECT_NAME} stdc++fs)
 
 # Install project
 install(TARGETS ${PROJECT_NAME}
