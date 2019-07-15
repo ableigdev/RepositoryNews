@@ -7,8 +7,8 @@ void helpers::SaveConfig::save(const std::string& path, const TypeRepository& ty
     std::ofstream outFile(path + "config_rep", std::ios::out | std::ios::binary);
     std::string key(AESEncryption::generateKey());
     outFile << type
-            << AESEncryption::encrypt(user.data(), key).data()
-            << AESEncryption::encrypt(pass.data(), key).data();
+            << AESEncryption::encrypt(user.data(), key)
+            << AESEncryption::encrypt(pass.data(), key);
     outFile.close();
 }
 
